@@ -1,6 +1,7 @@
 function f_mask_creation( filesToProcess, input_mask, dataset_name, mva_type, numComponents, norm_type, vector_set, regionsNumE, regionsNumI, output_mask )
 
 % Creation of masks using the previously run mva results.
+% GUESS WHO DID THIS!!%
 
 if size(filesToProcess,1) > 1; disp('Please select a unique file to create the roi!'); end
 
