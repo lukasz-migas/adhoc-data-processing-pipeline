@@ -2,7 +2,6 @@
 %% Data processing - 15 July 2019 - Teresa Murta
 
 %% Initialisation
-TEST
 
 % Please save a copy of this script in your personal T drive folder or computer and change your copy according to your study.
 

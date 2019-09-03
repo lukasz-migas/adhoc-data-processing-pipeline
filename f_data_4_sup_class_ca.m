@@ -64,13 +64,14 @@ for main_mask = main_mask_list
         
         big_label = repmat(string(filesToProcess(file_index).name(1,1:end-6)),size(data,1),1);
         small_label = repmat(classes(file_index,1),size(data,1),1);
+        small_mask_name = repmat(smaller_masks_list(file_index),size(data,1),1);
         sample_num = repmat(file_index,size(data,1),1);
         
         if file_index==1
-            data_table = [ string(datacube.spectralChannels') "sample" "dataset" "sample_num" "row_num" "col_num"];
+            data_table = [ string(datacube.spectralChannels') "dataset" "roi" "label" "roi_id" "x_coord" "y_coord"];
         end
         
-        data_table = [ data_table; [ data small_label big_label sample_num row_num col_num ] ];
+        data_table = [ data_table; [ data big_label small_mask_name small_label sample_num row_num col_num ] ];
         
     end
     
