@@ -1,0 +1,152 @@
+
+function classes = f_classes4sup_class(study)
+
+if strcmpi("negative DESI small intestine",study)
+    
+    classes = [
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "KRAS"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        ];
+    
+elseif strcmpi("negative DESI SI 2018 & 2019",study)
+    
+    classes = [
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "KRAS"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "WT"
+        "WT"
+        "WT"
+        "KRAS"
+        "KRAS"
+        "KRAS"
+        "KRAS"
+        "APC"
+        "APC"
+        "APC"
+        "APC"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        ];
+    
+elseif strcmpi("negative DESI 2018 03 & 2019 06 & 07",study)
+    
+    classes = [
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "KRAS"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "KRAS"
+        ];
+    
+elseif strcmpi("negative DESI 2018 sm & 2019 ic",study)
+    
+    classes = [
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "KRAS"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        ];
+    
+elseif strcmpi("negative DESI 2018 sm & 2019 ic (sa 1 2 epit)",study)
+    
+    classes = [
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "KRAS"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-KRAS"
+        ];
+    
+end
