@@ -78,7 +78,7 @@ f_saving_mva_outputs( filesToProcess, norm_list, "no mask" ); % Saving MVAs outp
 
 % Saving single ion images of relevant molecules with background
 
-f_saving_sii_relevant_molecules( filesToProcess, mask_list, norm_list, "all" ); % if you would like to save them just for one of the lists, replace all by the name of that list
+f_saving_sii_relevant_molecules( filesToProcess, "no mask", norm_list, "all" ); % if you would like to save them just for one of the lists, replace all by the name of that list
 
 %% Manual mask creation (e.g.: tissue only and sample specific) 
 
