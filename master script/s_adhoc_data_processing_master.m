@@ -22,12 +22,12 @@
 % to process below.
 
 data_folders = { ...
-    'X:\Beatson\Intracolonic tumour study\Neg DESI Data\Xevo V3 Sprayer\'
+    'X:\Beatson\Intracolonic tumour study\Neg uMALDI Data\'
     };
 
 % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
 
-dataset_name_portion = '*slide9*';
+dataset_name_portion = '*';
 
 % Files and adducts information gathering
 

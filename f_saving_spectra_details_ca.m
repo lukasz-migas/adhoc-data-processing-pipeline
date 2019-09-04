@@ -33,6 +33,8 @@ for file_index = 1:length(filesToProcess)
         
         data = DataOnDisk(parser);
         
+        pixels_num = sum(sum(data.regionOfInterest.pixelSelection));
+        
         if ~isequal(mask_type,"no mask")
             
             load([ rois_path filesToProcess(file_index).name(1,1:end-6)  '\' char(mask_type) '\roi' ]) % loading region of interest mask
@@ -42,10 +44,10 @@ for file_index = 1:length(filesToProcess)
             spectrumGeneration.processEntireDataset(false);
             spectrumGeneration.setRegionOfInterestList(roiList);
             
+            pixels_num = sum(sum(roi.pixelSelection));
+            
         end
-        
-        pixels_num = sum(data.regionOfInterest.pixelSelection(:));
-        
+                
         totalSpectrum = spectrumGeneration.process(data); % create total spectrum
         
         totalSpectrum_mzvalues      = totalSpectrum.spectralChannels;
