@@ -24,7 +24,14 @@ for file_index = 1:length(filesToProcess)
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\pixels_num.mat'])
 
         sample_peaks_mzvalues = peakDetails(:,2);
-        sample_peaks_intensities = totalSpectrum_intensities(peakDetails(:,6)); % this was incorrect - it should be based on the spectra of the dataset because that is what matches the pixel_num
+        
+        peak_mz_indexes = []; % this was added when it was realised that the 6th element of peakDetails is not the index of the centre of mass of the peak 4 Sept 2019
+        for mzi = 1:size(peakDetails,1)
+            [~, index] = min(abs(totalSpectrum_mzvalues-peakDetails(mzi,2)));
+            peak_mz_indexes(mzi) = index;
+        end
+                
+        sample_peaks_intensities = totalSpectrum_intensities(peak_mz_indexes); % this was incorrect - it should be based on the spectra of the dataset because that is what matches the pixel_num
         
         %%% Loading information from lists of relevant molecules
         
