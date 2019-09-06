@@ -138,17 +138,17 @@ f_saving_data_cube( filesToProcess, "tissue only" )
 
 %% Multivariate analysis (running and saving outputs)
 
-peak_list = string([]); % string([]) to use the highest 4000 peaks, or the name of a short list of molecules to reduce the peak list to the latter
+mva_peak_list = string([]); % string([]) to use the highest 4000 peaks, or the name of a short list of molecules to reduce the peak list to the latter
 
-f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, peak_list ) % Running MVAs
+f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_peak_list ) % Running MVAs
 
-f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, peak_list ) % Saving MVAs outputs
+f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_peak_list ) % Saving MVAs outputs
 
 %% Saving single ion images of relevant molecules
 
-peak_list = "all"; % "all" for all lists, or the name of a short list of molecules
+sii_peak_list = "all"; % "all" for all lists, or the name of a short list of molecules
 
-f_saving_sii_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, peak_list )
+f_saving_sii_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, sii_peak_list )
 
 %% ROC analysis - whole tissue
 
