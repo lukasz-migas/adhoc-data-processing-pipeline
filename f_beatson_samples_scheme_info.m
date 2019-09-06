@@ -2,6 +2,40 @@ function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs
 
 switch dataset_name
     
+    case "neg DESI intracolonic A G C D"
+        
+        data_folders = { 'X:\Beatson\Intracolonic tumour study\Neg DESI Data\Xevo V3 Sprayer\' };
+        
+        dataset_name = '*slide9*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            extensive_filesToProcess(1:4,:) = filesToProcess(1,:);
+            smaller_masks_list = [ "intracolonic-tissue-2"; "intracolonic-tissue-3"; "intracolonic-tissue-5"; "intracolonic-tissue-7" ];
+                        
+        end
+        
+        %
+        
+        outputs_xy_pairs = [
+            1 1; 1 2;
+            2 1; 2 2;
+            ];
+    
     case "neg plasma-AP-MALDI 50um intracolonic"
         
         data_folders = { 'X:\Beatson\Intracolonic tumour study\plasma-AP-MALDI MSI\2019_08_30_intracolonic\' };
