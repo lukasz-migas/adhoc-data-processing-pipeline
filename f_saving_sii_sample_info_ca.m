@@ -28,7 +28,7 @@ for file_index = 1:length(filesToProcess)
     
     % Defining mz values of interest (to plot sii of)
     
-    mzvalues2plot = double(unique(sample_info(:,4))); % [ 791.548; 796.528 ]
+    mzvalues2plot = double(unique(sample_info(:,4)));
         
     % Loading datacube
     
@@ -39,12 +39,14 @@ for file_index = 1:length(filesToProcess)
     if file_index == 1
           
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'datacubeonly_peakDetails' ])
-
+        
+        th_mz_diff = min(diff(unique(datacube.spectralChannels)));
+                
         datacube_indexes = [];
         sample_info_indexes = [];
         for mzi = mzvalues2plot'
-            datacube_indexes        = [ datacube_indexes;       find(abs(datacubeonly_peakDetails(:,2)-mzi)<0.0000001) ];
-            sample_info_indexes     = [ sample_info_indexes;    find(abs(double(sample_info(:,4))-mzi)<0.0000001,1,'first') ];
+            datacube_indexes        = [ datacube_indexes;       find(abs(datacubeonly_peakDetails(:,2)-mzi)<th_mz_diff) ];
+            sample_info_indexes     = [ sample_info_indexes;    find(abs(double(sample_info(:,4))-mzi)<th_mz_diff,1,'first') ];
         end
         
         % Loading peaks information

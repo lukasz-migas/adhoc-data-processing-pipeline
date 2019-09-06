@@ -22,7 +22,7 @@
 % to process below.
 
 data_folders = { ...
-    'X:\Beatson\Intracolonic tumour study\Neg uMALDI Data\'
+    'X:\Beatson\Intracolonic tumour study\plasma-AP-MALDI MSI\2019_08_30_intracolonic\'
     };
 
 % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.

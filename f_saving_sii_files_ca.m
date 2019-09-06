@@ -32,13 +32,6 @@ for peak_i = 1:size(peak_details,1)
         
         if isitloadings
             sample_info_i3 = find(sample_info_i1.*logical(sample_info(:,7)==databasei),1,'first');
-%             adduct_char = char(sample_info(:,3));
-%             sample_info_i2 = logical(sample_info_i1 .* logical(sample_info(:,7)==databasei) .* logical(sum(adduct_char(:,4:5)==('H]'),2)==2)); % H adducts
-%             if sum(sample_info_i2) > 1
-%                 sample_info_i3 = sample_info_i2 .* logical(unique(min(double(sample_info(sample_info_i2,5))))==double(sample_info(:,5))); % smallest ppm
-%             else
-%                 sample_info_i3 = find(sample_info_i1 .* logical(sample_info(:,7)==databasei),1,'first');
-%             end
         else
             sample_info_i3 = find(sample_info_i1.*logical(sample_info(:,7)==databasei))';
         end
@@ -229,7 +222,7 @@ for peak_i = 1:size(peak_details,1)
                 {strjoin(['theo mz ' sample_info(sample_info_i,2) ' - meas mz ', sample_info(sample_info_i,4)])},...
                 'Units','normalized','fontsize', 12, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle')
             text(.5,1.025,...
-                {['ppm ' num2str(round(double(sample_info(sample_info_i,5)))) ' - peak intensity ' num2str(round(double(sample_info(sample_info_i,6))./pixels_num))]},...
+                {['ppm ' num2str(round(double(sample_info(sample_info_i,5)))) ' - peak intensity ' num2str(round(double(sample_info(sample_info_i,11))))]},...
                 'Units','normalized','fontsize', 12, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle')
             
             theo_mz = str2double(sample_info(sample_info_i,2));
