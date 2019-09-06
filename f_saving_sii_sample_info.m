@@ -28,7 +28,14 @@ for file_index = 1:length(filesToProcess)
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\datacube' ])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\datacubeonly_peakDetails' ])
+        
+        % Loading spectral information
+        
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\totalSpectrum_intensities' ])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\totalSpectrum_mzvalues' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\pixels_num' ])
+        
+        %
         
         image_width = datacube.width;
         image_height = datacube.height;
@@ -48,12 +55,6 @@ for file_index = 1:length(filesToProcess)
             disp('There is an issue! The length of the list of mz values of interest does not match the length of the mz values of interest in the datacube. Please create datacube again.')
             break
         end
-        
-        % Loading spectral information
-        
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\totalSpectrum_intensities' ])
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\totalSpectrum_mzvalues' ])
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\pixels_num' ])
         
         % Loading mask
         

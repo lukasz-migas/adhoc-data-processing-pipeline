@@ -33,13 +33,13 @@ for file_index = 1:length(filesToProcess)
     % Loading datacube
     
     load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'datacube' ])
-    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(mask) filesep 'totalSpectrum_mzvalues' ])
     
     datacube_cell{file_index}   = datacube;
     
     if file_index == 1
           
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'datacubeonly_peakDetails' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_mzvalues' ])
         
         th_mz_diff = min(diff(totalSpectrum_mzvalues));
                 
