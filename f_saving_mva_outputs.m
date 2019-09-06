@@ -298,7 +298,13 @@ for file_index = 1:length(filesToProcess)
                             
                             all_mzvalues        = double(hmdb_sample_info(:,4));
                             
-                            th_mz_diff          = min(diff(unique(datacube.spectralChannels)));
+                            % loading spectral information
+                            
+                            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_intensities' ])
+                            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_mzvalues' ])
+                            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\pixels_num' ])
+                            
+                            th_mz_diff          = min(diff(totalSpectrum_mzvalues));
                             
                             mini_mzvalues_aux   = repmat(mini_mzvalues,1,size(all_mzvalues,1));
                             all_mzvalues_aux    = repmat(all_mzvalues',size(mini_mzvalues,1),1);
@@ -329,15 +335,7 @@ for file_index = 1:length(filesToProcess)
                                         ];
                                 end
                             end
-                            
-                            % [ mini_peakDetails(:,2) mini_sample_info(mini_sample_info_indexes,4) ]
-                            
-                            % loading spectral information
-                            
-                            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_intensities' ])
-                            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_mzvalues' ])
-                            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\pixels_num' ])
-                            
+                                                        
                             % figures generation and saving
                             
                             f_saving_sii_files( outputs_path, mini_sample_info, mini_sample_info_indexes, mini_ion_images, image_width, image_height, mini_peakDetails, pixels_num,...

@@ -325,7 +325,9 @@ for main_mask = main_mask_list
                     
                     all_mzvalues        = double(hmdb_sample_info(:,4));
                     
-                    th_mz_diff          = min(diff(unique(datacube.spectralChannels)));
+                    load([ spectra_details_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
+                    
+                    th_mz_diff          = min(diff(totalSpectrum_mzvalues));
                     
                     mini_mzvalues_aux   = repmat(mini_mzvalues,1,size(all_mzvalues,1));
                     all_mzvalues_aux    = repmat(all_mzvalues',size(mini_mzvalues,1),1);
@@ -362,9 +364,7 @@ for main_mask = main_mask_list
                             [ repmat([ string(componenti) string(ii) ],length(find(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff)),1) mini_sample_info(logical(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff),[1 12 2 4 3 8 11 14:size(mini_sample_info,2)]) ]
                             ];
                     end
-                    
-                    % [ mini_peakDetails(:,2) mini_sample_info(mini_sample_info_indexes,4) ]
-                    
+                                        
                     mini_ion_images_cell = {};
                     totalSpectrum_intensities_cell = {};
                     totalSpectrum_mzvalues_cell = {};

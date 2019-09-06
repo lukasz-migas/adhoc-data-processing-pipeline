@@ -28,11 +28,12 @@ for file_index = 1:length(filesToProcess)
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\datacube' ])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\datacubeonly_peakDetails' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\totalSpectrum_mzvalues' ])
         
         image_width = datacube.width;
         image_height = datacube.height;
         
-        th_mz_diff = min(diff(unique(datacube.spectralChannels)));
+        th_mz_diff = min(diff(totalSpectrum_mzvalues));
                 
         datacube_indexes = [];
         sample_info_indexes = [];
