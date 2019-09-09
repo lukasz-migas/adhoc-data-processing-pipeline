@@ -11,7 +11,7 @@ i = 0;
 for csv_file_path = csv_file_path_list
     i = i + 1;
     
-    disp(csv_file_path)
+    
     
     [ ~, ~, cell ] = xlsread(csv_file_path);
                

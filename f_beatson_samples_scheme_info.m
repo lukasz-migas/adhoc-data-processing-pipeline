@@ -25,7 +25,7 @@ switch dataset_name
             %
             
             extensive_filesToProcess(1:4,:) = filesToProcess(1,:);
-            smaller_masks_list = [ "intracolonic-tissue-2"; "intracolonic-tissue-3"; "intracolonic-tissue-5"; "intracolonic-tissue-7" ];
+            smaller_masks_list = [  "intracolonic-tissue-3"; "intracolonic-tissue-5"; "intracolonic-tissue-2"; "intracolonic-tissue-7" ];
                         
         end
         
