@@ -1,6 +1,42 @@
 function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background )
 
 switch dataset_name
+   
+     case "neg DESI intracolonic"
+        
+        data_folders = { 'X:\Beatson\Intracolonic tumour study\Neg DESI Data\Xevo V3 Sprayer\' };
+        
+        dataset_name = '*slide9*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            extensive_filesToProcess(1:4,:) = filesToProcess(1,:);
+            smaller_masks_list = [  
+                "intracolonic-tissue-3";  "intracolonic-tissue-4"; "intracolonic-tissue-5";  "intracolonic-tissue-6"; 
+                "intracolonic-tissue-1"; "intracolonic-tissue-2"; "intracolonic-tissue-7" ];
+                        
+        end
+        
+        %
+        
+        outputs_xy_pairs = [
+            1 1; 1 2; 1 3; 1 4;
+            2 1; 2 2; 2 3;
+            ];
     
     case "neg DESI intracolonic A G C D"
         
