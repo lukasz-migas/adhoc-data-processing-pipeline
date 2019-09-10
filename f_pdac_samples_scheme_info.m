@@ -1,4 +1,4 @@
-function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_pdac_samples_scheme_info( filesToProcess, dataset_name, background )
+function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_pdac_samples_scheme_info( dataset_name, background )
 
 if strcmpi(dataset_name,'negative DESI') || strcmpi(dataset_name,'negative DESI all bulk tissue') || strcmpi(dataset_name,'negative DESI all tumour')
     
@@ -168,8 +168,14 @@ elseif strcmpi(dataset_name,'negative DESI B & F')
     %
     
     outputs_xy_pairs = [
-        1 1; 2 1; 1 2; 2 2; 1 3; 2 3; 1 4; 2 4;
-        2 5; 1 6; 2 6; 1 7; 2 7; 1 8; 2 8;
+        1 1; 3 1; 
+        2 1; 4 1; 
+        1 2; 3 2;
+             4 2;
+        1 3; 3 3; 
+        2 3; 4 3; 
+        1 4; 3 4; 
+        2 4; 4 4;
         ];
     
 elseif strcmpi(dataset_name,'negative DESI D & F')
@@ -198,7 +204,7 @@ elseif strcmpi(dataset_name,'negative DESI D & F')
         smaller_masks_list = [ "D1_BG"; "F1_BG" ];
         smaller_masks_list = [ smaller_masks_list; "D1r_BG"; "F1r_BG" ];
         smaller_masks_list = [ smaller_masks_list; "D2_BG"; "F2_BG" ];
-        smaller_masks_list = [ smaller_masks_list; "D2r_BG", "F2r_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "D2r_BG"; "F2r_BG" ];
         smaller_masks_list = [ smaller_masks_list; "D3_BG"; "F3_BG" ];
         smaller_masks_list = [ smaller_masks_list; "D3r_BG"; "F3r_BG" ];
         smaller_masks_list = [ smaller_masks_list; "D4_BG"; "F4_BG" ];
@@ -209,8 +215,14 @@ elseif strcmpi(dataset_name,'negative DESI D & F')
     %
     
     outputs_xy_pairs = [
-        1 1; 2 1; 1 2; 2 2; 1 3; 2 3; 1 4; 2 4;
-        1 5; 2 5; 1 6; 2 6; 1 7; 2 7; 1 8; 2 8;
+        1 1; 3 1; 
+        2 1; 4 1; 
+        1 2; 3 2;
+        2 2; 4 2;
+        1 3; 3 3; 
+        2 3; 4 3; 
+        1 4; 3 4; 
+        2 4; 4 4;
         ];
     
 elseif strcmpi(dataset_name,'negative DESI A & F')
@@ -239,7 +251,7 @@ elseif strcmpi(dataset_name,'negative DESI A & F')
         smaller_masks_list = [ "A1_BG"; "F1_BG" ];
         smaller_masks_list = [ smaller_masks_list; "A1r_BG"; "F1r_BG" ];
         smaller_masks_list = [ smaller_masks_list; "A2_BG"; "F2_BG" ];
-        smaller_masks_list = [ smaller_masks_list; "A2r_BG", "F2r_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "A2r_BG"; "F2r_BG" ];
         smaller_masks_list = [ smaller_masks_list; "A3_BG"; "F3_BG" ];
         smaller_masks_list = [ smaller_masks_list; "A3r_BG"; "F3r_BG" ];
         smaller_masks_list = [ smaller_masks_list; "A4_BG"; "F4_BG" ];
@@ -250,8 +262,14 @@ elseif strcmpi(dataset_name,'negative DESI A & F')
     %
     
     outputs_xy_pairs = [
-        1 1; 2 1; 1 2; 2 2; 1 3; 2 3; 1 4; 2 4;
-        1 5; 2 5; 1 6; 2 6; 1 7; 2 7; 1 8; 2 8;
+        1 1; 3 1; 
+        2 1; 4 1; 
+        1 2; 3 2;
+        2 2; 4 2;
+        1 3; 3 3; 
+        2 3; 4 3; 
+        1 4; 3 4; 
+        2 4; 4 4;
         ];
     
     elseif strcmpi(dataset_name,'negative DESI C & F')
@@ -280,7 +298,7 @@ elseif strcmpi(dataset_name,'negative DESI A & F')
         smaller_masks_list = [ "C1_BG"; "F1_BG" ];
         smaller_masks_list = [ smaller_masks_list; "C1r_BG"; "F1r_BG" ];
         smaller_masks_list = [ smaller_masks_list; "C2_BG"; "F2_BG" ];
-        smaller_masks_list = [ smaller_masks_list; "C2r_BG", "F2r_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "C2r_BG"; "F2r_BG" ];
         smaller_masks_list = [ smaller_masks_list; "C3_BG"; "F3_BG" ];
         smaller_masks_list = [ smaller_masks_list; "C3r_BG"; "F3r_BG" ];
         smaller_masks_list = [ smaller_masks_list; "C4_BG"; "F4_BG" ];
@@ -291,8 +309,14 @@ elseif strcmpi(dataset_name,'negative DESI A & F')
     %
     
     outputs_xy_pairs = [
-        1 1; 2 1; 1 2; 2 2; 1 3; 2 3; 1 4; 2 4;
-        1 5; 2 5; 1 6; 2 6; 1 7; 2 7; 1 8; 2 8;
+        1 1; 3 1; 
+        2 1; 4 1; 
+        1 2; 3 2;
+        2 2; 4 2;
+        1 3; 3 3; 
+        2 3; 4 3; 
+        1 4; 3 4; 
+        2 4; 4 4;
         ];   
     
     elseif strcmpi(dataset_name,'negative DESI E & F')
@@ -321,7 +345,7 @@ elseif strcmpi(dataset_name,'negative DESI A & F')
         smaller_masks_list = [ "E1_BG"; "F1_BG" ];
         smaller_masks_list = [ smaller_masks_list; "E1r_BG"; "F1r_BG" ];
         smaller_masks_list = [ smaller_masks_list; "E2_BG"; "F2_BG" ];
-        smaller_masks_list = [ smaller_masks_list; "E2r_BG", "F2r_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "E2r_BG"; "F2r_BG" ];
         smaller_masks_list = [ smaller_masks_list; "E3_BG"; "F3_BG" ];
         smaller_masks_list = [ smaller_masks_list; "E3r_BG"; "F3r_BG" ];
         smaller_masks_list = [ smaller_masks_list; "E4_BG"; "F4_BG" ];
@@ -332,8 +356,14 @@ elseif strcmpi(dataset_name,'negative DESI A & F')
     %
     
     outputs_xy_pairs = [
-        1 1; 2 1; 1 2; 2 2; 1 3; 2 3; 1 4; 2 4;
-        1 5; 2 5; 1 6; 2 6; 1 7; 2 7; 1 8; 2 8;
+        1 1; 3 1; 
+        2 1; 4 1; 
+        1 2; 3 2;
+        2 2; 4 2;
+        1 3; 3 3; 
+        2 3; 4 3; 
+        1 4; 3 4; 
+        2 4; 4 4;
         ];
     
     
