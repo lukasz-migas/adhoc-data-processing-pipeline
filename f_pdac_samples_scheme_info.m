@@ -131,7 +131,7 @@ elseif strcmpi(dataset_name,'positive MALDI')
         1 8; 2 8; 3 8; 4 8; 5 8; 6 8;
         ];
     
-elseif strcmpi(dataset_name,'negative DESI B & F') || strcmpi(dataset_name,'negative DESI B & F tumour')
+elseif strcmpi(dataset_name,'negative DESI B & F') || strcmpi(dataset_name,'negative DESI B & F bulk tissue')
     
     data_folders = { 'X:\PDAC Combo\negative DESI ibds and imzMLs\Individual\' };
     
@@ -191,7 +191,7 @@ elseif strcmpi(dataset_name,'negative DESI B & F') || strcmpi(dataset_name,'nega
         2 4; 4 4;
         ];
     
-elseif strcmpi(dataset_name,'negative DESI D & F') || strcmpi(dataset_name,'negative DESI D & F tumour')
+elseif strcmpi(dataset_name,'negative DESI D & F') || strcmpi(dataset_name,'negative DESI D & F bulk tissue')
     
     data_folders = { 'X:\PDAC Combo\negative DESI ibds and imzMLs\Individual\' };
     
@@ -251,7 +251,7 @@ elseif strcmpi(dataset_name,'negative DESI D & F') || strcmpi(dataset_name,'nega
         2 4; 4 4;
         ];
     
-elseif strcmpi(dataset_name,'negative DESI A & F') || strcmpi(dataset_name,'negative DESI A & F tumour')
+elseif strcmpi(dataset_name,'negative DESI A & F') || strcmpi(dataset_name,'negative DESI A & F bulk tissue')
     
     data_folders = { 'X:\PDAC Combo\negative DESI ibds and imzMLs\Individual\' };
     
@@ -311,7 +311,7 @@ elseif strcmpi(dataset_name,'negative DESI A & F') || strcmpi(dataset_name,'nega
         2 4; 4 4;
         ];
     
-    elseif strcmpi(dataset_name,'negative DESI C & F') || strcmpi(dataset_name,'negative DESI C & F tumour')
+    elseif strcmpi(dataset_name,'negative DESI C & F') || strcmpi(dataset_name,'negative DESI C & F bulk tissue')
     
     data_folders = { 'X:\PDAC Combo\negative DESI ibds and imzMLs\Individual\' };
     
@@ -371,7 +371,7 @@ elseif strcmpi(dataset_name,'negative DESI A & F') || strcmpi(dataset_name,'nega
         2 4; 4 4;
         ];   
     
-    elseif strcmpi(dataset_name,'negative DESI E & F') || strcmpi(dataset_name,'negative DESI E & F tumour')
+    elseif strcmpi(dataset_name,'negative DESI E & F') || strcmpi(dataset_name,'negative DESI E & F bulk tissue')
     
     data_folders = { 'X:\PDAC Combo\negative DESI ibds and imzMLs\Individual\' };
     
