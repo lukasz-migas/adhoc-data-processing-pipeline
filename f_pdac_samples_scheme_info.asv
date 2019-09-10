@@ -335,26 +335,13 @@ elseif strcmpi(dataset_name,'negative DESI A & F') || strcmpi(dataset_name,'nega
         main_mask_list = "no mask";
         
         smaller_masks_list = [ "C1_BG"; "F1_BG" ];
-        smaller_masks_list = [ smaller_masks_list; "C1r_BG";    "F1r_BG"    ];
-        smaller_masks_list = [ smaller_masks_list; "C2_BG";     "F2_BG"     ];
-        smaller_masks_list = [ smaller_masks_list; "C2r_BG";    "F2r_BG"    ];
-        smaller_masks_list = [ smaller_masks_list; "C3_BG";     "F3_BG"     ];
-        smaller_masks_list = [ smaller_masks_list; "C3r_BG";    "F3r_BG"    ];
+        smaller_masks_list = [ smaller_masks_list; "C1r_BG";    "F1r_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "C2_BG";     "F2_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "C2r_BG";    "F2r_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "C3_BG";     "F3_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "C3r_BG";    "F3r_BG" ];
         smaller_masks_list = [ smaller_masks_list; "C4_BG";     "F4_BG"     ];
         smaller_masks_list = [ smaller_masks_list; "C4r_BG";    "F4r_BG"    ];
-        
-    elseif background == -1
-        
-        main_mask_list = "bulk tissue";
-        
-        smaller_masks_list = [ "C1 tumour"; "F1 tumour" ];
-        smaller_masks_list = [ smaller_masks_list; "C1r tumour";    "F1r tumour"    ];
-        smaller_masks_list = [ smaller_masks_list; "C2 tumour";     "F2 tumour"     ];
-        smaller_masks_list = [ smaller_masks_list; "C2r tumour";    "F2r tumour"    ];
-        smaller_masks_list = [ smaller_masks_list; "C3 tumour";     "F3 tumour"     ];
-        smaller_masks_list = [ smaller_masks_list; "C3r tumour";    "F3r tumour"    ];
-        smaller_masks_list = [ smaller_masks_list; "C4 tumour";     "F4 tumour"     ];
-        smaller_masks_list = [ smaller_masks_list; "C4r tumour";    "F4r tumour"    ];
         
     end
     
@@ -395,26 +382,13 @@ elseif strcmpi(dataset_name,'negative DESI A & F') || strcmpi(dataset_name,'nega
         main_mask_list = "no mask";
         
         smaller_masks_list = [ "E1_BG"; "F1_BG" ];
-        smaller_masks_list = [ smaller_masks_list; "E1r_BG";    "F1r_BG"    ];
-        smaller_masks_list = [ smaller_masks_list; "E2_BG";     "F2_BG"     ];
-        smaller_masks_list = [ smaller_masks_list; "E2r_BG";    "F2r_BG"    ];
-        smaller_masks_list = [ smaller_masks_list; "E3_BG";     "F3_BG"     ];
-        smaller_masks_list = [ smaller_masks_list; "E3r_BG";    "F3r_BG"    ];
-        smaller_masks_list = [ smaller_masks_list; "E4_BG";     "F4_BG"     ];
-        smaller_masks_list = [ smaller_masks_list; "E4r_BG";    "F4r_BG"    ];
-        
-    elseif background == -1
-        
-        main_mask_list = "bulk tissue";
-        
-        smaller_masks_list = [ "E1 tumour"; "F1 tumour" ];
-        smaller_masks_list = [ smaller_masks_list; "E1r tumour";    "F1r tumour"    ];
-        smaller_masks_list = [ smaller_masks_list; "E2 tumour";     "F2 tumour"     ];
-        smaller_masks_list = [ smaller_masks_list; "E2r tumour";    "F2r tumour"    ];
-        smaller_masks_list = [ smaller_masks_list; "E3 tumour";     "F3 tumour"     ];
-        smaller_masks_list = [ smaller_masks_list; "E3r tumour";    "F3r tumour"    ];
-        smaller_masks_list = [ smaller_masks_list; "E4 tumour";     "F4 tumour"     ];
-        smaller_masks_list = [ smaller_masks_list; "E4r tumour";    "F4r tumour"    ];
+        smaller_masks_list = [ smaller_masks_list; "E1r_BG"; "F1r_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "E2_BG"; "F2_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "E2r_BG"; "F2r_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "E3_BG"; "F3_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "E3r_BG"; "F3r_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "E4_BG"; "F4_BG" ];
+        smaller_masks_list = [ smaller_masks_list; "E4r_BG"; "F4r_BG" ];
         
     end
     
