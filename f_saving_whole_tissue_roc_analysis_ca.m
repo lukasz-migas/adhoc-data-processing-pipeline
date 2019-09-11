@@ -1,4 +1,4 @@
-function f_saving_whole_tissue_roc_analysis_ca( filesToProcess, main_mask_list, dataset_name, group0, group0_name, group1, group1_name, norm_list, molecules_list )
+function f_saving_whole_tissue_roc_analysis_ca( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list, molecules_list )
 
 % molecules_list = "Shorter Beatson metabolomics & CRUK list";
 
@@ -121,8 +121,8 @@ for main_mask = main_mask_list
             end
         end
         
-        mkdir([ roc_path char(dataset_name) '\' char(main_mask) '\whole tissue roc analysis\' char(norm_type) ])
-        cd([ roc_path char(dataset_name) '\' char(main_mask) '\whole tissue roc analysis\' char(norm_type) ])
+        mkdir([ roc_path char(main_mask) '\whole tissue roc analysis\' char(norm_type) ])
+        cd([ roc_path char(main_mask) '\whole tissue roc analysis\' char(norm_type) ])
         
         save([ 'roc_analysis_' char(strjoin([ group1_name ' vs ' group0_name])) '.mat'],'roc_analysis_table' )
         
