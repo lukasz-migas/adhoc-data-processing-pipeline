@@ -166,6 +166,8 @@ for i = 1:length(inputs_info_reshaped)
             list_path = strcat( metabolite_lists_path, "slc7a5_ROC_hydroxybutyrate.xlsx" );
         case "Immunometabolites"
             list_path = strcat( metabolite_lists_path, "90_Immunometabolites.xlsx" );
+        case "PDAC drugs"
+            list_path = strcat( metabolite_lists_path, "4_pdac_drugs.xlsx" );
             
         case "maximum ppm error"
             if peak_assign_info == 0
