@@ -1,4 +1,4 @@
-function f_saving_whole_tissue_roc_analysis_ca( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list, molecules_list )
+function f_saving_roc_analysis_ca( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list, molecules_list )
 
 % molecules_list = "Shorter Beatson metabolomics & CRUK list";
 
@@ -30,6 +30,10 @@ for main_mask = main_mask_list
             
             load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacube' ])
             load([ rois_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\roi'])
+            
+            if file_index
+                load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
+            end
             
             norm_mask = reshape(roi.pixelSelection',[],1);
             
@@ -111,7 +115,7 @@ for main_mask = main_mask_list
             
             if (AUC >= 0.7) || ((AUC <= 0.3) && (AUC > 0))
                 
-                indexes2add = (abs(datacube.spectralChannels(mzi)-double(new_hmdb_sample_info(:,3))) < 0.0000001);
+                indexes2add = (abs(datacube.spectralChannels(mzi)-double(new_hmdb_sample_info(:,3))) < min(diff(totalSpectrum_mzvalues)));
                 
                 roc_analysis_table = [
                     roc_analysis_table
@@ -121,8 +125,8 @@ for main_mask = main_mask_list
             end
         end
         
-        mkdir([ roc_path char(main_mask) '\whole tissue roc analysis\' char(norm_type) ])
-        cd([ roc_path char(main_mask) '\whole tissue roc analysis\' char(norm_type) ])
+        mkdir([ roc_path char(main_mask) '\' char(norm_type) ])
+        cd([ roc_path char(main_mask) '\' char(norm_type) ])
         
         save([ 'roc_analysis_' char(strjoin([ group1_name ' vs ' group0_name])) '.mat'],'roc_analysis_table' )
         
