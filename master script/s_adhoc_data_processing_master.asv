@@ -152,8 +152,7 @@ f_saving_sii_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, sm
 
 %% ROC analysis - whole tissue
 
-% Note: As it is, the ROC analysis is done for the entire list of m/z
-% values saved in the datacube. However, the name of the database is assig
+% Note: As it is, the 
 
 WT_group =          [ "SA1-2-WT","SA2-2-WT","SI-B2-4-WT-1","SI-B2-4-WT-2","SI-B1-17-WT-1","SI-B2-4-WT-3","SI-B1-20-WT-1" ];
 KRAS_group =        [ "SA1-1-KRAS","SA1-2-KRAS","SA2-1-KRAS","SA2-2-KRAS""SI-B2-4-KRAS-1""SI-B2-4-APC-KRAS-2""SI-B1-17-KRAS-1""SI-B1-17-KRAS-2","SI-B1-17-KRAS-3","SI-B1-20-KRAS-1","SI-B1-20-KRAS-3" ];
