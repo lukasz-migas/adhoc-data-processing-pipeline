@@ -2,7 +2,7 @@ function f_matching_data_with_hmdb( filesToProcess, mask_list )
 
 % Loading hmdb database info
 
-load('X:\Ad Hoc Data Processing\complete_hmdb_info_strings.mat')
+load('X:\2019_Scripts for Data Processing\complete_hmdb_info_strings.mat')
 
 for file_index = 1:length(filesToProcess)
     
