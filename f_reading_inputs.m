@@ -33,7 +33,7 @@ pa_molecules_lists_label_list   = string([]);
 pa_max_ppm = [];
 fig_ppm = [];
 
-metabolite_lists_path = "X:\Ad Hoc Data Processing\molecules-lists\";
+metabolite_lists_path = "X:\2019_Scripts for Data Processing\molecules-lists\";
 logical_list_path = 0;
 
 pa_molecules_lists_csv_list(1,1)    = strcat(metabolite_lists_path,"4_Reference_List.xlsx");
