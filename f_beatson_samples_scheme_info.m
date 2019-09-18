@@ -1495,13 +1495,13 @@ for file_index = 1:length(filesToProcess)
         
         old_datacubeonly_peakDetails = datacubeonly_peakDetails;
         
-        print(filesToProcess(file_index).name(1,1:end-6))
+        disp(filesToProcess(file_index).name(1,1:end-6))
         
     elseif isequal(old_datacubeonly_peakDetails, datacubeonly_peakDetails)
         
-        print(filesToProcess(file_index).name(1,1:end-6))
+        disp(filesToProcess(file_index).name(1,1:end-6))
         
-        print('!!! ISSUE !!! Datasets do NOT have a compatible mz axis. Please check and make sure that all datasets to be combined have a commom list of peaks and matches.')
+        disp('!!! ISSUE !!! Datasets do NOT have a compatible mz axis. Please check and make sure that all datasets to be combined have a commom list of peaks and matches.')
         
     end
         
