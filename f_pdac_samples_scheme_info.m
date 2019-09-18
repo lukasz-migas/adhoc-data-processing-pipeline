@@ -447,7 +447,7 @@ for file_index = 1:length(filesToProcess)
         
     spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
    
-    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\datacubeonly_peakDetails' ])
+    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask_list) '\datacubeonly_peakDetails' ])
     
     if file_index
         
