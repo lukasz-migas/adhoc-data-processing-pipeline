@@ -1473,5 +1473,36 @@ switch dataset_name
             1 4; 2 4; 3 4; 4 4;
             ];
         
+end
+
+for file_index = 1:length(filesToProcess)
+    
+    csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
+    
+    [ ~, ~, ~, ...
+        ~, ~, ...
+        ~, ~, ...
+        ~, ~, ~, ...
+        ~, ~, ~, ...
+        ~, ...
+        outputs_path ] = f_reading_inputs(csv_inputs);
+        
+    spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
+   
+    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\datacubeonly_peakDetails' ])
+    
+    if file_index
+        
+        old_datacubeonly_peakDetails = datacubeonly_peakDetails;
+        
+        print(filesToProcess(file_index).name(1,1:end-6))
+        
+    elseif isequal(old_datacubeonly_peakDetails, datacubeonly_peakDetails)
+        
+        print(filesToProcess(file_index).name(1,1:end-6))
+        
+        print('!!! ISSUE !!! Datasets do NOT have a compatible mz axis. Please check and make sure that all datasets to be combined have a commom list of peaks and matches.')
+        
+    end
         
 end

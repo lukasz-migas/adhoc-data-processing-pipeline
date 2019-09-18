@@ -181,13 +181,13 @@ elseif strcmpi(dataset_name,'negative DESI B & F') || strcmpi(dataset_name,'nega
     %
     
     outputs_xy_pairs = [
-        1 1; 3 1; 
-        2 1; 4 1; 
+        1 1; 3 1;
+        2 1; 4 1;
         1 2; 3 2;
-             4 2;
-        1 3; 3 3; 
-        2 3; 4 3; 
-        1 4; 3 4; 
+        4 2;
+        1 3; 3 3;
+        2 3; 4 3;
+        1 4; 3 4;
         2 4; 4 4;
         ];
     
@@ -241,13 +241,13 @@ elseif strcmpi(dataset_name,'negative DESI D & F') || strcmpi(dataset_name,'nega
     %
     
     outputs_xy_pairs = [
-        1 1; 3 1; 
-        2 1; 4 1; 
+        1 1; 3 1;
+        2 1; 4 1;
         1 2; 3 2;
         2 2; 4 2;
-        1 3; 3 3; 
-        2 3; 4 3; 
-        1 4; 3 4; 
+        1 3; 3 3;
+        2 3; 4 3;
+        1 4; 3 4;
         2 4; 4 4;
         ];
     
@@ -301,17 +301,17 @@ elseif strcmpi(dataset_name,'negative DESI A & F') || strcmpi(dataset_name,'nega
     %
     
     outputs_xy_pairs = [
-        1 1; 3 1; 
-        2 1; 4 1; 
+        1 1; 3 1;
+        2 1; 4 1;
         1 2; 3 2;
         2 2; 4 2;
-        1 3; 3 3; 
-        2 3; 4 3; 
-        1 4; 3 4; 
+        1 3; 3 3;
+        2 3; 4 3;
+        1 4; 3 4;
         2 4; 4 4;
         ];
     
-    elseif strcmpi(dataset_name,'negative DESI C & F') || strcmpi(dataset_name,'negative DESI C & F bulk tissue')
+elseif strcmpi(dataset_name,'negative DESI C & F') || strcmpi(dataset_name,'negative DESI C & F bulk tissue')
     
     data_folders = { 'X:\PDAC Combo\negative DESI ibds and imzMLs\Individual\' };
     
@@ -361,17 +361,17 @@ elseif strcmpi(dataset_name,'negative DESI A & F') || strcmpi(dataset_name,'nega
     %
     
     outputs_xy_pairs = [
-        1 1; 3 1; 
-        2 1; 4 1; 
+        1 1; 3 1;
+        2 1; 4 1;
         1 2; 3 2;
         2 2; 4 2;
-        1 3; 3 3; 
-        2 3; 4 3; 
-        1 4; 3 4; 
+        1 3; 3 3;
+        2 3; 4 3;
+        1 4; 3 4;
         2 4; 4 4;
-        ];   
+        ];
     
-    elseif strcmpi(dataset_name,'negative DESI E & F') || strcmpi(dataset_name,'negative DESI E & F bulk tissue')
+elseif strcmpi(dataset_name,'negative DESI E & F') || strcmpi(dataset_name,'negative DESI E & F bulk tissue')
     
     data_folders = { 'X:\PDAC Combo\negative DESI ibds and imzMLs\Individual\' };
     
@@ -421,14 +421,46 @@ elseif strcmpi(dataset_name,'negative DESI A & F') || strcmpi(dataset_name,'nega
     %
     
     outputs_xy_pairs = [
-        1 1; 3 1; 
-        2 1; 4 1; 
+        1 1; 3 1;
+        2 1; 4 1;
         1 2; 3 2;
         2 2; 4 2;
-        1 3; 3 3; 
-        2 3; 4 3; 
-        1 4; 3 4; 
+        1 3; 3 3;
+        2 3; 4 3;
+        1 4; 3 4;
         2 4; 4 4;
         ];
+    
+end
+
+for file_index = 1:length(filesToProcess)
+    
+    csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
+    
+    [ ~, ~, ~, ...
+        ~, ~, ...
+        ~, ~, ...
+        ~, ~, ~, ...
+        ~, ~, ~, ...
+        ~, ...
+        outputs_path ] = f_reading_inputs(csv_inputs);
+        
+    spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
+   
+    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\datacubeonly_peakDetails' ])
+    
+    if file_index
+        
+        old_datacubeonly_peakDetails = datacubeonly_peakDetails;
+        
+        print(filesToProcess(file_index).name(1,1:end-6))
+        
+    elseif isequal(old_datacubeonly_peakDetails, datacubeonly_peakDetails)
+        
+        print(filesToProcess(file_index).name(1,1:end-6))
+        
+        print('!!! ISSUE !!! Datasets do NOT have a compatible mz axis. Please check and make sure that all datasets to be combined have a commom list of peaks and matches.')
+        
+    end
         
 end
