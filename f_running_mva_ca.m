@@ -3,7 +3,7 @@ function f_running_mva_ca( filesToProcess, main_mask_list, smaller_masks_list, d
 for main_mask = main_mask_list
     
     % Creating the cells that will comprise the information regarding the
-    % single ion images, the main mask, and the smaller mask. 
+    % single ion images, the main mask, and the smaller mask.
     % Main mask - Mask used at the preprocessing step (usually tissue only).
     % Small mask - Mask used to plot the results in the shape of a grid
     % defined by the user (it can be a reference to a particular piece of
@@ -67,7 +67,7 @@ for main_mask = main_mask_list
         if ~strcmpi(main_mask,"no mask")
             load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'roi'])
             main_mask_cell{file_index} = reshape(roi.pixelSelection',[],1);
-        else            
+        else
             main_mask_cell{file_index} = true(ones(size(datacube,1),1));
         end
         
@@ -88,24 +88,12 @@ for main_mask = main_mask_list
             
             if strcmpi(mva_type,"pca") || strcmpi(mva_type,"nnmf") || strcmpi(mva_type,"kmeans") || (strcmpi(mva_type,"nntsne") && ~isnan(numComponents))
                 
-                % if ~exist([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'],'dir')
                 mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
-                % else
-                %    rmdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'],'s')
-                %    mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
-                % end
-                
                 cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
                 
             elseif strcmpi(mva_type,"nntsne") && isnan(numComponents)
                 
-                % if ~exist([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'],'dir')
                 mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
-                % else
-                %    rmdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'],'s')
-                %    mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
-                % end
-                
                 cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
                 
             end
@@ -157,7 +145,7 @@ for main_mask = main_mask_list
                     save('H','H','-v7.3')
                     
                 case 'kmeans'
-                                        
+                    
                     [ idx0, C ] = kmeans(data4mva, numComponents,'distance','cosine');
                     
                     idx = zeros(length(mask4mva),1); idx(mask4mva,:) = idx0; idx(isnan(idx)) = 0;

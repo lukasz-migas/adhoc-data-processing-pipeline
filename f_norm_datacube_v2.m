@@ -57,11 +57,9 @@ switch norm_type
         d0 = d00(d00>0);
         norm_data0 = log(d00+prctile(d0(:),5));
         
-    case 'pqn median & log'
+    case 'pqn median & zscore'
         
-        d00 = crukNormalise(data,'pqn-median');
-        d0 = d00(d00>0);
-        norm_data0 = log(d00+prctile(d0(:),5));
+        norm_data0 = zscore(crukNormalise(data,'pqn-median')')';
         
 end
 
