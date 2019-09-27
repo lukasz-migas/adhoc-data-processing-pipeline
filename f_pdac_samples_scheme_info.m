@@ -1,4 +1,4 @@
-function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_pdac_samples_scheme_info( dataset_name, background )
+function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_pdac_samples_scheme_info( dataset_name, background, check_datacubes_size )
 
 if strcmpi(dataset_name,'negative DESI') || strcmpi(dataset_name,'negative DESI all bulk tissue') || strcmpi(dataset_name,'negative DESI all tumour')
     
@@ -433,34 +433,38 @@ elseif strcmpi(dataset_name,'negative DESI E & F') || strcmpi(dataset_name,'nega
     
 end
 
-for file_index = 1:length(filesToProcess)
+if check_datacubes_size==1
     
-    csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
-    
-    [ ~, ~, ~, ...
-        ~, ~, ...
-        ~, ~, ...
-        ~, ~, ~, ...
-        ~, ~, ~, ...
-        ~, ...
-        outputs_path ] = f_reading_inputs(csv_inputs);
+    for file_index = 1:length(filesToProcess)
         
-    spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
-   
-    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask_list) '\datacubeonly_peakDetails' ])
-    
-    if file_index
+        csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
         
-        old_datacubeonly_peakDetails = datacubeonly_peakDetails;
+        [ ~, ~, ~, ...
+            ~, ~, ...
+            ~, ~, ...
+            ~, ~, ~, ...
+            ~, ~, ~, ...
+            ~, ...
+            outputs_path ] = f_reading_inputs(csv_inputs);
         
-        disp(filesToProcess(file_index).name(1,1:end-6))
+        spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
         
-    elseif isequal(old_datacubeonly_peakDetails, datacubeonly_peakDetails)
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask_list) '\datacubeonly_peakDetails' ])
         
-        disp(filesToProcess(file_index).name(1,1:end-6))
-        
-        disp('!!! ISSUE !!! Datasets do NOT have a compatible mz axis. Please check and make sure that all datasets to be combined have a commom list of peaks and matches.')
+        if file_index
+            
+            old_datacubeonly_peakDetails = datacubeonly_peakDetails;
+            
+            disp(filesToProcess(file_index).name(1,1:end-6))
+            
+        elseif isequal(old_datacubeonly_peakDetails, datacubeonly_peakDetails)
+            
+            disp(filesToProcess(file_index).name(1,1:end-6))
+            
+            disp('!!! ISSUE !!! Datasets do NOT have a compatible mz axis. Please check and make sure that all datasets to be combined have a commom list of peaks and matches.')
+            
+        end
         
     end
-        
+    
 end

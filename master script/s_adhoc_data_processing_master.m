@@ -111,6 +111,7 @@ f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, numCompon
 study = "Beatson"; 
 dataset_name = "negative DESI 2018 sm & 2019 ic";
 background = 0;
+check_datacubes_size = 0; % If you have saved datacubes in the past and want to check their mz content.
 
 [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background );
 
