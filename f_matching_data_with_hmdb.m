@@ -62,8 +62,8 @@ for file_index = 1:length(filesToProcess)
                     g_index = g_index + 1;
                     
                     hmdb_sample_info(g_index,1) = hmdb_names(matchesR(j));
-                    hmdb_sample_info(g_index,2) = adductMasses(matchesR(j), matchesC(j));
-                    
+                    hmdb_sample_info(g_index,2) = num2str(adductMasses(matchesR(j), matchesC(j)),10);
+                                        
                     if strcmp(polarity, 'positive')
                         
                         if double(adducts{matchesC(j)}(1)) == 45 || double(adducts{matchesC(j)}(1)) == 43
@@ -92,7 +92,7 @@ for file_index = 1:length(filesToProcess)
                     hmdb_sample_info(g_index,10)    = polarity;
                     hmdb_sample_info(g_index,11)    = sample_peaks_intensities(i)./pixels_num;
                     
-                    hmdb_sample_info(g_index,12)  = hmdb_mzvalues(matchesR(j)); % monoisotopic mass
+                    hmdb_sample_info(g_index,12)    = molecules_hmdb_info_strings(matchesR(j),3); % monoisotopic mass
 
                     
                     if ~ismissing(hmdb_other(matchesR(j),1))
