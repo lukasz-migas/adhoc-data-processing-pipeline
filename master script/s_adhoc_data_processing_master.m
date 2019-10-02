@@ -22,12 +22,12 @@
 % to process below.
 
 data_folders = { ...
-    'X:\Beatson\Intracolonic tumour study\plasma-AP-MALDI MSI\2019_08_30_intracolonic\'
+    'X:\Beatson\Intracolonic tumour study\Neg DESI Data\Xevo V3 Sprayer\'
     };
 
 % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
 
-dataset_name_portion = '*';
+dataset_name_portion = '*slide9*';
 
 % Files and adducts information gathering
 
@@ -38,11 +38,6 @@ filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToP
 preprocessing_file = '\\encephalon\D\AutomatedProcessing\preprocessingWorkflowForAll.sap';
 
 % Masks
-
-mask_list = [
-    "no mask"
-    "tissue only"
-    ]';
 
 norm_list = [
     "no norm"
@@ -109,9 +104,9 @@ f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, numCompon
 %% Treating all datasets together (note: you need to update the samples_scheme_info function below so that it has the image grid you would like to look at)
 
 study = "Beatson"; 
-dataset_name = "negative DESI 2018 sm & 2019 ic";
+dataset_name = "neg DESI intracolonic apc vs apc kras";
 background = 0;
-check_datacubes_size = 0; % If you have saved datacubes in the past and want to check their mz content.
+check_datacubes_size = 1; % If you have saved datacubes in the past and want to check their mz content.
 
 [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size );
 

@@ -5,7 +5,7 @@ function [ modality, polarity, adducts_list, ...
     pa_molecules_lists_csv_list, pa_molecules_lists_label_list, pa_max_ppm, ...
     fig_ppm, ...
     outputs_path ] = f_reading_inputs(csv_inputs)
-
+%%
 [ ~, ~, inputs_info ] = xlsread(csv_inputs);
 
 inputs_info_reshaped = string(reshape(inputs_info',[],1));
@@ -168,6 +168,43 @@ for i = 1:length(inputs_info_reshaped)
             list_path = strcat( metabolite_lists_path, "4_pdac_drugs.xlsx" );
         case "U13C Glutamine"
             list_path = strcat( metabolite_lists_path, "U13C_Glutamine.xlsx" );
+        case "30k_S_ratio th1"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th1.xlsx" );
+        case "30k_S_ratio th3"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th3.xlsx" );
+        case "30k_S_ratio th10"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th10.xlsx" );
+        case "30k_T_ratio th1"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th1.xlsx" );
+        case "30k_T_ratio th3"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th3.xlsx" );
+        case "30k_T_ratio th10"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th10.xlsx" );
+        case "30k_B_ratio th1"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th1.xlsx" );
+        case "30k_B_ratio th3"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th3.xlsx" );
+        case "30k_B_ratio th10" 
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th10.xlsx" );
+        case "30k_S&T_ratio th1"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th1.xlsx" );
+        case "30k_S&T_ratio th3"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th3.xlsx" );
+        case "30k_S&T_ratio th10"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th10.xlsx" );
+        case "30k_T&B_ratio th1"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th1.xlsx" );
+        case "30k_T&B_ratio th3"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th3.xlsx" );
+        case "30k_T&B_ratio th10"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th10.xlsx" );
+        case "30k_S&T&B_ratio th1"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th1.xlsx" );
+        case "30k_S&T&B_ratio th3"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th3.xlsx" );
+        case "30k_S&T&B_ratio th10"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th10.xlsx" );
+
             
         case "maximum ppm error"
             if peak_assign_info == 0
