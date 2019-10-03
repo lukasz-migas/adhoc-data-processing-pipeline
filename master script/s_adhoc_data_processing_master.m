@@ -146,6 +146,12 @@ sii_peak_list = "all"; % "all" for all lists, or the name of a short list of mol
 
 f_saving_sii_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, sii_peak_list )
 
+%% Sii ratios
+
+ratios_info_file =  "3_slc7a5_ratios";
+
+f_saving_sii_ratio_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, norm_list, ratios_info_file )
+
 %% ROC analysis - whole tissue
 
 % Note: As it is, the ROC analysis is done for the entire list of m/z

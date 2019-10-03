@@ -12,6 +12,17 @@ switch dataset_name
         
         if background == 1
             
+            % tissue only
+            
+            main_mask_list = "no mask";
+            
+            extensive_filesToProcess(1,:) = filesToProcess(1,:);
+            smaller_masks_list = "Sandwich";
+            extensive_filesToProcess(2,:) = filesToProcess(2,:);
+            smaller_masks_list = [ smaller_masks_list; "Top" ];
+            extensive_filesToProcess(3,:) = filesToProcess(3,:);
+            smaller_masks_list = [ smaller_masks_list; "Bottom" ];
+            
         else
             
             % tissue only
@@ -30,7 +41,9 @@ switch dataset_name
         end
         
         outputs_xy_pairs = [
-            1 1; 1 2; 1 3;
+            1 1; 
+            2 1; 
+            3 1;
             ];
         
 end
