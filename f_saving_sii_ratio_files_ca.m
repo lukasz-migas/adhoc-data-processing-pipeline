@@ -7,14 +7,13 @@ function f_saving_sii_ratio_files_ca( ...
     pixels_num_cell, ...
     totalSpectrum_intensities_cell, totalSpectrum_mzvalues_cell, ...
     fig_ppmTolerance )
-%%
+
 for ratio_i = unique(intersect(double(sample_info_1(:,end)),double(sample_info_2(:,end))))'
     
     for peak_1_i = find(peak_details_1(:,end)==ratio_i)'
         for peak_2_i = find(peak_details_2(:,end)==ratio_i)'
             
-            if ~exist([ outputs_path '\sii ratios\' ], 'dir'); mkdir([ outputs_path '\sii ratios\' ]); end
-            cd([ outputs_path '\sii ratios\' ])
+            cd(outputs_path)
             
             % Sii collage
             
