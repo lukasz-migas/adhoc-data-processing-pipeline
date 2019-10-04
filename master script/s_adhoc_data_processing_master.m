@@ -168,7 +168,7 @@ group0_name = "WT";
 group1 = APC_KRAS_group;
 group1_name = "APC-KRAS";
 
-f_saving_analysis_ca( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list)
+f_saving_roc_analysis_ca( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list)
 
 %% Saving data for supervised classification in Python
 
