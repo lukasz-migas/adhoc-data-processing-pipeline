@@ -37,7 +37,7 @@ for main_mask = main_mask_list
         [ ~, sample_info_2, sample_info_indexes_2, norm_sii_cell_2, ~, peak_details_2, ~, ~, ~ ] = ...
             f_saving_sii_ratio_sample_info_ca( filesToProcess, main_mask, smaller_masks_list, norm_type, sample_info_20 );
         
-        outputs_path = [ sii_ratios_path char(dataset_name) filesep char(mask) filesep char(norm_type) filesep char(ratios_info_file) filesep ];
+        outputs_path = [ sii_ratios_path char(dataset_name) filesep char(main_mask) filesep char(norm_type) filesep char(ratios_info_file) filesep ];
         
         if ~exist(outputs_path, 'dir'); mkdir([ outputs_path ]); end
         
