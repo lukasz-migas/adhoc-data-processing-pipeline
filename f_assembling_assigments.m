@@ -1,5 +1,5 @@
 function f_assembling_assigments( filesToProcess, group_name, main_mask_1, main_mask_2 )
-
+%can you see this?
 for file_index = 1:size(filesToProcess,1)
     
     csv_inputs = [ filesToProcess(file_index).folder filesep 'inputs_file' ];
