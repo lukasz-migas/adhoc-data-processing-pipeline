@@ -97,9 +97,9 @@ for file_index = 1:length(filesToProcess)
                     relevant_lists_sample_info(g_index,10)  = polarity;
                     relevant_lists_sample_info(g_index,11)  = sample_peaks_intensities(i)./pixels_num; % mean spectra
                     
-                    relevant_lists_sample_info(g_index,12)  = relevant_lists_mzvalues(matchesR(j)); % monoisotopic mass
+                    relevant_lists_sample_info(g_index,12)  = num2str(relevant_lists_mzvalues(matchesR(j)),'%1.12f'); % monoisotopic mass
                     
-                    relevant_lists_sample_info_aux(g_index,1)	= sample_peaks_mzvalues(i);
+                    relevant_lists_sample_info_aux(g_index,1) = sample_peaks_mzvalues(i);
                     
                 end
             end

@@ -2,6 +2,47 @@ function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs
 
 switch dataset_name
     
+    case "study 1"
+        
+        data_folders = { 'X:\BinYan\matrix coating studies\pos plasma api maldi imzmls and ibds\60k\' };
+        
+        dataset_name = '*dhb*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % tissue only
+            
+            main_mask_list = "no mask";
+                        
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            extensive_filesToProcess(1,:) = filesToProcess(1,:);
+            smaller_masks_list = "bottom-fresh";
+            extensive_filesToProcess(2,:) = filesToProcess(2,:);
+            smaller_masks_list = [ smaller_masks_list; "top-fresh" ];
+            extensive_filesToProcess(3,:) = filesToProcess(3,:);
+            smaller_masks_list = [ smaller_masks_list; "bottom-ambient" ];
+            extensive_filesToProcess(4,:) = filesToProcess(4,:);
+            smaller_masks_list = [ smaller_masks_list; "top-ambient" ];
+            extensive_filesToProcess(5,:) = filesToProcess(5,:);
+            smaller_masks_list = [ smaller_masks_list; "sandwich-fresh" ];
+            extensive_filesToProcess(6,:) = filesToProcess(6,:);
+            smaller_masks_list = [ smaller_masks_list; "sandwich-ambient" ];
+            
+        end
+        
+        outputs_xy_pairs = [
+            3 1; 1 1; 3 2; 1 2; 2 2; 2 3;
+            ];
+    
     case "study 6"
         
         data_folders = { 'X:\BinYan\matrix coating studies\pos plasma api maldi imzmls and ibds\30k\' };
