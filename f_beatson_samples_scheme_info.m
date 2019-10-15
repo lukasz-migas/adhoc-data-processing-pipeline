@@ -1514,6 +1514,8 @@ if check_datacubes_size==1
     
     for file_index = 1:length(filesToProcess)
         
+        disp(filesToProcess(file_index).name(1,1:end-6))
+        
         csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
         
         [ ~, ~, ~, ...
@@ -1528,20 +1530,16 @@ if check_datacubes_size==1
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask_list) '\datacubeonly_peakDetails' ])
         
-        if file_index
+        if file_index==1
             
             old_datacubeonly_peakDetails = datacubeonly_peakDetails;
-            
-            disp(filesToProcess(file_index).name(1,1:end-6))
-            
-        elseif isequal(old_datacubeonly_peakDetails, datacubeonly_peakDetails)
-            
-            disp(filesToProcess(file_index).name(1,1:end-6))
-            
+                        
+        elseif ~isequal(old_datacubeonly_peakDetails, datacubeonly_peakDetails)
+                        
             disp('!!! ISSUE !!! Datasets do NOT have a compatible mz axis. Please check and make sure that all datasets to be combined have a commom list of peaks and matches.')
-            
-        end
+                        
+        end        
         
     end
-    
+        
 end

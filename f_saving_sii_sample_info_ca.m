@@ -94,6 +94,8 @@ for norm_type = norm_list
     norm_sii_cell = {};
     for file_index = 1:length(datacube_cell)
         
+        disp(file_index)
+        
         norm_sii = f_norm_datacube_v2( datacube_cell{file_index}, main_masks_cell{file_index}, norm_type );
         
         norm_sii_cell{file_index}.data = norm_sii(:,datacube_indexes);
