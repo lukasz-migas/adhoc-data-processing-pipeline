@@ -20,12 +20,12 @@ for main_mask = main_mask_list
     
     load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) filesep char(main_mask) filesep 'relevant_lists_sample_info' ])
     
-    if ~strcmpi(outputs_folder_name_list,"all")
+    if ~strcmpi(outputs_folder_name_list(1),"all")
         sample_info = [];
         for listi = outputs_folder_name_list
-            sample_info = [ sample_info; relevant_lists_sample_info(strcmpi(outputs_folder_name_list,relevant_lists_sample_info(:,database_col)),:) ];
+            sample_info = [ sample_info; relevant_lists_sample_info(strcmpi(listi,relevant_lists_sample_info(:,database_col)),:) ];
         end
-    elseif strcmpi(outputs_folder_name_list,"all")
+    elseif strcmpi(outputs_folder_name_list(1),"all")
         sample_info = relevant_lists_sample_info;
     else
         disp('Unkown list of molecules. Please specify a valid list.')

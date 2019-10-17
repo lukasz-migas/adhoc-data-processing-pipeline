@@ -167,6 +167,8 @@ for peak_i = 1:size(peak_details,1)
                 
             end
             
+            if isempty(sii2plot); break; end
+            
             tableri = tableri0 + 1;
             
             % Boxplots figure
@@ -264,6 +266,8 @@ for peak_i = 1:size(peak_details,1)
                 
             end
             
+            if (window_xmin>=window_xmax)||(min(window_intensities)>=1.1*ymax); break; end
+            
             axis([window_xmin window_xmax min(window_intensities) 1.1*ymax]);
             
             % Saving figs and tif files
@@ -301,8 +305,10 @@ for peak_i = 1:size(peak_details,1)
                 tifname_char = [ char(num2str(peak_i)) '_' name(1:min(68,length(name)))' '.png' ];
             else
                 figname_char = [ name(1:min(70,length(name)))' '.fig' ];
-                tifname_char = [ name(1:min(70,length(name)))' '.png' ];
+                tifname_char = [ name(1:min(70,length(name)))' '.png' ];                
             end
+            
+            disp(tifname_char)
             
             savefig(fig0,['boxplots_' figname_char],'compact')
             saveas(fig0,['boxplots_' tifname_char])
