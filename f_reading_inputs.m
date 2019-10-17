@@ -168,6 +168,9 @@ for i = 1:length(inputs_info_reshaped)
             list_path = strcat( metabolite_lists_path, "4_pdac_drugs.xlsx" );
         case "U13C Glutamine"
             list_path = strcat( metabolite_lists_path, "U13C_Glutamine.xlsx" );
+        case "Structural Lipids"
+            list_path = strcat( metabolite_lists_path, "lipids_first_pass.xlsx" );
+            
         case "30k_S_ratio th1"
             list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th1.xlsx" );
         case "30k_S_ratio th3"
