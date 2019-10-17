@@ -308,7 +308,7 @@ for peak_i = 1:size(peak_details,1)
                 tifname_char = [ name(1:min(70,length(name)))' '.png' ];                
             end
             
-            disp(tifname_char)
+            % disp(tifname_char)
             
             savefig(fig0,['boxplots_' figname_char],'compact')
             saveas(fig0,['boxplots_' tifname_char])
