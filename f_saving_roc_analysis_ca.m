@@ -1,6 +1,4 @@
-function f_saving_whole_tissue_roc_analysis_ca( filesToProcess, main_mask_list, dataset_name, group0, group0_name, group1, group1_name, norm_list, molecules_list )
-
-% molecules_list = "Shorter Beatson metabolomics & CRUK list";
+function f_saving_roc_analysis_ca( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list )
 
 aux_names = []; for i = 1:length(filesToProcess); aux_names = [ aux_names, string(filesToProcess(i).name) ]; end
 [ ~, uindexes ] = unique(aux_names);
@@ -12,9 +10,7 @@ csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
 
 spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
 peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];
-if isempty(molecules_list)
-    roc_path                = [ char(outputs_path) '\roc\' ]; if ~exist(roc_path, 'dir'); mkdir(roc_path); end
-end
+roc_path                = [ char(outputs_path) '\roc\' ]; if ~exist(roc_path, 'dir'); mkdir(roc_path); end
 rois_path               = [ char(outputs_path) '\rois\' ];
 
 for main_mask = main_mask_list
@@ -30,6 +26,10 @@ for main_mask = main_mask_list
             
             load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacube' ])
             load([ rois_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\roi'])
+            
+            if file_index
+                load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
+            end
             
             norm_mask = reshape(roi.pixelSelection',[],1);
             
@@ -54,7 +54,11 @@ for main_mask = main_mask_list
             
             if ~isempty(common1)
                 
+                disp(filesToProcess(file_index).name(1,1:end-6))
+                
                 for aux_i = all_folders_names_i1'
+                    
+                    disp(all_folders_names(aux_i))
                     
                     load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(all_folders_names(aux_i)) filesep 'roi' ])
                     
@@ -69,7 +73,11 @@ for main_mask = main_mask_list
             
             if ~isempty(common2)
                 
+                disp(filesToProcess(file_index).name(1,1:end-6))
+                
                 for aux_i = all_folders_names_i2'
+                    
+                    disp(all_folders_names(aux_i))
                     
                     load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(all_folders_names(aux_i)) filesep 'roi' ])
                     
@@ -81,17 +89,24 @@ for main_mask = main_mask_list
             end
             
             pixels_per_model = [ pixels_per_model; pixels_per_model0 ];
+            
+            disp(sum(pixels_per_model,1))
                         
         end
                 
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
         
-        new_hmdb_sample_info = f_saving_curated_hmdb_info( hmdb_sample_info, relevant_lists_sample_info );
+        extended_hmdb_sample_info = [ 
+            hmdb_sample_info
+            [ relevant_lists_sample_info, repmat("",size( relevant_lists_sample_info,1),size(hmdb_sample_info,2)-size(relevant_lists_sample_info,2))] 
+            ];
+        
+        new_hmdb_sample_info = f_saving_curated_hmdb_info( extended_hmdb_sample_info, relevant_lists_sample_info );
         
         %%% ROC curves
         
-        roc_analysis_table = [ "AUC", "meas mz", "molecule", "mono mz", "adduct", "ppm", "database" ];
+        roc_analysis_table = [ "AUC", "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)" ];
         
         for mzi = 1:size(datacube.spectralChannels,1)
             
@@ -111,7 +126,7 @@ for main_mask = main_mask_list
             
             if (AUC >= 0.7) || ((AUC <= 0.3) && (AUC > 0))
                 
-                indexes2add = (abs(datacube.spectralChannels(mzi)-double(new_hmdb_sample_info(:,3))) < 0.0000001);
+                indexes2add = (abs(datacube.spectralChannels(mzi)-double(new_hmdb_sample_info(:,3))) < min(diff(totalSpectrum_mzvalues)));
                 
                 roc_analysis_table = [
                     roc_analysis_table
@@ -121,8 +136,8 @@ for main_mask = main_mask_list
             end
         end
         
-        mkdir([ roc_path char(dataset_name) '\' char(main_mask) '\whole tissue roc analysis\' char(norm_type) ])
-        cd([ roc_path char(dataset_name) '\' char(main_mask) '\whole tissue roc analysis\' char(norm_type) ])
+        mkdir([ roc_path char(main_mask) '\' char(norm_type) ])
+        cd([ roc_path char(main_mask) '\' char(norm_type) ])
         
         save([ 'roc_analysis_' char(strjoin([ group1_name ' vs ' group0_name])) '.mat'],'roc_analysis_table' )
         

@@ -22,21 +22,31 @@ for file_index = 1:length(filesToProcess)
         
         % Defining mz values of interest (to plot sii of)
         
-        mzvalues2plot = unique(sample_info_mzvalues); % [ 791.548; 796.528 ]
+        mzvalues2plot = unique(sample_info_mzvalues);
                 
         % Loading datacube
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\datacube' ])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\datacubeonly_peakDetails' ])
         
+        % Loading spectral information
+        
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\totalSpectrum_intensities' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\totalSpectrum_mzvalues' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\pixels_num' ])
+        
+        %
+        
         image_width = datacube.width;
         image_height = datacube.height;
         
+        th_mz_diff = min(diff(totalSpectrum_mzvalues));
+                
         datacube_indexes = [];
         sample_info_indexes = [];
         for mzi = mzvalues2plot'
-            datacube_indexes        = [ datacube_indexes;       find(abs(datacubeonly_peakDetails(:,2)-mzi)<0.0000001) ];
-            sample_info_indexes     = [ sample_info_indexes;    find(abs(sample_info_mzvalues-mzi)<0.0000001,1,'first') ];
+            datacube_indexes        = [ datacube_indexes;       find(abs(datacubeonly_peakDetails(:,2)-mzi)<th_mz_diff) ];
+            sample_info_indexes     = [ sample_info_indexes;    find(abs(double(sample_info(:,4))-mzi)<th_mz_diff,1,'first') ];
         end
                         
         peak_details = datacubeonly_peakDetails(datacube_indexes,:);
@@ -45,12 +55,6 @@ for file_index = 1:length(filesToProcess)
             disp('There is an issue! The length of the list of mz values of interest does not match the length of the mz values of interest in the datacube. Please create datacube again.')
             break
         end
-        
-        % Loading spectral information
-        
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\totalSpectrum_intensities' ])
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\totalSpectrum_mzvalues' ])
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\pixels_num' ])
         
         % Loading mask
         

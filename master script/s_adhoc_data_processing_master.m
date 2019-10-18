@@ -39,11 +39,6 @@ preprocessing_file = '\\encephalon\D\AutomatedProcessing\preprocessingWorkflowFo
 
 % Masks
 
-mask_list = [
-    "no mask"
-    "tissue only"
-    ]';
-
 norm_list = [
     "no norm"
     "pqn median"    
@@ -109,10 +104,11 @@ f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, numCompon
 %% Treating all datasets together (note: you need to update the samples_scheme_info function below so that it has the image grid you would like to look at)
 
 study = "Beatson"; 
-dataset_name = "negative DESI 2018 sm & 2019 ic";
+dataset_name = "neg DESI intracolonic apc vs apc kras";
 background = 0;
+check_datacubes_size = 1; % If you have saved datacubes in the past and want to check their mz content.
 
-[ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background );
+[ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size );
 
 % Pre-processing data and saving spectral details (total spectrum and peakDetails structs) with background
 
@@ -138,19 +134,28 @@ f_saving_data_cube( filesToProcess, "tissue only" )
 
 %% Multivariate analysis (running and saving outputs)
 
-peak_list = string([]); % string([]) to use the highest 4000 peaks, or the name of a short list of molecules to reduce the peak list to the latter
+mva_peak_list = string([]); % string([]) to use the highest 4000 peaks, or the name of a short list of molecules to reduce the peak list to the latter
 
-f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, peak_list ) % Running MVAs
+f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_peak_list ) % Running MVAs
 
-f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, peak_list ) % Saving MVAs outputs
+f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_peak_list ) % Saving MVAs outputs
 
 %% Saving single ion images of relevant molecules
 
-peak_list = "all"; % "all" for all lists, or the name of a short list of molecules
+sii_peak_list = "all"; % "all" for all lists, or the name of a short list of molecules
 
-f_saving_sii_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, peak_list )
+f_saving_sii_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, sii_peak_list )
+
+%% Sii ratios
+
+ratios_info_file =  "3_slc7a5_ratios";
+
+f_saving_sii_ratio_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, norm_list, ratios_info_file )
 
 %% ROC analysis - whole tissue
+
+% Note: As it is, the ROC analysis is done for the entire list of m/z
+% values saved in the datacube. However, the name of the database is assig
 
 WT_group =          [ "SA1-2-WT","SA2-2-WT","SI-B2-4-WT-1","SI-B2-4-WT-2","SI-B1-17-WT-1","SI-B2-4-WT-3","SI-B1-20-WT-1" ];
 KRAS_group =        [ "SA1-1-KRAS","SA1-2-KRAS","SA2-1-KRAS","SA2-2-KRAS""SI-B2-4-KRAS-1""SI-B2-4-APC-KRAS-2""SI-B1-17-KRAS-1""SI-B1-17-KRAS-2","SI-B1-17-KRAS-3","SI-B1-20-KRAS-1","SI-B1-20-KRAS-3" ];
@@ -163,7 +168,7 @@ group0_name = "WT";
 group1 = APC_KRAS_group;
 group1_name = "APC-KRAS";
 
-f_saving_whole_tissue_roc_analysis_ca( filesToProcess, main_mask_list, dataset_name, group0, group0_name, group1, group1_name, norm_list, string([]) )
+f_saving_roc_analysis_ca( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list)
 
 %% Saving data for supervised classification in Python
 

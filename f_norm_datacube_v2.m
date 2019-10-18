@@ -12,6 +12,8 @@ data = datacube.data(mask,:);
 
 % Multiple normalisation metrics
 
+norm_data0 = 0;
+
 switch norm_type
     
     case 'no norm' % No normalisation
@@ -51,19 +53,19 @@ switch norm_type
         d0 = data(data>0);
         norm_data0 = log(data+prctile(d0(:),5));
 
-    case "median norm & log" % median normalisation & log
+    case 'median norm & log' % median normalisation & log
         
         d00 = f_median_norm(data);
         d0 = d00(d00>0);
         norm_data0 = log(d00+prctile(d0(:),5));
         
-    case 'pqn median & log'
+    case 'pqn median & zscore'
         
-        d00 = crukNormalise(data,'pqn-median');
-        d0 = d00(d00>0);
-        norm_data0 = log(d00+prctile(d0(:),5));
+        norm_data0 = zscore(crukNormalise(data,'pqn-median')')';
         
 end
+
+if norm_data0==0; disp('!!! Unknown normalisation metric. Please specify a different one.'); end
 
 norm_data = NaN*ones(length(mask),size(norm_data0,2));
 norm_data(mask,:) = norm_data0;

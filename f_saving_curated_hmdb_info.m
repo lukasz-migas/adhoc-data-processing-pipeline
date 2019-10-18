@@ -54,12 +54,17 @@ for endi = log_diff
     
     % database
         
-    database_rows = strcmpi(relevant_lists_sample_info(:,12),unique(hmdb_sample_info2(starti:endi,12),'stable')); % Monoisotopic mass comparison
-
-    long_string0 = unique(relevant_lists_sample_info(database_rows,7),'stable');
+    database_rows_mono = strcmpi(relevant_lists_sample_info(:,12),unique(hmdb_sample_info2(starti:endi,12),'stable')); % Monoisotopic mass comparison
+%     database_rows_meas = strcmpi(relevant_lists_sample_info(:,4),unique(hmdb_sample_info2(starti:endi,4),'stable')); % Measured mass comparison
+    
+    long_string0 = unique(relevant_lists_sample_info(database_rows_mono,7),'stable');
     long_string = reshape([long_string0 repmat(", ",size(long_string0,1),1)]',1,[]);
     new_hmdb_sample_info(i,6) = strjoin(long_string(1:end-1)); 
 
+%     long_string0 = unique(relevant_lists_sample_info(database_rows_meas,7),'stable');
+%     long_string = reshape([long_string0 repmat(", ",size(long_string0,1),1)]',1,[]);
+%     new_hmdb_sample_info(i,7) = strjoin(long_string(1:end-1)); 
+    
     i = i + 1;
     starti = endi+1;
 

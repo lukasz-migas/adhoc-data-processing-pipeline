@@ -1,8 +1,148 @@
-function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background )
+function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size)
 
 switch dataset_name
     
-        case "negative DESI 2018 sm & 2019 ic (sa 1 2 epit)"
+    case "neg DESI intracolonic apc vs apc kras"
+        
+        data_folders = { 'X:\Beatson\Intracolonic tumour study\Neg DESI Data\Xevo V3 Sprayer\' };
+        
+        dataset_name = '*slide9*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+            extensive_filesToProcess(1:4,:) = filesToProcess(1,:);
+            smaller_masks_list = [ "c_apc_addbackground"; "g_apc_addbackground"; "a_apckras_addbackground"; "d_apckras_addbackground" ];
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            extensive_filesToProcess(1:4,:) = filesToProcess(1,:);
+            smaller_masks_list = [ "c_apc"; "g_apc"; "a_apckras"; "d_apckras" ];
+            
+        end
+        
+        outputs_xy_pairs = [
+            1 1; 1 2;
+            2 1; 2 2;
+            ];
+        
+    case "neg DESI intracolonic"
+        
+        data_folders = { 'X:\Beatson\Intracolonic tumour study\Neg DESI Data\Xevo V3 Sprayer\' };
+        
+        dataset_name = '*slide9*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            extensive_filesToProcess(1:4,:) = filesToProcess(1,:);
+            smaller_masks_list = [
+                "intracolonic-tissue-3";  "intracolonic-tissue-4"; "intracolonic-tissue-5";  "intracolonic-tissue-6";
+                "intracolonic-tissue-1"; "intracolonic-tissue-2"; "intracolonic-tissue-7" ];
+            
+        end
+        
+        %
+        
+        outputs_xy_pairs = [
+            1 1; 1 2; 1 3; 1 4;
+            2 1; 2 2; 2 3;
+            ];
+        
+    case "neg DESI intracolonic A G C D"
+        
+        data_folders = { 'X:\Beatson\Intracolonic tumour study\Neg DESI Data\Xevo V3 Sprayer\' };
+        
+        dataset_name = '*slide9*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            extensive_filesToProcess(1:4,:) = filesToProcess(1,:);
+            smaller_masks_list = [  "intracolonic-tissue-3"; "intracolonic-tissue-5"; "intracolonic-tissue-2"; "intracolonic-tissue-7" ];
+            
+        end
+        
+        %
+        
+        outputs_xy_pairs = [
+            1 1; 1 2;
+            2 1; 2 2;
+            ];
+        
+    case "neg plasma-AP-MALDI 50um intracolonic"
+        
+        data_folders = { 'X:\Beatson\Intracolonic tumour study\plasma-AP-MALDI MSI\2019_08_30_intracolonic\' };
+        
+        dataset_name = '*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            extensive_filesToProcess(1:3,:) = filesToProcess(1,:);
+            smaller_masks_list = [ "tissue only 1"; "tissue only 2"; "tissue only 3" ];
+            
+        end
+        
+        %
+        
+        outputs_xy_pairs = [
+            1 1; 1 2; 1 3
+            ];
+        
+        
+        
+    case "negative DESI 2018 sm & 2019 ic (sa 1 2 epit)"
         
         data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
         
@@ -65,17 +205,17 @@ switch dataset_name
             delta = size(extensive_filesToProcess,1);
             
             extensive_filesToProcess(delta+(1:7),:) = filesToProcess(1,:);
-            smaller_masks_list = [ 
-                smaller_masks_list; 
-                "intracolonic-tissue-1"; 
+            smaller_masks_list = [
+                smaller_masks_list;
+                "intracolonic-tissue-1";
                 "intracolonic-tissue-2";
                 "intracolonic-tissue-3";
                 "intracolonic-tissue-4";
                 "intracolonic-tissue-5";
-                "intracolonic-tissue-6"; 
-                "intracolonic-tissue-7" 
+                "intracolonic-tissue-6";
+                "intracolonic-tissue-7"
                 ];
-                                    
+            
         end
         
         %
@@ -92,7 +232,7 @@ switch dataset_name
             
             1 5; 2 5; 3 5; 4 5; 5 5; 6 5; 7 5;
             ];
-    
+        
     case "negative DESI 2018 sm & 2019 ic"
         
         data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
@@ -151,17 +291,17 @@ switch dataset_name
             delta = size(extensive_filesToProcess,1);
             
             extensive_filesToProcess(delta+(1:7),:) = filesToProcess(1,:);
-            smaller_masks_list = [ 
-                smaller_masks_list; 
-                "intracolonic-tissue-1"; 
+            smaller_masks_list = [
+                smaller_masks_list;
+                "intracolonic-tissue-1";
                 "intracolonic-tissue-2";
                 "intracolonic-tissue-3";
                 "intracolonic-tissue-4";
                 "intracolonic-tissue-5";
-                "intracolonic-tissue-6"; 
-                "intracolonic-tissue-7" 
+                "intracolonic-tissue-6";
+                "intracolonic-tissue-7"
                 ];
-                                    
+            
         end
         
         %
@@ -174,7 +314,7 @@ switch dataset_name
             
             1 5; 2 5; 3 5; 4 5; 5 5; 6 5; 7 5;
             ];
-    
+        
     case "negative DESI SI 2018 03 & 2019 07"
         
         data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
@@ -237,13 +377,13 @@ switch dataset_name
             
             extensive_filesToProcess(delta+(2:4),:) = filesToProcess(1,:);
             smaller_masks_list = [ smaller_masks_list; "SI-B1-20-Kras-1";  "SI-B1-20-Kras-2";  "SI-B1-20-Kras-3" ];
-                        
+            
             extensive_filesToProcess(delta+(5:6),:) = filesToProcess(1,:);
             smaller_masks_list = [ smaller_masks_list; "SI-B1-20-APC-1"; "SI-B1-20-APC-2" ];
-                        
+            
             extensive_filesToProcess(delta+(7:8),:) = filesToProcess(1,:);
             smaller_masks_list = [ smaller_masks_list; "SI-B1-20-APC-KRAS-1"; "SI-B1-20-APC-KRAS-2" ];
-                        
+            
         end
         
         %
@@ -259,7 +399,7 @@ switch dataset_name
             3 5; 3 6;
             4 5; 4 6;
             ];
-    
+        
     case "negative DESI 2018 03 & 2019 06 & 07"
         
         data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
@@ -340,10 +480,10 @@ switch dataset_name
             
             extensive_filesToProcess(delta+(21:23),:) = filesToProcess(3,:);
             smaller_masks_list = [ smaller_masks_list; "SI-B1-20-KRAS-2"; "SI-B1-20-APC-2"; "SI-B1-20-APC-KRAS-2" ];
-                        
+            
             extensive_filesToProcess(delta+(24),:) = filesToProcess(3,:);
             smaller_masks_list = [ smaller_masks_list; "SI-B1-20-KRAS-3" ];
-                                    
+            
         end
         
         %
@@ -354,7 +494,7 @@ switch dataset_name
             2 2; 4 2;
             1 4; 2 4; 3 4; 4 4;
             
-            1 5; 2 5; 3 5; 4 5; 
+            1 5; 2 5; 3 5; 4 5;
             1 6; 3 6; 4 6;
             1 7; 2 7; 3 7; 4 7;
             2 8; 3 8; 4 8;
@@ -364,7 +504,7 @@ switch dataset_name
             2 10; 3 10; 4 10;
             2 11;
             ];
-                
+        
     case "negative DESI Synapt SLC7a5"
         
         data_folders = { 'X:\Beatson\SLC7a5 study\NPL data\negative DESI ibds and imzMLs\Synapt-old sprayer\' };
@@ -1368,5 +1508,38 @@ switch dataset_name
             1 4; 2 4; 3 4; 4 4;
             ];
         
+end
+
+if check_datacubes_size==1
+    
+    for file_index = 1:length(filesToProcess)
+        
+        disp(filesToProcess(file_index).name(1,1:end-6))
+        
+        csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
+        
+        [ ~, ~, ~, ...
+            ~, ~, ...
+            ~, ~, ...
+            ~, ~, ~, ...
+            ~, ~, ~, ...
+            ~, ...
+            outputs_path ] = f_reading_inputs(csv_inputs);
+        
+        spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
+        
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask_list) '\datacubeonly_peakDetails' ])
+        
+        if file_index==1
+            
+            old_datacubeonly_peakDetails = datacubeonly_peakDetails;
+                        
+        elseif ~isequal(old_datacubeonly_peakDetails, datacubeonly_peakDetails)
+                        
+            disp('!!! ISSUE !!! Datasets do NOT have a compatible mz axis. Please check and make sure that all datasets to be combined have a commom list of peaks and matches.')
+                        
+        end        
+        
+    end
         
 end

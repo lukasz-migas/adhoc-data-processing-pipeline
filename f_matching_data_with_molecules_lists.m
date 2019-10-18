@@ -21,10 +21,19 @@ for file_index = 1:length(filesToProcess)
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\peakDetails.mat'])
 
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_intensities.mat'])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_mzvalues.mat'])
+        
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\pixels_num.mat'])
 
         sample_peaks_mzvalues = peakDetails(:,2);
-        sample_peaks_intensities = totalSpectrum_intensities(peakDetails(:,6)); % this was incorrect - it should be based on the spectra of the dataset because that is what matches the pixel_num
+        
+        peak_mz_indexes = []; % this was added when it was realised that the 6th element of peakDetails is not the index of the centre of mass of the peak 4 Sept 2019
+        for mzi = 1:size(peakDetails,1)
+            [~, index] = min(abs(totalSpectrum_mzvalues-peakDetails(mzi,2)));
+            peak_mz_indexes(mzi) = index;
+        end
+                
+        sample_peaks_intensities = totalSpectrum_intensities(peak_mz_indexes); % this was incorrect - it should be based on the spectra of the dataset because that is what matches the pixel_num
         
         %%% Loading information from lists of relevant molecules
         
@@ -88,9 +97,9 @@ for file_index = 1:length(filesToProcess)
                     relevant_lists_sample_info(g_index,10)  = polarity;
                     relevant_lists_sample_info(g_index,11)  = sample_peaks_intensities(i)./pixels_num; % mean spectra
                     
-                    relevant_lists_sample_info(g_index,12)  = relevant_lists_mzvalues(matchesR(j)); % monoisotopic mass
+                    relevant_lists_sample_info(g_index,12)  = num2str(relevant_lists_mzvalues(matchesR(j)),'%1.12f'); % monoisotopic mass
                     
-                    relevant_lists_sample_info_aux(g_index,1)	= sample_peaks_mzvalues(i);
+                    relevant_lists_sample_info_aux(g_index,1) = sample_peaks_mzvalues(i);
                     
                 end
             end

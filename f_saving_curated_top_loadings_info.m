@@ -44,7 +44,7 @@ for endi = log_diff
        
         rows_aux = strcmpi(clusters_aux,botomrows3(starti:endi,1));
         botomrows3_aux = botomrows3(starti:endi,2);
-        loadings_aux = [ loadings_aux, ", ", unique(botomrows3_aux(rows_aux))];
+        loadings_aux = [ loadings_aux, ", ", unique(botomrows3_aux(rows_aux))'];
         
     end
     

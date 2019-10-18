@@ -1,5 +1,5 @@
 function f_saving_mva_outputs_ca( filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, molecules_list )
-
+%%
 for main_mask = main_mask_list
     
     datacube_cell = {};
@@ -316,7 +316,7 @@ for main_mask = main_mask_list
                     load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
                     
                     [ ~, mz_indexes ] = sort(abs(spectral_component),'descend');
-                    
+                                        
                     mva_mzvalues        = datacube_cell{1}.spectralChannels(datacube_mzvalues_indexes);
                     mini_mzvalues       = mva_mzvalues(mz_indexes(1:numLoadings));
                     
@@ -325,10 +325,14 @@ for main_mask = main_mask_list
                     
                     all_mzvalues        = double(hmdb_sample_info(:,4));
                     
+                    load([ spectra_details_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
+                    
+                    th_mz_diff          = min(diff(totalSpectrum_mzvalues));
+                    
                     mini_mzvalues_aux   = repmat(mini_mzvalues,1,size(all_mzvalues,1));
                     all_mzvalues_aux    = repmat(all_mzvalues',size(mini_mzvalues,1),1);
                     
-                    mini_sample_info    = hmdb_sample_info(logical(sum(abs(mini_mzvalues_aux-all_mzvalues_aux)<0.0000001,1))',:);
+                    mini_sample_info    = hmdb_sample_info(logical(sum(abs(mini_mzvalues_aux-all_mzvalues_aux)<th_mz_diff,1))',:);
                     
                     aux_string1 = "not assigned";
                     aux_string2 = "NA";
@@ -340,10 +344,10 @@ for main_mask = main_mask_list
                     mini_sample_info_indexes = [];
                     for mzi = mini_mzvalues'
                         ii = ii + 1;
-                        if sum(abs(mzi-double(mini_sample_info(:,4)))<0.0000001,1)
+                        if sum(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff,1)
                             mini_sample_info_indexes = [
                                 mini_sample_info_indexes
-                                find(abs(mzi-double(mini_sample_info(:,4)))<0.0000001,1,'first')
+                                find(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff,1,'first')
                                 ];
                         else
                             mini_sample_info_indexes = [
@@ -357,12 +361,10 @@ for main_mask = main_mask_list
                         end
                         table =    [
                             table
-                            [ repmat([ string(componenti) string(ii) ],length(find(abs(mzi-double(mini_sample_info(:,4)))<0.0000001)),1) mini_sample_info(logical(abs(mzi-double(mini_sample_info(:,4)))<0.0000001),[1 12 2 4 3 8 11 14:size(mini_sample_info,2)]) ]
+                            [ repmat([ string(componenti) string(ii) ],length(find(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff)),1) mini_sample_info(logical(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff),[1 12 2 4 3 8 11 14:size(mini_sample_info,2)]) ]
                             ];
                     end
-                    
-                    % [ mini_peakDetails(:,2) mini_sample_info(mini_sample_info_indexes,4) ]
-                    
+                                        
                     mini_ion_images_cell = {};
                     totalSpectrum_intensities_cell = {};
                     totalSpectrum_mzvalues_cell = {};

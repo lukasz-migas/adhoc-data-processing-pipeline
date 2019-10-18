@@ -28,23 +28,26 @@ for file_index = 1:length(filesToProcess)
     
     % Defining mz values of interest (to plot sii of)
     
-    mzvalues2plot = double(unique(sample_info(:,4))); % [ 791.548; 796.528 ]
+    mzvalues2plot = double(unique(sample_info(:,4)));
         
     % Loading datacube
     
     load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'datacube' ])
     
-    datacube_cell{file_index}   = datacube;
+    datacube_cell{file_index} = datacube;
     
     if file_index == 1
           
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'datacubeonly_peakDetails' ])
-
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_mzvalues' ])
+        
+        th_mz_diff = min(diff(totalSpectrum_mzvalues));
+                
         datacube_indexes = [];
         sample_info_indexes = [];
         for mzi = mzvalues2plot'
-            datacube_indexes        = [ datacube_indexes;       find(abs(datacubeonly_peakDetails(:,2)-mzi)<0.0000001) ];
-            sample_info_indexes     = [ sample_info_indexes;    find(abs(double(sample_info(:,4))-mzi)<0.0000001,1,'first') ];
+            datacube_indexes        = [ datacube_indexes;       find(abs(datacubeonly_peakDetails(:,2)-mzi)<th_mz_diff) ];
+            sample_info_indexes     = [ sample_info_indexes;    find(abs(double(sample_info(:,4))-mzi)<th_mz_diff,1,'first') ];
         end
         
         % Loading peaks information
@@ -90,7 +93,7 @@ for norm_type = norm_list
     
     norm_sii_cell = {};
     for file_index = 1:length(datacube_cell)
-        
+                
         norm_sii = f_norm_datacube_v2( datacube_cell{file_index}, main_masks_cell{file_index}, norm_type );
         
         norm_sii_cell{file_index}.data = norm_sii(:,datacube_indexes);
