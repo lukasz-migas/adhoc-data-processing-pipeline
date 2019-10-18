@@ -20,7 +20,7 @@ switch norm_type
         
         norm_data0 = data;
         
-    case 'tic norm' % TIC normalisation
+    case 'tic' % TIC normalisation
         
         norm_data0 = f_tic_norm(data);
         
@@ -28,11 +28,11 @@ switch norm_type
         
         norm_data0 = f_L2_norm(data); 
         
-    case 'RMS norm' % RMS normalisation
+    case 'RMS' % RMS normalisation
         
         norm_data0 = f_RMS_norm(data); 
         
-    case 'median norm' % median normalisation
+    case 'median' % median normalisation
         
         norm_data0 = f_median_norm(data); 
         
@@ -62,6 +62,10 @@ switch norm_type
     case 'pqn median & zscore'
         
         norm_data0 = zscore(crukNormalise(data,'pqn-median')')';
+        
+    case 'autoscaling'
+        
+        norm_data0 = f_msi_autoscaling_norm(data);
         
 end
 

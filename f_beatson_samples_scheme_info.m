@@ -1510,6 +1510,8 @@ switch dataset_name
         
 end
 
+filesToProcess = f_unique_extensive_filesToProcess(extensive_filesToProcess); % This function collects all files that need to have a common axis.
+
 if check_datacubes_size==1
     
     for file_index = 1:length(filesToProcess)
