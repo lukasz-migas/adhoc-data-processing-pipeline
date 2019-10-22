@@ -69,7 +69,11 @@ switch norm_type
         
 end
 
-if norm_data0==0; disp('!!! Unknown normalisation metric. Please specify a different one.'); end
+while 1
+    
+    if norm_data0==0; disp('!!! Unknown normalisation metric. Please specify a different one.'); break; end
+    
+end
 
 norm_data = NaN*ones(length(mask),size(norm_data0,2));
 norm_data(mask,:) = norm_data0;
