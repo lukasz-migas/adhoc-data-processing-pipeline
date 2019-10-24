@@ -4,9 +4,10 @@ subsetSize = ceil(size(data,1) ./ 2500);
 
 subset = data(1:subsetSize:size(data,1),:);
 [Coeffs, Scores] = pca(subset);
-top50Scores = Scores(:,1:50);
+pcs_numbers = min(50,size(data,2));
+top50Scores = Scores(:,1:pcs_numbers);
 [~, mu, ~] = zscore(subset);
-top50Coeffs = Coeffs(:,1:50);
+top50Coeffs = Coeffs(:,1:pcs_numbers);
 tsneReduced = tsne(subset, 'distance', 'correlation', 'NumDimensions',3);
 pcaReduced50Full = (data - repmat(mu,size(data,1),1)) * top50Coeffs;
 autoencoder{1} = trainAutoencoder(top50Scores',25, ...
