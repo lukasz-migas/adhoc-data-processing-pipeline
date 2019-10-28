@@ -62,5 +62,7 @@ medFC = nanmedian(fc,2);
 % Divide each spectrum by its corresponding fold change
 y = bsxfun(@rdivide,x,medFC);
 
+y(isnan(y)) = 0; % Added by Teresa on 28 Oct 2019
+
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

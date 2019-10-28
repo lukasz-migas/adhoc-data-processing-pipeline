@@ -2,6 +2,131 @@ function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs
 
 switch dataset_name
     
+    case "negative DESI SI 2018 03 & 2019 07 & 2019 09"
+        
+        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        
+        dataset_name = '*S*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            extensive_filesToProcess(1:3,:) = filesToProcess(1,:);
+            smaller_masks_list = [ "SA1-1-KRAS"; "SA1-1-APC"; "SA1-1-APC-KRAS" ];
+            extensive_filesToProcess(4:7,:) = filesToProcess(2,:);
+            smaller_masks_list = [ smaller_masks_list; "SA1-2-WT"; "SA1-2-KRAS"; "SA1-2-APC"; "SA1-2-APC-KRAS" ];
+            extensive_filesToProcess(8:9,:) = filesToProcess(3,:);
+            smaller_masks_list = [ smaller_masks_list; "SA2-1-KRAS"; "SA2-1-APC-KRAS" ];
+            extensive_filesToProcess(10:13,:) = filesToProcess(4,:);
+            smaller_masks_list = [ smaller_masks_list; "SA2-2-WT"; "SA2-2-KRAS"; "SA2-2-APC"; "SA2-2-APC-KRAS" ];
+            
+        end
+        
+        %
+        
+        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\Second Round Samples\Synapt\' };
+        
+        dataset_name = '*2019_07*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "tissue only";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            delta = size(extensive_filesToProcess,1);
+            
+            extensive_filesToProcess(delta+(1),:) = filesToProcess(1,:);
+            smaller_masks_list = [ smaller_masks_list; "SI-B1-20-WT-1" ];
+            
+            extensive_filesToProcess(delta+(2:4),:) = filesToProcess(1,:);
+            smaller_masks_list = [ smaller_masks_list; "SI-B1-20-Kras-1";  "SI-B1-20-Kras-2";  "SI-B1-20-Kras-3" ];
+            
+            extensive_filesToProcess(delta+(5:6),:) = filesToProcess(1,:);
+            smaller_masks_list = [ smaller_masks_list; "SI-B1-20-APC-1"; "SI-B1-20-APC-2" ];
+            
+            extensive_filesToProcess(delta+(7:8),:) = filesToProcess(1,:);
+            smaller_masks_list = [ smaller_masks_list; "SI-B1-20-APC-KRAS-1"; "SI-B1-20-APC-KRAS-2" ];
+            
+        end
+        
+        %
+        
+        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\Second Round Samples\Xevo\' };
+        
+        dataset_name = '*201909*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "tissue only";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            delta = size(extensive_filesToProcess,1);
+            
+            extensive_filesToProcess(delta+(1),:) = filesToProcess(1,:);
+            smaller_masks_list = [ smaller_masks_list; "SI-B1-20-WT-1" ];
+            
+            extensive_filesToProcess(delta+(2:4),:) = filesToProcess(1,:);
+            smaller_masks_list = [ smaller_masks_list; "SI-B1-20-Kras-1";  "SI-B1-20-Kras-2";  "SI-B1-20-Kras-3" ];
+            
+            extensive_filesToProcess(delta+(5:6),:) = filesToProcess(1,:);
+            smaller_masks_list = [ smaller_masks_list; "SI-B1-20-APC-1"; "SI-B1-20-APC-2" ];
+            
+            extensive_filesToProcess(delta+(7:8),:) = filesToProcess(1,:);
+            smaller_masks_list = [ smaller_masks_list; "SI-B1-20-APC-KRAS-1"; "SI-B1-20-APC-KRAS-2" ];
+            
+        end
+        
+        %
+        
+        outputs_xy_pairs = [
+            2 1; 3 1; 4 1;
+            1 3; 2 3; 3 3; 4 3;
+            2 2; 4 2;
+            1 4; 2 4; 3 4; 4 4;
+            
+            1 5;
+            2 5; 2 6; 2 7;
+            3 5; 3 6;
+            4 5; 4 6;
+            ];
+        
+        
+    
     case "neg DESI intracolonic apc vs apc kras"
         
         data_folders = { 'X:\Beatson\Intracolonic tumour study\Neg DESI Data\Xevo V3 Sprayer\' };
