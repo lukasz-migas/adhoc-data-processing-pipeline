@@ -32,7 +32,7 @@ for file_index = 1:length(filesToProcess)
     
     csv_inputs = [ filesToProcess(file_index).folder filesep 'inputs_file' ];
     
-    [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
+    [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
     
     rois_path               = [ char(outputs_path) filesep 'rois' filesep ];
     spectra_details_path    = [ char(outputs_path) filesep 'spectra details' filesep ];

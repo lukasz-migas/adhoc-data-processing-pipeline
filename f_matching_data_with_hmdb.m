@@ -8,7 +8,7 @@ for file_index = 1:length(filesToProcess)
     
     csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
     
-    [ modality, polarity, adducts, ~, ~, ~, ~, ~, ~, ~, ~, ~, ppmTolerance, ~, outputs_path ] = f_reading_inputs(csv_inputs);
+    [ modality, polarity, adducts, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ppmTolerance, ~, outputs_path ] = f_reading_inputs(csv_inputs);
     
     spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
     peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];

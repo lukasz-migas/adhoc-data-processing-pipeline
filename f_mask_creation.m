@@ -11,7 +11,7 @@ file_index = 1;
 
 csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
 
-[ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
+[ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
 
 % outputs_path = 'X:\Beatson\data processing outputs\positive MALDI\';
 

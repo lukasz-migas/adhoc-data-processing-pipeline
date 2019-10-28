@@ -1,10 +1,10 @@
-function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size )
+function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size)
 
 switch dataset_name
     
     case "negative DESI SI B2 7 2019 09 04"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\Second Round Samples\Xevo\' };
+        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*20190904*';
         
@@ -25,7 +25,7 @@ switch dataset_name
             %
             
             extensive_filesToProcess(1:4,:) = filesToProcess(1,:);
-            smaller_masks_list = [ "SI-B2-4-WT-1"; "SI-B2-4-KRAS-1"; "SI-B2-4-APC-1"; "SI-B2-4-APC-KRAS-1" ];
+            smaller_masks_list = [ smaller_masks_list; "SI-B2-4-WT-1"; "SI-B2-4-KRAS-1"; "SI-B2-4-APC-1"; "SI-B2-4-APC-KRAS-1" ];
             
             extensive_filesToProcess(5:7,:) = filesToProcess(1,:);
             smaller_masks_list = [ smaller_masks_list; "SI-B2-4-WT-2"; "SI-B2-4-APC-2"; "SI-B2-4-APC-KRAS-2" ];
@@ -40,7 +40,7 @@ switch dataset_name
         outputs_xy_pairs = [
             1 1; 2 1; 3 1; 4 1;
             1 2; 3 2; 4 2;
-            1 3;
+            
             ];
     
     case "negative DESI SI 2018 03 & 2019 07 & 2019 09"
