@@ -3,8 +3,8 @@ function [ ...
     polarity, ...
     adducts_list, ...
     mva_list, ...
-    numPeaks4mva, ...
-    variance_perc4mva, ...
+    numPeaks4mva_array, ...
+    perc4mva_array, ...
     numComponents_array, ...
     numLoadings_array, ...
     mva_molecules_lists_csv_list, ...
@@ -36,7 +36,9 @@ adducts_list = {};
 adducts_i = 0;
 
 mva_list = string([]);
-numPeaks4mva = [];
+numPeaks4mva_array = [];
+perc4mva_array = [];
+
 numComponents_array = [];
 numLoadings_array = [];
 
@@ -50,7 +52,7 @@ pa_max_ppm = [];
 fig_ppm = [];
 
 numPeaks4mva = NaN;
-variance_perc4mva = NaN;
+perc4mva = NaN;
 
 metabolite_lists_path = "X:\2019_Scripts for Data Processing\molecules-lists\";
 logical_list_path = 0;
@@ -123,7 +125,9 @@ for i = 1:length(inputs_info_reshaped)
             outputs_path = char(inputs_info_reshaped(i+1));
         case "Highest intensity"
             if strcmpi(inputs_info_reshaped(i+2),"yes")
-                numPeaks4mva = double(inputs_info_reshaped(i+4));
+                aux_vector = str2num(char(inputs_info_reshaped(i+4)));
+                numPeaks4mva_array = [ numPeaks4mva_array, aux_vector ];
+                numPeaks4mva = aux_vector(1);
                 if isnan(numPeaks4mva)
                     disp("Undefined number of highest intensity peaks!")
                     break
@@ -132,9 +136,11 @@ for i = 1:length(inputs_info_reshaped)
             
         case "Variance (of the representative spectrum)"
             if strcmpi(inputs_info_reshaped(i+2),"yes")
-                variance_perc4mva = double(inputs_info_reshaped(i+4));
-                if isnan(variance_perc4mva)
-                    disp("Undefined percentage of variance!")
+                aux_vector = str2num(char(inputs_info_reshaped(i+4)));
+                perc4mva_array = [ perc4mva_array, aux_vector ];
+                perc4mva = aux_vector(1);
+                if isnan(perc4mva)
+                    disp("Undefined percentile!")
                     break
                 end
             end
@@ -477,9 +483,4 @@ for i = 1:length(inputs_info_reshaped)
         end
     end
     
-end
-
-if (isnan(variance_perc4mva)+isnan(numPeaks4mva))==0
-    disp('!!! You have specified both a num of peaks and a percentage of variance explained for MVAs.'); 
-    disp('!!! Please select just one (and change the other to `no`). If you keep both, the option yielding to the smallest number of peaks will be used.');
 end

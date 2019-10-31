@@ -25,13 +25,13 @@ switch dataset_name
             %
             
             extensive_filesToProcess(1:4,:) = filesToProcess(1,:);
-            smaller_masks_list = [ "SI-B2-4-WT-1"; "SI-B2-4-KRAS-1"; "SI-B2-4-APC-1"; "SI-B2-4-APC-KRAS-1" ];
+            smaller_masks_list = [ "SI-B2-7-WT-1"; "SI-B2-7-KRAS-1"; "SI-B2-7-APC-1"; "SI-B2-7-APC-KRAS-1" ];
             
             extensive_filesToProcess(5:7,:) = filesToProcess(1,:);
-            smaller_masks_list = [ smaller_masks_list; "SI-B2-4-WT-2"; "SI-B2-4-APC-2"; "SI-B2-4-APC-KRAS-2" ];
+            smaller_masks_list = [ smaller_masks_list; "SI-B2-7-WT-2"; "SI-B2-7-APC-2"; "SI-B2-7-APC-KRAS-2" ];
             
             extensive_filesToProcess(8,:) = filesToProcess(1,:);
-            smaller_masks_list = [ smaller_masks_list; "SI-B2-4-WT-3" ];
+            smaller_masks_list = [ smaller_masks_list; "SI-B2-7-WT-3" ];
             
         end
 
@@ -1686,13 +1686,7 @@ if check_datacubes_size==1
         
         csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
         
-        [ ~, ~, ~, ...
-            ~, ~, ...
-            ~, ~, ...
-            ~, ~, ~, ...
-            ~, ~, ~, ...
-            ~, ...
-            outputs_path ] = f_reading_inputs(csv_inputs);
+        [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
         
         spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
         
