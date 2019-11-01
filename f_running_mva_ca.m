@@ -19,10 +19,14 @@ for main_mask = main_mask_list
     
     [ ~, ~, ~, ...
         mva_list, numPeaks4mva_array, perc4mva_array, numComponents_array, ...
+        ~, ~, ...
+        mva_molecules_lists_label_list, ppmTolerance, ...
+        ~, ~, ...
+        pa_max_ppm, ...
         ~, ...
-        ~, mva_molecules_lists_label_list, ppmTolerance, ...
-        ~, ~, ~, ~, ...
         outputs_path ] = f_reading_inputs(csv_inputs);
+    
+    if isnan(ppmTolerance); ppmTolerance = pa_max_ppm; end
     
     if ~isempty(mva_molecules_lists_label_list0)
         mva_molecules_lists_label_list = mva_molecules_lists_label_list0;
@@ -30,7 +34,7 @@ for main_mask = main_mask_list
         perc4mva_array = [];    
     end
     
-    % Defining all paths needed.
+    % Defining all paths needed
     
     rois_path               = [ char(outputs_path) '\rois\' ];
     spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
@@ -91,10 +95,8 @@ for main_mask = main_mask_list
             for molecules_list = mva_molecules_lists_label_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
-                
-                ppmTolerance = 30;
-                
-                datacube_mzvalues_indexes = f_datacube_mzvalues_lists( molecules_list, ppmTolerance, sample_info, datacubeonly_peakDetails, totalSpectrum_mzvalues );
+                                
+                datacube_mzvalues_indexes = f_datacube_mzvalues_lists( molecules_list, ppmTolerance, relevant_lists_sample_info, datacubeonly_peakDetails, totalSpectrum_mzvalues );
             
                 % Data normalisation and compilation
                 

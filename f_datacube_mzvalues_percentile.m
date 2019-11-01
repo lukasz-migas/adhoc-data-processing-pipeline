@@ -15,7 +15,7 @@ for peaki = 1:size(peakDetails,1)
     % peak_samples = peakDetails(peaki,7)-peakDetails(peaki,6)+1;
     peak_samples = round(ppm_windown*peakDetails(peaki,2)/(1E6*min(diff(x))));
     
-    peak_window_x = x((peakDetails(peaki,6)-ceil(portion*peak_samples)):(peakDetails(peaki,7)+ceil(portion*peak_samples)));
+    % peak_window_x = x((peakDetails(peaki,6)-ceil(portion*peak_samples)):(peakDetails(peaki,7)+ceil(portion*peak_samples)));
     peak_window_y = y((peakDetails(peaki,6)-ceil(portion*peak_samples)):(peakDetails(peaki,7)+ceil(portion*peak_samples)));
     peak_window_y(peak_window_y>max(y(peakDetails(peaki,6):peakDetails(peaki,7)))) = NaN;
     %peak_window_y(peak_window_y<max(y(peakDetails(peaki,6)),y(peakDetails(peaki,7)))) = NaN;
@@ -46,6 +46,6 @@ end
 
 datacube_mzvalues_indexes = logical(datacube_mzvalues_indexes);
 
-disp(['# unique mz selected: ' sum(peaks2keep) ' vs # unique mz collected: ' sum(datacube_mzvalues_indexes) ])
+disp(['!!! # unique mz selected: ' num2str(sum(peaks2keep)) ' vs # unique mz collected: ' num2str(sum(datacube_mzvalues_indexes)) ])
 
 
