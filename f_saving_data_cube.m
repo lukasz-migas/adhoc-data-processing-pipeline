@@ -51,6 +51,14 @@ for file_index = 1:length(filesToProcess)
         save('width','width','-v7.3')
         save('height','height','-v7.3')
         
+        % Checking section!
+        
+        if file_index>1; disp([ '!!! datacubeonly_peakDetails consistency: ' num2str(isequal(datacubeonly_peakDetails, datacubeonly_peakDetails1))]); end
+        
+        datacubeonly_peakDetails1 = datacubeonly_peakDetails;
+        
+        %
+        
     end
     
 end
