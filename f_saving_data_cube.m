@@ -4,7 +4,7 @@ for file_index = 1:length(filesToProcess)
     
     csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
     
-    [ ~, ~, ~, ~, numPeaks4mva, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
+    [ ~, ~, ~, ~, numPeaks4mva_array, perc4mva_array, ~, ~, ~, ~, ~, ~, ~, ppmTolerance, ~, outputs_path ] = f_reading_inputs(csv_inputs);
     
     spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
     peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];
@@ -19,25 +19,12 @@ for file_index = 1:length(filesToProcess)
         % Loading tissue only peak details
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\peakDetails.mat' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_mzvalues.mat' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_intensities.mat' ])
         
         % Peaks
         
-        peakDetails1 = peakDetails;
-        
-        [~, sorted_peakDetails_indexes ] = sort(peakDetails1(:,4),'descend');
-                
-        sample_peaks_mzvalues = [ relevant_lists_sample_info_aux; peakDetails1(sorted_peakDetails_indexes(1:numPeaks4mva),2) ];
-        
-        mzvalues2plot = unique(sample_peaks_mzvalues); % detected mz values
-        
-        [ ~, unique_mzvalues ] = unique(peakDetails(:,2));
-        
-        peakDetails = peakDetails(unique_mzvalues,:);
-        
-        mzvalues2plot_aux = repmat(mzvalues2plot,1,size(peakDetails(:,2),1));
-        mzvaluesdetecetd = repmat(peakDetails(:,2)',size(mzvalues2plot,1),1);
-        
-        datacubeonly_peakDetails = peakDetails(logical(sum(abs(mzvaluesdetecetd-mzvalues2plot_aux)<0.0000001,1))',:);
+        datacubeonly_peakDetails = f_peakdetails4datacube( relevant_lists_sample_info, ppmTolerance, numPeaks4mva_array, perc4mva_array, peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities );
         
         %%% Generating the data cube
         

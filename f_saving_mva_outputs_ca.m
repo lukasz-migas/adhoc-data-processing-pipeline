@@ -22,9 +22,7 @@ for main_mask = main_mask_list
         ~, ...
         mva_molecules_lists_label_list, ppmTolerance, ...
         ~, ~, ...
-        pa_max_ppm, ...
-        ~, ...
-        outputs_path ] = f_reading_inputs(csv_inputs);
+        pa_max_ppm, fig_ppmTolerance, outputs_path ] = f_reading_inputs(csv_inputs);
     
     if isnan(ppmTolerance); ppmTolerance = pa_max_ppm; end
     
@@ -52,6 +50,8 @@ for main_mask = main_mask_list
             load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\peakDetails' ])
             load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_intensities' ])
             load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
+                    
+            load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
             load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
             
         end
@@ -96,8 +96,8 @@ for main_mask = main_mask_list
             for molecules_list = mva_molecules_lists_label_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ];
-                
-                f_saving_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, peak_assignments_path, spectra_details_path )
+                                
+                f_saving_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, fig_ppmTolerance )
                 
             end
             
@@ -106,8 +106,8 @@ for main_mask = main_mask_list
             for numPeaks4mva = numPeaks4mva_array
                 
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks\' ];
-                
-                f_saving_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, peak_assignments_path, spectra_details_path )
+                                
+                f_saving_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell,fig_ppmTolerance )
                 
             end
             
@@ -116,8 +116,8 @@ for main_mask = main_mask_list
             for perc4mva = perc4mva_array
                 
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(perc4mva)) ' percentile\' ];
-                
-                f_saving_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, peak_assignments_path, spectra_details_path )
+                                
+                f_saving_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, fig_ppmTolerance )
                 
             end
             

@@ -1,4 +1,4 @@
-function f_saving_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, fig_ppmTolerance)
+function f_saving_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell )
 
 if strcmpi(mva_type,"pca") || strcmpi(mva_type,"nnmf") || strcmpi(mva_type,"kmeans") || (strcmpi(mva_type,"nntsne") && ~isnan(numComponents))
     

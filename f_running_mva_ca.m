@@ -136,7 +136,7 @@ for main_mask = main_mask_list
                                 
                 % Determining the indexes of the mzvalues that are of interest from the datacube
                 
-                datacube_mzvalues_indexes = f_datacube_mzvalues_percentile( perc4mva, peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities, datacubeonly_peakDetails );
+                datacube_mzvalues_indexes = f_datacube_mzvalues_percentile( perc4mva, ppmTolerance, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities );
                 
                 % Data normalisation and compilation
                 

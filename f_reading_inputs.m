@@ -134,7 +134,7 @@ for i = 1:length(inputs_info_reshaped)
                 end
             end
             
-        case "Variance (of the representative spectrum)"
+        case "Top percentile (within moving windowns)"
             if strcmpi(inputs_info_reshaped(i+2),"yes")
                 aux_vector = str2num(char(inputs_info_reshaped(i+4)));
                 perc4mva_array = [ perc4mva_array, aux_vector ];

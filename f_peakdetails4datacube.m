@@ -1,6 +1,22 @@
-function datacube_mzvalues_indexes = f_datacube_mzvalues_percentile( perc4mva, ppmTolerance, peakDetails, datacubeonly_peakDetails, x, y )
+function datacubeonly_peakDetails = f_peakdetails4datacube( sample_info, ppmTolerance, numPeaks4mva_array, perc4mva_array, peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities )
+
+% Select the mz values of the molecules that belong to the relevant lists (within a given ppm error).
+
+mzvalues2keep1 = double(unique(sample_info(:,4)));
+
+% Select the mz values of the peaks that show the highest counts in the total spectrum.
+
+if ~isempty(numPeaks4mva_array)
+    [ ~, mzvalues_highest_peaks_indexes ] = sort(peakDetails(:,4),'descend');
+    mzvalues2keep2 = peakDetails(mzvalues_highest_peaks_indexes(1:max(numPeaks4mva_array),1),2);
+else
+    mzvalues2keep2 = [];
+end
 
 % Select the mz values of peaks that survive a particular 'peak test' - Teresa Oct 2019.
+
+x = totalSpectrum_mzvalues;
+y = totalSpectrum_intensities;
 
 ppm_windown = ppmTolerance./3;
 
@@ -33,19 +49,17 @@ for peaki = 1:size(peakDetails,1)
     
 end
 
-peaks2keep = logical(var_vector >= prctile(var_vector,perc4mva));
+peaks2keep = logical(var_vector >= prctile(var_vector,min(perc4mva_array)));
 
-% Datacube indexes
+mzvalues2keep3 = peak_mz(peaks2keep);
 
-mzvalues2keep = unique(peak_mz(peaks2keep));
+% PeakDetails indexes
 
-datacube_mzvalues_indexes = 0;
+mzvalues2keep = unique([ reshape(mzvalues2keep1,[],1); reshape(mzvalues2keep2,[],1); reshape(mzvalues2keep3,[],1) ] );
+
+peak_details_index = 0;
 for mzi = mzvalues2keep'
-    datacube_mzvalues_indexes = datacube_mzvalues_indexes + logical(abs(datacubeonly_peakDetails(:,2)-mzi)<min(diff(x)));
+    peak_details_index = peak_details_index + logical(abs(peakDetails(:,2)-mzi)<min(diff(totalSpectrum_mzvalues)));
 end
 
-datacube_mzvalues_indexes = logical(datacube_mzvalues_indexes);
-
-disp(['!!! # unique mz selected: ' num2str(sum(peaks2keep)) ' vs # unique mz collected: ' num2str(sum(datacube_mzvalues_indexes)) ])
-
-
+datacubeonly_peakDetails = peakDetails(logical(peak_details_index),:);
