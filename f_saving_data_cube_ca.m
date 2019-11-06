@@ -25,15 +25,15 @@ for mask_type = mask_list
 
             % Total spectra need to be summed up for the common axis approach
             
-            totalSpectrum_mzvalues0 = 0;
+            totalSpectrum_intensities0 = 0;
             for file_index0 = 1:length(filesToProcess)
                 load([ spectra_details_path filesToProcess(file_index0).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_intensities.mat' ])
-                totalSpectrum_mzvalues0 = totalSpectrum_mzvalues0+totalSpectrum_intensities;
+                totalSpectrum_intensities0 = totalSpectrum_intensities0+totalSpectrum_intensities;
             end
             
             % Peak selection
         
-            datacubeonly_peakDetails = f_peakdetails4datacube( relevant_lists_sample_info, ppmTolerance, numPeaks4mva_array, perc4mva_array, peakDetails, totalSpectrum_mzvalues0, totalSpectrum_intensities );
+            datacubeonly_peakDetails = f_peakdetails4datacube( relevant_lists_sample_info, ppmTolerance, numPeaks4mva_array, perc4mva_array, peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities0 );
    
         end
         
