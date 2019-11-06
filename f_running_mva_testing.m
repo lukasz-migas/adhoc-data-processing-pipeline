@@ -1,4 +1,4 @@
-function f_running_mva( filesToProcess, main_mask_list, norm_list, mva_molecules_lists_label_list0 )
+function f_running_mva_testing( filesToProcess, main_mask_list, norm_list, mva_molecules_lists_label_list0 )
 
 for main_mask = main_mask_list
     

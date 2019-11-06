@@ -1,5 +1,10 @@
 
-%% Data processing - 15 July 2019 - Teresa Murta
+%% Data processing - 06 Nov 2019 - Teresa Murta
+
+%% Adding functions folder (currently on the X drive) to the path
+
+addpath(genpath('X:\2019_Scripts for Data Processing\adhoc-data-processing-pipeline\')) % Teresa's functions
+addpath(genpath('X:\SpectralAnalysis\')) % SpectralAnalysis
 
 %% Initialisation
 
@@ -22,44 +27,45 @@
 % to process below.
 
 data_folders = { ...
-    'X:\Beatson\Intracolonic tumour study\Neg DESI Data\Xevo V3 Sprayer\'
+    'X:\ModelAndReferenceData\'
     };
 
-% Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
+dataset_name_portion = '*sagittal*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
 
-dataset_name_portion = '*slide9*';
+filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion '.imzML']) ]; end % Files and adducts information gathering
 
-% Files and adducts information gathering
-
-filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion '.imzML']) ]; end
-
-% Location of spectralAnalysis file comprising the information regarding the preprocessing
-
-preprocessing_file = '\\encephalon\D\AutomatedProcessing\preprocessingWorkflowForAll.sap';
-
-% Masks
+% Normalisation
 
 norm_list = [
     "no norm"
-    "pqn median"    
     "zscore"
+    % "pqn median"
+    % "pqn median & zscore"
     ]';
 
-%% Adding functions folder (currently on the T drive) to the path
+% Pre-processing (location of spectralAnalysis preprocessing file)
 
-% Add the folder with the scripts! % e.g.: addpath(genpath('T:\DATA\NiCEMSI\People\Teresa\Analyses\'))
-addpath(genpath('T:\DATA\NiCEMSI\People\Teresa\Analyses\'))
-% addpath(genpath('T:\DATA\NiCEMSI\People\Teresa\SpectralAnalysis\SpectralAnalysis-1.1.0\')) % Uncomment only if you don't have SpectralAnalysis in the computer being used.
+preprocessing_file = '\\encephalon\D\AutomatedProcessing\preprocessingWorkflowForAll.sap';
 
 %% Treating each dataset individually to create the tissue only ROI
 
-% Pre-processing data and saving spectral details (total spectrum and peakDetails structs) with background
+% Pre-processing data and saving total spectra
 
 f_saving_spectra_details( filesToProcess, preprocessing_file, "no mask" )
 
-% Peak Assignment (lists of relevant molecules)
+% Peak picking and saving peak details 
 
-f_matching_data_with_molecules_lists( filesToProcess, "no mask" )
+f_saving_peaks_details( filesToProcess, "no mask" )
+
+% Peak Assignments (lists of relevant molecules & HMDB)
+
+f_saving_relevant_lists_assignments( filesToProcess, "no mask" )
+
+f_saving_hmdb_assignments( filesToProcess, "no mask" )
+
+% Saving mz values that have to be included in each datacube
+
+f_saving_datacube_peaks_details( filesToProcess, "no mask" )
 
 % Data cube (creation and saving)
 
@@ -67,15 +73,15 @@ f_saving_data_cube( filesToProcess, "no mask" )
 
 % Multivariate analysis (running and saving outputs)
 
-f_running_mva( filesToProcess, norm_list, "no mask" ) % Running MVAs
+f_running_mva( filesToProcess, "no mask", norm_list, string([]) ) % running MVAs
 
-f_saving_mva_outputs( filesToProcess, norm_list, "no mask" ); % Saving MVAs outputs
+f_saving_mva_outputs_testing( filesToProcess, "no mask", norm_list, string([]) ); % saving MVAs outputs
 
-% Saving single ion images of relevant molecules with background
+%% Saving single ion images of relevant molecules with background
 
 f_saving_sii_relevant_molecules( filesToProcess, "no mask", norm_list, "all" ); % if you would like to save them just for one of the lists, replace all by the name of that list
 
-%% Manual mask creation (e.g.: tissue only and sample specific) 
+%% Manual mask creation (e.g.: tissue only and sample specific)
 
 % Please change the variable bellow.
 
@@ -84,15 +90,15 @@ file_index = 1; % Index of which one of the files in filesToProcess would you li
 disp(filesToProcess(file_index).name);
 
 
-output_mask = "intracolonic-tissue-7";    % Name for the new mask.
+output_mask = "SI-B2-7-APC-KRAS-2";    % Name for the new mask.
 
 % Details regarding the MVA results that you would like to use to create the mask.
 
-input_mask      = "tissue only"; 
-numComponents   = 4;   
+input_mask      = "no mask"; 
+numComponents   = 16;   
 mva_type        = "kmeans";
 norm_type       = "zscore";
-vector_set      = [ 1:4 ];     % IDs of the clusters that will be added to create the mask.
+vector_set      = [ 2 3 4 6 7 8 10 11 12 15 16 ];     % IDs of the clusters that will be added to create the mask.
 
 regionregionsNum2keep = 1;
 regionregionsNum2fill = 0;
@@ -103,10 +109,7 @@ f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, numCompon
  
 %% Treating all datasets together (note: you need to update the samples_scheme_info function below so that it has the image grid you would like to look at)
 
-study = "Beatson"; 
-dataset_name = "neg DESI intracolonic apc vs apc kras";
-background = 0;
-check_datacubes_size = 1; % If you have saved datacubes in the past and want to check their mz content.
+dataset_name = "negative DESI small intestine all ok"; background = 0; check_datacubes_size = 1;
 
 [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size );
 
@@ -116,41 +119,47 @@ filesToProcess = f_unique_extensive_filesToProcess(extensive_filesToProcess); % 
 
 %%
 
-% Pre-processing data and saving spectral details (total spectrum and peakDetails structs) without the background   
+% Pre-processing data and saving total spectra
 
-f_saving_spectra_details_ca( filesToProcess, preprocessing_file, "tissue only" ) % tissue only & common axis
+f_saving_spectra_details( filesToProcess, preprocessing_file, "tissue only" )
+
+% Peak picking and saving peak details 
 
 f_saving_peaks_details_ca( filesToProcess, "tissue only" )
 
-% Peak Assignment (lists of relevant molecules & HMDB)
+% Peak Assignments (lists of relevant molecules & HMDB)
 
-f_matching_data_with_molecules_lists( filesToProcess, "tissue only" )
+f_saving_relevant_lists_assignments_ca( filesToProcess, "tissue only" )
 
-f_matching_data_with_hmdb( filesToProcess, "tissue only" )
+f_saving_hmdb_assignments_ca( filesToProcess, "tissue only" )
+
+% Saving mz values that have to be included in each datacube
+
+f_saving_datacube_peaks_details_ca( filesToProcess, "tissue only" )
 
 % Data cube (creation and saving)
 
-f_saving_data_cube( filesToProcess, "tissue only" )  
+f_saving_data_cube( filesToProcess, "tissue only" )
 
 %% Multivariate analysis (running and saving outputs)
-
-mva_peak_list = string([]); % string([]) to use the highest 4000 peaks, or the name of a short list of molecules to reduce the peak list to the latter
 
 f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_peak_list ) % Running MVAs
 
 f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_peak_list ) % Saving MVAs outputs
+
+%% Multivariate analysis (saving outputs barplots)
+
+norm_list = "pqn median & zscore";
+mva_peak_list = string([]);
+
+f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, "pca", 16, 8, mva_peak_list )
+f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, [ "nnmf", "kmeans"], 16, 4, mva_peak_list )
 
 %% Saving single ion images of relevant molecules
 
 sii_peak_list = "all"; % "all" for all lists, or the name of a short list of molecules
 
 f_saving_sii_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, sii_peak_list )
-
-%% Sii ratios
-
-ratios_info_file =  "3_slc7a5_ratios";
-
-f_saving_sii_ratio_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, norm_list, ratios_info_file )
 
 %% ROC analysis - whole tissue
 

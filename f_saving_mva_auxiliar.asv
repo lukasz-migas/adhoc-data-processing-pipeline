@@ -1,4 +1,4 @@
-function f_saving_mva_auxiliar( file_name, main_mask, mva_type, mva_path, norm_type, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
+function f_saving_mva_auxiliar( file_name, main_mask, mva_type, mva_path, norm_type, numComponents, numLoadings, datacube, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, datacubeonly_peakDetails, pixels_num, fig_ppmTolerance)
 
 if strcmpi(mva_type,"pca") || strcmpi(mva_type,"nnmf") || strcmpi(mva_type,"kmeans") || (strcmpi(mva_type,"nntsne") && ~isnan(numComponents))
     
@@ -14,7 +14,6 @@ load('datacube_mzvalues_indexes')
 
 % Loading MVA results
 
-o_numComponents = NaN;
 
 switch mva_type
     
@@ -55,13 +54,19 @@ switch mva_type
 end
 
 if numComponents > numComponentsSaved
-    disp('!!! ERROR !!! The currently saved MVA results do not comprise all the information you want to look at! Please run the function f_running_mva again.')
+    disp('!!!  - The currently saved MVA results do not comprise all the information you want to look at! Please run the function f_running_mva again.')
     return
 else
     
     for componenti = 1:numComponents
-                
-        if ( componenti == 1 )
+        
+        if isnan(o_numComponents)
+            cd([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
+        else
+            cd([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
+        end
+        
+        if componenti
             
             fig0 = figure('units','normalized','outerposition',[0 0 .7 .7]); % set(gcf,'Visible', 'off');
             jFrame = get(handle(fig0), 'JavaFrame');
@@ -69,7 +74,7 @@ else
             
             if isequal(char(mva_type),'kmeans')
                 
-                image_component = reshape(idx,datacube.width,datacube.height)';
+                image_component = reshape(idx,image_width,image_height)';
                 imagesc(image_component);
                 clustmap = f_full_colourscheme(numComponents);
                 if min(min(image_component)) == 1
@@ -79,13 +84,13 @@ else
                 end
                 axis off; axis image; colorbar; set(gca, 'fontsize', 12);
                 
-                title({'all clusters image'})
+                title({['All clusters ' num2str(componenti) ' image ' ]})
                 
             elseif isequal(char(mva_type),'nntsne')
                 
-                image_component = reshape(idx,datacube.width,datacube.height)';
+                image_component = reshape(idx,image_width,image_height)';
                 rgb_image_component = zeros(size(image_component,1),size(image_component,2),size(rgbData,2));
-                for ci = 1:size(rgbData,2); aux_rgbData = 0*idx; aux_rgbData(idx>0) = rgbData(:,ci); rgb_image_component(:,:,ci) = reshape(aux_rgbData,datacube.width,datacube.height)'; end
+                for ci = 1:size(rgbData,2); aux_rgbData = 0*idx; aux_rgbData(idx>0) = rgbData(:,ci); rgb_image_component(:,:,ci) = reshape(aux_rgbData,image_width,image_height)'; end
                 
                 subplot(2,2,[1 3])
                 image(rgb_image_component)
@@ -125,58 +130,58 @@ else
             
             case 'pca'
                 
-                mkdir([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\pc ' num2str(componenti) '\'])
-                cd([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\pc ' num2str(componenti) '\'])
+                mkdir([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\pc ' num2str(componenti) '\'])
+                cd([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\pc ' num2str(componenti) '\'])
                 
-                image_component = reshape(firstScores(:,componenti),datacube.width,datacube.height)';
+                image_component = reshape(firstScores(:,componenti),image_width,image_height)';
                 
                 spectral_component = firstCoeffs(:,componenti);
                 
                 map = makePCAcolorscheme(image_component); colormap(map); title({['pc ' num2str(componenti) ' scores - ' num2str(explainedVariance(componenti,1)) '% of explained variance' ]})
                 
-                outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\pc ' num2str(componenti) '\top loadings images\']; mkdir(outputs_path)
+                outputs_path = [ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\pc ' num2str(componenti) '\top loadings images\']; mkdir(outputs_path)
                 
             case 'nnmf'
                 
-                mkdir([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\factor ' num2str(componenti) '\'])
-                cd([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\factor ' num2str(componenti) '\'])
+                mkdir([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\factor ' num2str(componenti) '\'])
+                cd([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\factor ' num2str(componenti) '\'])
                 
-                image_component = reshape(W(:,componenti),datacube.width,datacube.height)';
+                image_component = reshape(W(:,componenti),image_width,image_height)';
                 
                 spectral_component = H(componenti,:);
                 
                 colormap(viridis); title({['factor ' num2str(componenti) ' image ' ]})
                 
-                outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\factor ' num2str(componenti) '\top loadings images\']; mkdir(outputs_path)
+                outputs_path = [ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\factor ' num2str(componenti) '\top loadings images\']; mkdir(outputs_path)
                 
             case 'kmeans'
                 
-                mkdir([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
-                cd([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                mkdir([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                cd([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
                 
-                image_component = reshape(logical(idx.*(idx==componenti)),datacube.width,datacube.height)';
+                image_component = reshape(logical(idx.*(idx==componenti)),image_width,image_height)';
                 
                 spectral_component = C(componenti,:);
                 
                 colormap(viridis); title({['cluster ' num2str(componenti) ' image ' ]})
                 
-                outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\']; mkdir(outputs_path)
+                outputs_path = [ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\']; mkdir(outputs_path)
                 
             case 'nntsne'
                 
                 if isnan(o_numComponents)
-                    mkdir([ mva_path file_name '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\'])
-                    cd([ mva_path file_name '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\'])
-                    outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
+                    mkdir([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    cd([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    outputs_path = [ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
                     mkdir(outputs_path)
                 else
-                    mkdir([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
-                    cd([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
-                    outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
+                    mkdir([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    cd([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    outputs_path = [ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
                     mkdir(outputs_path)
                 end
                 
-                image_component = reshape(logical(idx.*(idx==componenti)),datacube.width,datacube.height)';
+                image_component = reshape(logical(idx.*(idx==componenti)),image_width,image_height)';
                 
                 spectral_component = outputSpectralContriubtion{1,componenti}';
                 
@@ -283,7 +288,7 @@ else
             
             % figures generation and saving
             
-            f_saving_sii_files( outputs_path, mini_sample_info, mini_sample_info_indexes, mini_ion_images, datacube.width, datacube.height, mini_peakDetails, pixels_num, totalSpectrum_intensities, totalSpectrum_mzvalues, fig_ppmTolerance, 1 )
+            f_saving_sii_files( outputs_path, mini_sample_info, mini_sample_info_indexes, mini_ion_images, image_width, image_height, mini_peakDetails, pixels_num, totalSpectrum_intensities, totalSpectrum_mzvalues, fig_ppmTolerance, 1 )
             
         end
     end

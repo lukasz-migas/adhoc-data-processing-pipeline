@@ -59,17 +59,6 @@ for file_index = 1:length(filesToProcess)
         
         disp('! Total spectrum saved.')
         
-        disp('! Running peak picking on total spectum...')
-        
-        peakPicking = GradientPeakDetection();
-        
-        [ ~, ~, peakDetails ] = peakPicking.process(totalSpectrum.spectralChannels, totalSpectrum.intensities); % peak pick total spectrum
-        
-        save('peakDetails','peakDetails','-v7.3')
-        
-        disp('! Peak details saved.')
-        
     end
     
 end
-

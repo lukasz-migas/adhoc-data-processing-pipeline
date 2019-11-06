@@ -8,7 +8,12 @@ mzvalues2keep1 = double(unique(sample_info(:,4)));
 
 if ~isempty(numPeaks4mva_array)
     [ ~, mzvalues_highest_peaks_indexes ] = sort(peakDetails(:,4),'descend');
-    mzvalues2keep2 = peakDetails(mzvalues_highest_peaks_indexes(1:max(numPeaks4mva_array),1),2);
+    if max(numPeaks4mva_array)>size(peakDetails,1)
+        disp('!!! ERROR !!! There are not enough peaks in the data. Please change the requested number of high intensity peaks.');
+        return
+    else
+        mzvalues2keep2 = peakDetails(mzvalues_highest_peaks_indexes(1:max(numPeaks4mva_array),1),2);
+    end
 else
     mzvalues2keep2 = [];
 end

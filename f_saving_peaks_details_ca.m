@@ -2,6 +2,8 @@ function f_saving_peaks_details_ca( filesToProcess, mask_list)
 
 for mask_type = mask_list
     
+    disp('! Loading and adding all total spectra...')
+    
     y = 0;
     
     for file_index = 1:length(filesToProcess)

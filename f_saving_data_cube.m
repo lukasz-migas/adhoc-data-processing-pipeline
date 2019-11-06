@@ -1,32 +1,24 @@
 function f_saving_data_cube( filesToProcess, mask_list )
 
-for file_index = 1:length(filesToProcess)
+for mask_type = mask_list
     
-    csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
+    clear datacubeonly_peakDetails
     
-    [ ~, ~, ~, ~, numPeaks4mva_array, perc4mva_array, ~, ~, ~, ~, ~, ~, ~, ppmTolerance, ~, outputs_path ] = f_reading_inputs(csv_inputs);
-    
-    spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
-    peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];
-    
-    for mask_type = mask_list
+    for file_index = 1:length(filesToProcess)
         
-        % Loading relevant molecules peak details
-                
-        load([ peak_assignments_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\relevant_lists_sample_info.mat' ])
-        load([ peak_assignments_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\relevant_lists_sample_info_aux.mat' ])
+        csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
         
-        % Loading tissue only peak details
+        [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
         
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\peakDetails.mat' ])
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_mzvalues.mat' ])
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_intensities.mat' ])
+        spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
+
+        disp('! Loading mz values that have to be saved in each data cube...')
         
-        % Peaks
-        
-        datacubeonly_peakDetails = f_peakdetails4datacube( relevant_lists_sample_info, ppmTolerance, numPeaks4mva_array, perc4mva_array, peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities );
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\datacubeonly_peakDetails.mat' ])
         
         %%% Generating the data cube
+        
+        disp('! Generating data cube...')
         
         % Data loading (SpectralAnalysis functions)
         
@@ -42,8 +34,10 @@ for file_index = 1:length(filesToProcess)
         datacube = reduction.process(data);
         
         cd([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\'])
-        save('datacubeonly_peakDetails','datacubeonly_peakDetails','-v7.3')
+        
         save('datacube','datacube','-v7.3')
+        
+        disp('! Data cube has been saved.')
         
         width = datacube.width;
         height = datacube.height;
@@ -53,7 +47,7 @@ for file_index = 1:length(filesToProcess)
         
         % Checking section!
         
-        if file_index>1; disp([ '!!! datacubeonly_peakDetails consistency: ' num2str(isequal(datacubeonly_peakDetails, datacubeonly_peakDetails1))]); end
+        if (file_index~=1); disp([ '!!! datacubeonly_peakDetails consistency: ' num2str(isequal(datacubeonly_peakDetails, datacubeonly_peakDetails1))]); end
         
         datacubeonly_peakDetails1 = datacubeonly_peakDetails;
         

@@ -40,6 +40,22 @@ for main_mask = main_mask_list
     spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
     peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];
     
+    % Adding total spectra
+    
+    filesToProcess0 = f_unique_extensive_filesToProcess(filesToProcess); % This function collects all files that need to have a common axis.
+    
+    y = 0;
+    
+    for file_index0 = 1:length(filesToProcess0)
+        
+        % Loading total spectrum
+        
+        load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_intensities' ])
+        
+        y = y + totalSpectrum_intensities;
+        
+    end
+    
     for file_index = 1:length(filesToProcess)
         
         % Loading information about the peaks, the mz values saved as a
@@ -48,15 +64,15 @@ for main_mask = main_mask_list
         
         if file_index == 1
             
-            load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacubeonly_peakDetails' ])
-            load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\peakDetails' ])
-            load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_intensities' ])
             load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
-            load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
             
+            load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\peakDetails' ])
+            load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
+            load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacubeonly_peakDetails' ])
+        
         end
         
-        % Loading datacubes
+        % Loading datacube
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacube' ])
         
@@ -136,7 +152,7 @@ for main_mask = main_mask_list
                                 
                 % Determining the indexes of the mzvalues that are of interest from the datacube
                 
-                datacube_mzvalues_indexes = f_datacube_mzvalues_percentile( perc4mva, ppmTolerance, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities );
+                datacube_mzvalues_indexes = f_datacube_mzvalues_percentile( perc4mva, ppmTolerance, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues, y );
                 
                 % Data normalisation and compilation
                 
