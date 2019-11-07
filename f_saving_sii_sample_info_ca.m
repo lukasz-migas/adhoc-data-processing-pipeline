@@ -6,10 +6,6 @@ datacube_cell = {};
 main_masks_cell = {};
 smaller_masks_cell = {};
 
-totalSpectrum_intensities_cell = {};
-totalSpectrum_mzvalues_cell = {}; 
-pixels_num_cell = {};
-
 for file_index = 1:length(filesToProcess)
     
     csv_inputs = [ filesToProcess(file_index).folder filesep 'inputs_file' ];
@@ -69,17 +65,31 @@ for file_index = 1:length(filesToProcess)
     load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(smaller_masks_list(file_index)) filesep 'roi'])
     smaller_masks_cell{file_index} = logical((sum(datacube.data,2)>0).*reshape(roi.pixelSelection',[],1));
         
+end
+
+% Mean spectrum for figures
+
+filesToProcess0 = f_unique_extensive_filesToProcess(filesToProcess);
+
+totalSpectrum_intensities0 = 0;
+pixels_num0 = 0;
+
+for file_index = 1:length(filesToProcess0)
+
     % Loading spectral information
+     
+    if ( file_index == 1 ); load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_mzvalues' ]); end
     
     load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_intensities' ])
-    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_mzvalues' ])
     load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'pixels_num' ])
     
-    totalSpectrum_intensities_cell{file_index}  = totalSpectrum_intensities;
-    totalSpectrum_mzvalues_cell{file_index}   	= totalSpectrum_mzvalues;
-    pixels_num_cell{file_index}               	= pixels_num;
+    totalSpectrum_intensities0  = totalSpectrum_intensities0 + totalSpectrum_intensities;
+    pixels_num0 = pixels_num0 + pixels_num;
     
 end
+
+meanSpectrum_intensities = totalSpectrum_intensities0./pixels_num0;
+meanSpectrum_mzvalues = totalSpectrum_mzvalues;
 
 for norm_type = norm_list
     
@@ -103,8 +113,7 @@ for norm_type = norm_list
         sample_info, sample_info_indexes, ...
         norm_sii_cell, smaller_masks_cell, ...
         peak_details, ...
-        pixels_num_cell, ...
-        totalSpectrum_intensities_cell, totalSpectrum_mzvalues_cell, ...
+        meanSpectrum_intensities, meanSpectrum_mzvalues, ...
         fig_ppmTolerance, 0 )
 
 end

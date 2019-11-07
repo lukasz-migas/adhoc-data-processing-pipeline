@@ -1,4 +1,4 @@
-function f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, fig_ppmTolerance)
+function f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance)
 
 if strcmpi(mva_type,"pca") || strcmpi(mva_type,"nnmf") || strcmpi(mva_type,"kmeans") || (strcmpi(mva_type,"nntsne") && ~isnan(numComponents))
     
@@ -302,9 +302,6 @@ else
         end
         
         mini_ion_images_cell = {};
-        totalSpectrum_intensities_cell = {};
-        totalSpectrum_mzvalues_cell = {};
-        pixels_num_cell = {};
         
         for file_index = 1:length(datacube_cell)
             
@@ -314,17 +311,7 @@ else
             mini_ion_images_cell{file_index}.data = mva_ion_images(:,mz_indexes(1:numLoadings));
             mini_ion_images_cell{file_index}.width = datacube_cell{file_index}.width;
             mini_ion_images_cell{file_index}.height = datacube_cell{file_index}.height;
-            
-            % loading spectral information
-            
-            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_intensities' ])
-            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
-            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\pixels_num' ])
-            
-            totalSpectrum_intensities_cell{file_index} = totalSpectrum_intensities;
-            totalSpectrum_mzvalues_cell{file_index} = totalSpectrum_mzvalues;
-            pixels_num_cell{file_index} = pixels_num;
-            
+                        
         end
         
         % figures generation and saving
@@ -336,8 +323,7 @@ else
             mini_sample_info, mini_sample_info_indexes, ...
             mini_ion_images_cell, smaller_masks_cell, ...
             mini_peak_details, ...
-            pixels_num_cell, ...
-            totalSpectrum_intensities_cell, totalSpectrum_mzvalues_cell, ...
+            meanSpectrum_intensities, meanSpectrum_mzvalues, ...
             fig_ppmTolerance, 1 )
         
         % end

@@ -5,8 +5,7 @@ function f_saving_sii_files_ca( ...
     sample_info, sample_info_indexes, ...
     norm_sii_cell, smaller_masks_cell, ...
     peak_details, ...
-    pixels_num_cell, ...
-    totalSpectrum_intensities_cell, totalSpectrum_mzvalues_cell, ...
+    meanSpectrum_intensities, meanSpectrum_mzvalues, ...
     fig_ppmTolerance, isitloadings )
 
 for database_type = unique(sample_info(:,7))'
@@ -70,18 +69,7 @@ for peak_i = 1:size(peak_details,1)
                 
                 min_cn = max(min_cn,size(norm_sii1,2));
                 min_rn = max(min_rn,size(norm_sii1,1));
-                
-                if file_index == 1
-                    totalSpectrum_mzvalues = totalSpectrum_mzvalues_cell{file_index};
-                    totalSpectrum_intensities = totalSpectrum_intensities_cell{file_index};
-                    pixels_num = pixels_num_cell{file_index};
-                    
-                else
-                    if (totalSpectrum_mzvalues ~= totalSpectrum_mzvalues_cell{file_index}); disp('! mz axis are not common across datasets !'); end
-                    totalSpectrum_intensities = totalSpectrum_intensities + totalSpectrum_intensities_cell{file_index};
-                    pixels_num = pixels_num + pixels_num_cell{file_index};
-                end
-                
+                                
                 smaller_masks_list2plot{outputs_xy_pairs(file_index,1),outputs_xy_pairs(file_index,2)} = smaller_masks_list{file_index};
                 
             end
@@ -201,7 +189,7 @@ for peak_i = 1:size(peak_details,1)
             
             fig1 = figure('units','normalized','outerposition',[0 0 1 1]);
             
-            subplot(1,2,1)
+            subplot(1,3,1:2)
             imagesc(sii2plot); colormap(viridis); axis off; axis image; colorbar;
             
             name_adduct_2plot_1 = sample_info(sample_info_i, 1);
@@ -212,18 +200,20 @@ for peak_i = 1:size(peak_details,1)
             name_adduct_2plot   = reshape(name_adduct_2plot',[],1);
             name_adduct_2plot   = name_adduct_2plot(1:end-1,1)';
             
-            text(.5,1.09,...
+            if size(sii2plot,2)>2*size(sii2plot,1); h1 = 1.15; h2 = 1.10; h3 = 1.05;  else; h1 = 1.09; h2 = 1.05; h3 = 1.025; end 
+            
+            text(.5,h1,...
                 {strjoin(name_adduct_2plot(1:min(9,length(name_adduct_2plot))))},...
                 'Units','normalized','fontsize', 12, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle')
             if length(name_adduct_2plot)>6
-                text(.5,1.09,...
+                text(.5,h1,...
                     {'... (see assignments table)'},...
                     'Units','normalized','fontsize', 12, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle')
             end
-            text(.5,1.05,...
+            text(.5,h2,...
                 {strjoin(['theo mz ' sample_info(sample_info_i,2) ' - meas mz ', sample_info(sample_info_i,4)])},...
                 'Units','normalized','fontsize', 12, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle')
-            text(.5,1.025,...
+            text(.5,h3,...
                 {['ppm ' num2str(round(double(sample_info(sample_info_i,5)))) ' - peak intensity ' num2str(round(double(sample_info(sample_info_i,11))))]},...
                 'Units','normalized','fontsize', 12, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle')
             
@@ -236,15 +226,15 @@ for peak_i = 1:size(peak_details,1)
             ppmwindow_xmin = window_centre - fig_ppmTolerance/1000000*window_centre;
             ppmwindow_xmax = window_centre + fig_ppmTolerance/1000000*window_centre;
             
-            window_mzvalues_indexes = logical((totalSpectrum_mzvalues > window_xmin).*(totalSpectrum_mzvalues < window_xmax));
+            window_mzvalues_indexes = logical((meanSpectrum_mzvalues > window_xmin).*(meanSpectrum_mzvalues < window_xmax));
             
-            window_mzvalues = totalSpectrum_mzvalues(1,window_mzvalues_indexes);
-            window_intensities = totalSpectrum_intensities(1,window_mzvalues_indexes)./pixels_num;
+            window_mzvalues = meanSpectrum_mzvalues(1,window_mzvalues_indexes);
+            window_intensities = meanSpectrum_intensities(1,window_mzvalues_indexes);
             
-            window_mzvalues_indexes_centre = logical((totalSpectrum_mzvalues > ppmwindow_xmin).*(totalSpectrum_mzvalues < ppmwindow_xmax));
-            ymax = max(totalSpectrum_intensities(1,window_mzvalues_indexes_centre)./pixels_num);
+            window_mzvalues_indexes_centre = logical((meanSpectrum_mzvalues > ppmwindow_xmin).*(meanSpectrum_mzvalues < ppmwindow_xmax));
+            ymax = max(meanSpectrum_intensities(1,window_mzvalues_indexes_centre));
             
-            subplot(1,2,2)
+            subplot(1,3,3)
             hold on
             
             if ~strcmp(sample_info(sample_info_i,7),'not assigned')

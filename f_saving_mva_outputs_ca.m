@@ -76,6 +76,30 @@ for main_mask = main_mask_list
         
     end
     
+    % Mean spectrum for figures
+    
+    filesToProcess0 = f_unique_extensive_filesToProcess(filesToProcess);
+    
+    totalSpectrum_intensities0 = 0;
+    pixels_num0 = 0;
+    
+    for file_index = 1:length(filesToProcess0)
+        
+        % Loading spectral information
+        
+        if ( file_index == 1 ); load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_mzvalues' ]); end
+        
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_intensities' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'pixels_num' ])
+        
+        totalSpectrum_intensities0  = totalSpectrum_intensities0 + totalSpectrum_intensities;
+        pixels_num0 = pixels_num0 + pixels_num;
+        
+    end
+    
+    meanSpectrum_intensities = totalSpectrum_intensities0./pixels_num0;
+    meanSpectrum_mzvalues = totalSpectrum_mzvalues;
+    
     %%
     
     mvai = 0;
@@ -95,7 +119,7 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ];
                                 
-                f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, fig_ppmTolerance )
+                f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
                 
             end
             
@@ -105,7 +129,7 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks\' ];
                                 
-                f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell,fig_ppmTolerance )
+                f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
                 
             end
             
@@ -115,7 +139,7 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(perc4mva)) ' percentile\' ];
                                 
-                f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, fig_ppmTolerance )
+                f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
                 
             end
             

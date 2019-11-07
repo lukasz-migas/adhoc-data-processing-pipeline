@@ -38,8 +38,8 @@ filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToP
 
 norm_list = [
     "no norm"
-    "pqn median"
     "zscore"
+    % "pqn median"
     % "pqn median & zscore"
     ]';
 
@@ -146,18 +146,18 @@ f_saving_sii_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, sm
 
 %% Multivariate analysis (running and saving outputs)
 
-norm_list = "zscore"; mva_peak_list = "Shorter Beatson metabolomics & CRUK list";
-
 f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_peak_list ) % Running MVAs
 
 f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_peak_list ) % Saving MVAs outputs
 
 %% Multivariate analysis (saving outputs barplots)
 
-norm_list = "zscore"; mva_peak_list = "Shorter Beatson metabolomics & CRUK list";
+norm_list = "pqn median & zscore";
+mva_peak_list = string([]);
 
 f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, "pca", 16, 8, mva_peak_list )
 f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, [ "nnmf", "kmeans"], 16, 4, mva_peak_list )
+
 
 %% ROC analysis - whole tissue
 

@@ -50,7 +50,7 @@ for main_mask = main_mask_list
         
         % Loading total spectrum
         
-        load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_intensities' ])
+        load([ spectra_details_path filesToProcess(file_index0).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_intensities' ])
         
         y = y + totalSpectrum_intensities;
         
