@@ -50,7 +50,7 @@ for main_mask = main_mask_list
         
         % Loading total spectrum
         
-        load([ spectra_details_path filesToProcess(file_index0).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_intensities' ])
+        load([ spectra_details_path filesToProcess0(file_index0).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_intensities' ])
         
         y = y + totalSpectrum_intensities;
         
@@ -90,7 +90,7 @@ for main_mask = main_mask_list
         % Loading smaller masks information
         
         load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(smaller_masks_list(file_index)) filesep 'roi'])
-        smaller_masks_cell{file_index} = logical((sum(datacube.data,2)>0).*reshape(roi.pixelSelection',[],1));
+        smaller_masks_cell{file_index} = logical(reshape(roi.pixelSelection',[],1));
         
     end
     
@@ -120,7 +120,7 @@ for main_mask = main_mask_list
                 
                 % Creating a new folder, running and saving MVA results
                 
-                f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, datacube_mzvalues_indexes, numComponents )
+                f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                 
             end
                         
@@ -140,7 +140,7 @@ for main_mask = main_mask_list
                 
                 % Creating a new folder, running and saving MVA results
                 
-                f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, datacube_mzvalues_indexes, numComponents )
+                f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                 
             end
             
@@ -160,7 +160,7 @@ for main_mask = main_mask_list
                 
                 % Creating a new folder, running and saving MVA results
                 
-                f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, datacube_mzvalues_indexes, numComponents )
+                f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                 
             end
             

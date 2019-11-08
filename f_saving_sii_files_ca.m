@@ -200,7 +200,16 @@ for peak_i = 1:size(peak_details,1)
             name_adduct_2plot   = reshape(name_adduct_2plot',[],1);
             name_adduct_2plot   = name_adduct_2plot(1:end-1,1)';
             
-            if size(sii2plot,2)>2*size(sii2plot,1); h1 = 1.15; h2 = 1.10; h3 = 1.05;  else; h1 = 1.09; h2 = 1.05; h3 = 1.025; end 
+            if size(sii2plot,2)>2*size(sii2plot,1)
+                h1 = 1.15; 
+                h2 = 1.10; 
+            elseif size(sii2plot,2)<size(sii2plot,1)
+                h1 = 1.05;
+                h2 = 1.025; 
+            else
+                h1 = 1.09; 
+                h2 = 1.045; 
+            end 
             
             text(.5,h1,...
                 {strjoin(name_adduct_2plot(1:min(9,length(name_adduct_2plot))))},...
@@ -211,10 +220,7 @@ for peak_i = 1:size(peak_details,1)
                     'Units','normalized','fontsize', 12, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle')
             end
             text(.5,h2,...
-                {strjoin(['theo mz ' sample_info(sample_info_i,2) ' - meas mz ', sample_info(sample_info_i,4)])},...
-                'Units','normalized','fontsize', 12, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle')
-            text(.5,h3,...
-                {['ppm ' num2str(round(double(sample_info(sample_info_i,5)))) ' - peak intensity ' num2str(round(double(sample_info(sample_info_i,11))))]},...
+                {strjoin(['theo mz ' sample_info(sample_info_i,2) ' - meas mz ', sample_info(sample_info_i,4) ' - ppm ' num2str(round(double(sample_info(sample_info_i,5))))])},...
                 'Units','normalized','fontsize', 12, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle')
             
             theo_mz = str2double(sample_info(sample_info_i,2));

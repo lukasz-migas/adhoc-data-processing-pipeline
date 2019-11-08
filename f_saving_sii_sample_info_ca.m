@@ -63,7 +63,7 @@ for file_index = 1:length(filesToProcess)
     % Loading smaller masks information
     
     load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(smaller_masks_list(file_index)) filesep 'roi'])
-    smaller_masks_cell{file_index} = logical((sum(datacube.data,2)>0).*reshape(roi.pixelSelection',[],1));
+    smaller_masks_cell{file_index} = logical(reshape(roi.pixelSelection',[],1));
         
 end
 
@@ -71,26 +71,26 @@ end
 
 filesToProcess0 = f_unique_extensive_filesToProcess(filesToProcess);
 
-totalSpectrum_intensities0 = 0;
+y = 0;
 pixels_num0 = 0;
 
 for file_index = 1:length(filesToProcess0)
-
+    
     % Loading spectral information
-     
-    if ( file_index == 1 ); load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_mzvalues' ]); end
     
-    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_intensities' ])
-    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'pixels_num' ])
+    if ( file_index == 1 ); load([ spectra_details_path filesToProcess0(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_mzvalues' ]); end
     
-    totalSpectrum_intensities0  = totalSpectrum_intensities0 + totalSpectrum_intensities;
+    load([ spectra_details_path filesToProcess0(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_intensities' ])
+    load([ spectra_details_path filesToProcess0(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'pixels_num' ])
+    
+    y = y + totalSpectrum_intensities;
     pixels_num0 = pixels_num0 + pixels_num;
     
 end
 
-meanSpectrum_intensities = totalSpectrum_intensities0./pixels_num0;
+meanSpectrum_intensities = y./pixels_num0;
 meanSpectrum_mzvalues = totalSpectrum_mzvalues;
-
+    
 for norm_type = norm_list
     
     outputs_path = [ sii_path filesep char(dataset_name) filesep char(main_mask) filesep char(norm_type) filesep ]; mkdir(outputs_path)

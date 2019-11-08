@@ -27,10 +27,10 @@ addpath(genpath('X:\SpectralAnalysis\')) % SpectralAnalysis
 % to process below.
 
 data_folders = { ...
-    'X:\ModelAndReferenceData\'
+    'X:\Beatson\negative DESI ibds and imzMLs\Second Round Samples\Xevo\'
     };
 
-dataset_name_portion = '*sagittal*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
+dataset_name_portion = '*20190904*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
 
 filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion '.imzML']) ]; end % Files and adducts information gathering
 
@@ -106,7 +106,7 @@ f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, numCompon
  
 %% Treating all datasets together (note: you need to update the samples_scheme_info function below so that it has the image grid you would like to look at)
 
-dataset_name = "negative DESI small intestine all ok"; background = 0; check_datacubes_size = 1;
+dataset_name = "negative DESI small intestine 2019-06"; background = 0; check_datacubes_size = 1;
 
 [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size );
 

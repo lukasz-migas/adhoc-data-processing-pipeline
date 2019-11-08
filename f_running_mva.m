@@ -85,7 +85,7 @@ for main_mask = main_mask_list
                     
                     % Creating a new folder, running and saving MVA results
                     
-                    f_running_mva_auxiliar( mva_type, mva_path, filesToProcess(file_index).name(1,1:end-6), main_mask, norm_type, data4mva, mask4mva, datacube_mzvalues_indexes, numComponents )
+                    f_running_mva_auxiliar( mva_type, mva_path, filesToProcess(file_index).name(1,1:end-6), main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                     
                 end
                 
@@ -106,7 +106,7 @@ for main_mask = main_mask_list
                     
                     % Creating a new folder, running and saving MVA results
                     
-                    f_running_mva_auxiliar( mva_type, mva_path, filesToProcess(file_index).name(1,1:end-6), main_mask, norm_type, data4mva, mask4mva, datacube_mzvalues_indexes, numComponents )
+                    f_running_mva_auxiliar( mva_type, mva_path, filesToProcess(file_index).name(1,1:end-6), main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                     
                 end
                 
@@ -127,7 +127,7 @@ for main_mask = main_mask_list
                     
                     % Creating a new folder, running and saving MVA results
                     
-                    f_running_mva_auxiliar( mva_type, mva_path, filesToProcess(file_index).name(1,1:end-6), main_mask, norm_type, data4mva, mask4mva, datacube_mzvalues_indexes, numComponents )
+                    f_running_mva_auxiliar( mva_type, mva_path, filesToProcess(file_index).name(1,1:end-6), main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                     
                 end
                 

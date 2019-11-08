@@ -1,4 +1,4 @@
-function f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, datacube_mzvalues_indexes, numComponents )
+function f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
 
 % Creating a new folder
 

@@ -1,4 +1,4 @@
-function f_saving_peaks_details_ca( filesToProcess, mask_list)
+function f_saving_peaks_details_ca( filesToProcess, mask_list )
 
 for mask_type = mask_list
     
