@@ -75,6 +75,7 @@ for file_index = 1:length(filesToProcess)
             
             hmdb_sample_info = string([]);
             g_index = 0;
+            i_vector = [];
             
             for i = 1:length(sample_peaks_mzvalues)
                 
@@ -117,9 +118,7 @@ for file_index = 1:length(filesToProcess)
                         hmdb_sample_info(g_index,9)     = modality;
                         hmdb_sample_info(g_index,10)    = polarity;
                         
-                        
                         hmdb_sample_info(g_index,12)    = molecules_hmdb_info_strings(matchesR(j),3); % monoisotopic mass
-                        
                         
                         if ~ismissing(hmdb_other(matchesR(j),1))
                             hmdb_sample_info(g_index,13) = hmdb_other(matchesR(j),1);
@@ -137,6 +136,8 @@ for file_index = 1:length(filesToProcess)
                             
                         end
                         
+                        i_vector(g_index,1) = i;
+                        
                     end
                 end
             end
@@ -145,8 +146,8 @@ for file_index = 1:length(filesToProcess)
             
         end
         
-        hmdb_sample_info(:,6)     = sample_peaks_intensities;
-        hmdb_sample_info(:,11)    = sample_peaks_intensities./pixels_num;
+        hmdb_sample_info(:,6)     = sample_peaks_intensities(i_vector);
+        hmdb_sample_info(:,11)    = sample_peaks_intensities(i_vector)./pixels_num;
         
         mkdir([ peak_assignments_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\'])
         cd([ peak_assignments_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\'])
