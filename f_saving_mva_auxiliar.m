@@ -1,4 +1,4 @@
-function f_saving_mva_auxiliar( file_name, main_mask, mva_type, mva_path, norm_type, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
+function f_saving_mva_auxiliar( file_name, main_mask, mva_type, mva_path, norm_type, numComponents, numLoadings, datacube, datacubeonly_peakDetails, mask, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
 
 if strcmpi(mva_type,"pca") || strcmpi(mva_type,"nnmf") || strcmpi(mva_type,"kmeans") || (strcmpi(mva_type,"nntsne") && ~isnan(numComponents))
     
@@ -61,7 +61,7 @@ else
     
     for componenti = 1:numComponents
                 
-        if ( componenti == 1 )
+        if ( componenti == 1 ) && ( (isequal(char(mva_type),'kmeans')) || (isequal(char(mva_type),'nntsne')) )
             
             fig0 = figure('units','normalized','outerposition',[0 0 .7 .7]); % set(gcf,'Visible', 'off');
             jFrame = get(handle(fig0), 'JavaFrame');
@@ -132,7 +132,9 @@ else
                 
                 spectral_component = firstCoeffs(:,componenti);
                 
-                map = makePCAcolorscheme(image_component); colormap(map); title({['pc ' num2str(componenti) ' scores - ' num2str(explainedVariance(componenti,1)) '% of explained variance' ]})
+                % map = makePCAcolorscheme(image_component); colormap(map); 
+                colormap(makePCAcolormap_tm('DarkRose-White-DarkGreen'));
+                title({['pc ' num2str(componenti) ' scores - ' num2str(explainedVariance(componenti,1)) '% of explained variance' ]})
                 
                 outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\pc ' num2str(componenti) '\top loadings images\']; mkdir(outputs_path)
                 

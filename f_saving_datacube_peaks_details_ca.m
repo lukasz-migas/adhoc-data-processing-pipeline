@@ -36,6 +36,8 @@ for mask_type = mask_list
     disp('! Defining mz values that have to be saved in each data cube...')
     
     % Peak selection
+    
+    molecules_classes_specification_path = [ filesToProcess(file_index).folder '\molecules_classes_specification' ];
                 
     datacubeonly_peakDetails = f_peakdetails4datacube( relevant_lists_sample_info, ppmTolerance, numPeaks4mva_array, perc4mva_array, peakDetails, totalSpectrum_mzvalues, y );
     

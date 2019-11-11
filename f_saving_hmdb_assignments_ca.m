@@ -145,8 +145,8 @@ for file_index = 1:length(filesToProcess)
             
         end
         
-        hmdb_sample_info(g_index,6)     = sample_peaks_intensities;
-        hmdb_sample_info(g_index,11)    = sample_peaks_intensities./pixels_num;
+        hmdb_sample_info(:,6)     = sample_peaks_intensities;
+        hmdb_sample_info(:,11)    = sample_peaks_intensities./pixels_num;
         
         mkdir([ peak_assignments_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\'])
         cd([ peak_assignments_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\'])

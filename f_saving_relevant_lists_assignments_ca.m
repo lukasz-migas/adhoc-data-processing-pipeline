@@ -132,8 +132,8 @@ for file_index = 1:length(filesToProcess)
             
         end
         
-        relevant_lists_sample_info(g_index,6)   = sample_peaks_intensities;
-        relevant_lists_sample_info(g_index,11)  = sample_peaks_intensities./pixels_num; % mean spectra
+        relevant_lists_sample_info(:,6)   = sample_peaks_intensities;
+        relevant_lists_sample_info(:,11)  = sample_peaks_intensities./pixels_num; % mean spectra
         
         mkdir([ peak_assignments_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\'])
         cd([ peak_assignments_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\' ])

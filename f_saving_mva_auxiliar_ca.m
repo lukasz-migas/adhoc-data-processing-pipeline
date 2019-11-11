@@ -143,7 +143,8 @@ else
                 
                 spectral_component = firstCoeffs(:,componenti);
                 
-                map = makePCAcolorscheme(image_component); colormap(map); title({['pc ' num2str(componenti) ' scores - ' num2str(explainedVariance(componenti,1)) '% of explained variance' ]})
+                % map = makePCAcolorscheme(image_component); colormap(map); 
+                colormap(makePCAcolormap_tm('DarkRose-White-DarkGreen')); title({['pc ' num2str(componenti) ' scores - ' num2str(explainedVariance(componenti,1)) '% of explained variance' ]})
                 
                 outputs_path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\pc ' num2str(componenti) '\top loadings images\'];
                 mkdir(outputs_path)

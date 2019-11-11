@@ -106,7 +106,7 @@ f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, numCompon
  
 %% Treating all datasets together (note: you need to update the samples_scheme_info function below so that it has the image grid you would like to look at)
 
-dataset_name = "negative DESI small intestine 2019-06"; background = 0; check_datacubes_size = 1;
+dataset_name = "negative DESI small intestine"; background = 0; check_datacubes_size = 1;
 
 [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size );
 

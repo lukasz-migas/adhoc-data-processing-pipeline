@@ -51,7 +51,7 @@ peaks2keep = logical(var_vector >= prctile(var_vector,min(perc4mva_array)));
 mzvalues2keep3 = peak_mz(peaks2keep);
 
 % Select the mz values of peaks that belong to a particular kingdom,
-% super-class, class and/or sub-class.
+% super-class, class and/or sub-class
 
 [ ~, ~, classes_info ] = xlsread(molecules_classes_specification_path);
 
