@@ -1,4 +1,4 @@
-function f_running_mva( filesToProcess, main_mask_list, norm_list, mva_molecules_lists_label_list0 )
+function f_running_mva( filesToProcess, main_mask_list, norm_list, mva_molecules_list0, mva_classes_list0 )
 
 for main_mask = main_mask_list
     
@@ -9,7 +9,7 @@ for main_mask = main_mask_list
         [ ~, ~, ~, ...
             mva_list, numPeaks4mva_array, perc4mva_array, numComponents_array, ...
             ~, ~, ...
-            mva_molecules_lists_label_list, ppmTolerance, ...
+            mva_molecules_list, ppmTolerance, ...
             ~, ~, ...
             pa_max_ppm, ...
             ~, ...
@@ -17,8 +17,15 @@ for main_mask = main_mask_list
         
         if isnan(ppmTolerance); ppmTolerance = pa_max_ppm; end
         
-        if ~isempty(mva_molecules_lists_label_list0)
-            mva_molecules_lists_label_list = mva_molecules_lists_label_list0;
+        if ~isempty(mva_molecules_list0)
+            mva_molecules_list = mva_molecules_list0;
+            numPeaks4mva_array = [];
+            perc4mva_array = [];
+        end
+        
+        mva_classes_list = mva_classes_list0;
+        
+        if ~isempty(mva_classes_list0)
             numPeaks4mva_array = [];
             perc4mva_array = [];
         end
@@ -29,17 +36,16 @@ for main_mask = main_mask_list
         spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
         peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];
         
-        
-        
         % Loading information about the peaks, the mz values saved as a
         % dacube cube and the matching of the dataset with a set of lists
         % of relevant molecules
         
         load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
         load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_intensities' ])
-        load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\peakDetails' ])
-        load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
+        load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\peakDetails' ])        
         load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacubeonly_peakDetails' ])
+        
+        load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
         
         % Loading datacube
         
@@ -74,7 +80,7 @@ for main_mask = main_mask_list
                 
                 % Lists
                 
-                for molecules_list = mva_molecules_lists_label_list
+                for molecules_list = mva_molecules_list
                     
                     mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     
@@ -128,6 +134,64 @@ for main_mask = main_mask_list
                     % Creating a new folder, running and saving MVA results
                     
                     f_running_mva_auxiliar( mva_type, mva_path, filesToProcess(file_index).name(1,1:end-6), main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
+                    
+                end
+                
+                % Classes of molecules
+                
+                molecules_classes_specification_path = [ filesToProcess(1).folder '\molecules_classes_specification' ];
+                
+                [ ~, ~, classes_info ] = xlsread(molecules_classes_specification_path);
+                
+                %
+                
+                for classes_list = mva_classes_list
+                    
+                    for classi = 2:size(classes_info,1)
+                        
+                        if strcmpi(classes_list,classes_info{classi,1})==1
+                            
+                            mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
+                            
+                            % Determining the indexes of the mzvalues that are of interest from the datacube
+                            
+                            datacube_mzvalues_indexes = f_datacube_mzvalues_classes( classes_info, classi, hmdb_sample_info, datacubeonly_peakDetails, totalSpectrum_mzvalues );
+                            
+                            % Data normalisation and compilation
+                            
+                            data4mva = norm_data(logical(mask.*(sum(norm_data(:,datacube_mzvalues_indexes),2)>0)),datacube_mzvalues_indexes);
+                            mask4mva = logical(mask.*(sum(norm_data(:,datacube_mzvalues_indexes),2)>0));
+                            
+                            % Creating a new folder, running and saving MVA results
+                            
+                            f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
+                            
+                        end
+                        
+                    end
+                    
+                end
+                
+                if strcmpi( mva_classes_list, "all" )
+                    
+                    for classi = 2:size(classes_info,1)
+                        
+                        mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
+                        
+                        % Determining the indexes of the mzvalues that are of interest from the datacube
+                        
+                        datacube_mzvalues_indexes = f_datacube_mzvalues_classes( classes_info, classi, hmdb_sample_info, datacubeonly_peakDetails, totalSpectrum_mzvalues );
+                        
+                        % Data normalisation and compilation
+                        
+                        data4mva = norm_data(logical(mask.*(sum(norm_data(:,datacube_mzvalues_indexes),2)>0)),datacube_mzvalues_indexes);
+                        mask4mva = logical(mask.*(sum(norm_data(:,datacube_mzvalues_indexes),2)>0));
+                        
+                        % Creating a new folder, running and saving MVA results
+                        
+                        f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
+                        
+                    end
                     
                 end
                 

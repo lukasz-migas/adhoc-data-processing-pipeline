@@ -1,4 +1,4 @@
-function f_saving_mva_outputs_ca( filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list0, mva_classes_list )
+function f_saving_mva_outputs_ca( filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list0, mva_classes_list0 )
 %%
 for main_mask = main_mask_list
     
@@ -32,7 +32,9 @@ for main_mask = main_mask_list
         perc4mva_array = [];
     end
     
-    if ~isempty(mva_classes_list)
+    mva_classes_list = mva_classes_list0;
+    
+    if ~isempty(mva_classes_list0)
         numPeaks4mva_array = [];
         perc4mva_array = [];
     end

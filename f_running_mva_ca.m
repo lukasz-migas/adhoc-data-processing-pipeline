@@ -28,17 +28,18 @@ for main_mask = main_mask_list
     
     if isnan(ppmTolerance); ppmTolerance = pa_max_ppm; end
     
-     if ~isempty(mva_molecules_list0)
+    if ~isempty(mva_molecules_list0)
         mva_molecules_list = mva_molecules_list0;
         numPeaks4mva_array = [];
         perc4mva_array = [];
     end
     
+    mva_classes_list = mva_classes_list0;
+    
     if ~isempty(mva_classes_list0)
-        mva_classes_list = mva_classes_list0;
         numPeaks4mva_array = [];
         perc4mva_array = [];
-    end   
+    end
     
     % Defining all paths needed
     
