@@ -27,7 +27,7 @@ addpath(genpath('X:\SpectralAnalysis\')) % SpectralAnalysis
 % to process below.
 
 data_folders = { ...
-    'X:\Beatson\negative DESI ibds and imzMLs\Second Round Samples\Xevo\'
+    ...
     };
 
 dataset_name_portion = '*20190904*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
@@ -146,11 +146,19 @@ f_saving_sii_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, sm
 
 %% Multivariate analysis (running and saving outputs)
 
-norm_list = "zscore"; mva_peak_list = "Shorter Beatson metabolomics & CRUK list";
+norm_list = [
+    "no norm"
+    "pqn median"
+    "zscore"
+    % "pqn median & zscore"
+    ]';
 
-f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_peak_list ) % Running MVAs
+mva_molecules_list = string([]); % "Shorter Beatson metabolomics & CRUK list"; %  
+mva_classes_list = string([]); % "all"; % 
 
-f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_peak_list ) % Saving MVAs outputs
+f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Running MVAs
+
+f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Saving MVAs outputs
 
 %% Multivariate analysis (saving outputs barplots)
 

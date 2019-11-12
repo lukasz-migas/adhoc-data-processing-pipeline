@@ -4,7 +4,7 @@ metabolite_lists_path = 'X:\2019_Scripts for Data Processing\molecules-lists\';
 
 csv_inputs = [ filesToProcess(1).folder filesep 'inputs_file' ];
 
-[ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, fig_ppm, outputs_path ] = f_reading_inputs(csv_inputs);
+[ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, fig_ppm, outputs_path ] = f_reading_inputs(csv_inputs);
 
 peak_assignments_path   = [ char(outputs_path) filesep 'peak assignments' filesep ];
 sii_ratios_path         = [ char(outputs_path) filesep 'sii ratios' filesep ];

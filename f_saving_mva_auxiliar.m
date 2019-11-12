@@ -132,9 +132,9 @@ else
                 
                 spectral_component = firstCoeffs(:,componenti);
                 
-                % map = makePCAcolorscheme(image_component); colormap(map); 
-                colormap(makePCAcolormap_tm('DarkRose-White-DarkGreen'));
-                title({['pc ' num2str(componenti) ' scores - ' num2str(explainedVariance(componenti,1)) '% of explained variance' ]})
+                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12); 
+                
+                colormap_values = makePCAcolormap_tm( 'DarkRose-White-DarkGreen' ); scaleColorMap(colormap_values, 0); title({['pc ' num2str(componenti) ' scores - ' num2str(explainedVariance(componenti,1)) '% of explained variance' ]})
                 
                 outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\pc ' num2str(componenti) '\top loadings images\']; mkdir(outputs_path)
                 
@@ -146,6 +146,8 @@ else
                 image_component = reshape(W(:,componenti),datacube.width,datacube.height)';
                 
                 spectral_component = H(componenti,:);
+                
+                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
                 
                 colormap(viridis); title({['factor ' num2str(componenti) ' image ' ]})
                 
@@ -159,6 +161,8 @@ else
                 image_component = reshape(logical(idx.*(idx==componenti)),datacube.width,datacube.height)';
                 
                 spectral_component = C(componenti,:);
+                
+                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
                 
                 colormap(viridis); title({['cluster ' num2str(componenti) ' image ' ]})
                 
@@ -182,12 +186,12 @@ else
                 
                 spectral_component = outputSpectralContriubtion{1,componenti}';
                 
+                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
+                
                 colormap(cmap([1 componenti+1],:)); title({['cluster ' num2str(componenti) ' image ' ]})
                 
         end
-        
-        imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
-        
+                
         subplot(1,2,2)
         
         stem(datacube.spectralChannels(datacube_mzvalues_indexes), spectral_component, 'color', [0 0 0] , 'marker', 'none'); xlabel('\it{m/z}'); axis square;

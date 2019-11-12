@@ -1,4 +1,4 @@
-function datacubeonly_peakDetails = f_peakdetails4datacube( sample_info, ppmTolerance, numPeaks4mva_array, perc4mva_array, molecules_classes_specification_path, peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities )
+function datacubeonly_peakDetails = f_peakdetails4datacube( sample_info, ppmTolerance, numPeaks4mva_array, perc4mva_array, molecules_classes_specification_path, hmdb_sample_info, peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities )
 
 % Select the mz values of the molecules that belong to the relevant lists (within a given ppm error).
 
@@ -66,7 +66,7 @@ for rowi = 2:size(classes_info,1)
     
 end
 
-mzvalues2keep4 = unique(hmdb_sample_info(logical(indexes2keep),4));
+mzvalues2keep4 = double(unique(hmdb_sample_info(logical(indexes2keep),4)));
 
 % ! % PeakDetails indexes
 

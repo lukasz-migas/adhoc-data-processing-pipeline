@@ -27,7 +27,7 @@ switch mva_type
         [ coeff, score, latent ] = pca(data4mva);
                 
         firstCoeffs = coeff(:,1:min(numComponents,size(coeff,2)));
-        firstScores = zeros(length(mask4mva),min(numComponents,size(coeff,2))); firstScores(mask4mva,:) = score(:,1:min(numComponents,size(coeff,2)));
+        firstScores = zeros(length(mask4mva),numComponents); firstScores(mask4mva,:) = score(:,1:numComponents);
         explainedVariance = latent ./ sum(latent) * 100;
         
         save('firstCoeffs','firstCoeffs','-v7.3')

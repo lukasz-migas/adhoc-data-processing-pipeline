@@ -1,4 +1,4 @@
-function colormap = makePCAcolormap_tm( colormap_name )
+function colormap_values = makePCAcolormap_tm( colormap_name )
 
 switch colormap_name
     
@@ -21,7 +21,6 @@ switch colormap_name
         g = interp1(pos,g0,posDesired);
         b = interp1(pos,b0,posDesired);
         
-        colormap0 = [r' g' b'];
+        colormap_values = [r' g' b'];
+        
 end
-
-colormap = scaleColorMap(colormap0, 0);

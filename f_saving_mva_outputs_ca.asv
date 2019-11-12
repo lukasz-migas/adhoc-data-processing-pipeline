@@ -1,4 +1,4 @@
-function f_saving_mva_outputs_ca( filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list0, mva_classes_list )
+function f_saving_mva_outputs_ca( filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list, mva_classes_list )
 %%
 for main_mask = main_mask_list
     
@@ -20,14 +20,14 @@ for main_mask = main_mask_list
     [ ~, ~, ~, ...
         mva_list, numPeaks4mva_array, perc4mva_array, numComponents_array, numLoadings_array, ...
         ~, ...
-        mva_molecules_list, ppmTolerance, ...
+        mva_molecules_lists_label_list, ppmTolerance, ...
         ~, ~, ...
         pa_max_ppm, fig_ppmTolerance, outputs_path ] = f_reading_inputs(csv_inputs);
     
     if isnan(ppmTolerance); ppmTolerance = pa_max_ppm; end
     
-    if ~isempty(mva_molecules_list0)
-        mva_molecules_list = mva_molecules_list0;
+    if ~isempty(mva_molecules_lists_label_list0)
+        mva_molecules_lists_label_list = mva_molecules_lists_label_list0;
         numPeaks4mva_array = [];
         perc4mva_array = [];
     end
@@ -119,7 +119,7 @@ for main_mask = main_mask_list
             
             % Lists
             
-            for molecules_list = mva_molecules_list
+            for molecules_list = mva_molecules_lists_label_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ];
                                 
@@ -153,33 +153,11 @@ for main_mask = main_mask_list
             
             [ ~, ~, classes_info ] = xlsread(molecules_classes_specification_path);
             
-            %
+            for classi = 2:size(classes_info,1)
             
-            for classes_list = mva_classes_list
-                
-                for classi = 2:size(classes_info,1)
-                    
-                    if strcmpi(classes_list,classes_info{classi,1})==1
-                        
-                        mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
-                        
-                        f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
-                        
-                    end
-                    
-                end
-                
-            end
-            
-            if strcmpi( mva_classes_list, "all" )
-                
-                for classi = 2:size(classes_info,1)
-                    
-                    mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
-                    
-                    f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
-                    
-                end
+                mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
+                                
+                f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
                 
             end
             
