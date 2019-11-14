@@ -134,7 +134,9 @@ else
                 
                 imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12); 
                 
-                colormap_values = makePCAcolormap_tm( 'DarkRose-White-DarkGreen' ); scaleColorMap(colormap_values, 0); title({['pc ' num2str(componenti) ' scores - ' num2str(explainedVariance(componenti,1)) '% of explained variance' ]})
+                cmap = makePCAcolormap_tm('DarkRose-LightRose-White-LightGreen-DarkGreen'); scaleColorMap(cmap, 0); 
+                
+                title({['pc ' num2str(componenti) ' scores - ' num2str(explainedVariance(componenti,1)) '% of explained variance' ]})
                 
                 outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\pc ' num2str(componenti) '\top loadings images\']; mkdir(outputs_path)
                 
@@ -237,7 +239,7 @@ else
         
         close all
         clear fig
-        
+                
         if ~strcmpi(main_mask,'no mask')
             
             % saving single ion images of the highest loadings

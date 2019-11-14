@@ -87,7 +87,7 @@ else
                 tifname_char = 'all clusters image.tif'; saveas(fig0,tifname_char)
                 svgname_char = 'all clusters image.svg'; saveas(fig0,svgname_char)
                 
-                                
+                
             elseif isequal(char(mva_type),'nntsne')
                 
                 if isnan(o_numComponents)
@@ -120,7 +120,7 @@ else
                 figname_char = 'all clusters image.fig'; savefig(fig0,figname_char,'compact')
                 tifname_char = 'all clusters image.tif'; saveas(fig0,tifname_char)
                 svgname_char = 'all clusters image.svg'; saveas(fig0,svgname_char)
-                                
+                
             end
             
         end
@@ -143,9 +143,11 @@ else
                 
                 spectral_component = firstCoeffs(:,componenti);
                 
-                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12); 
+                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
                 
-                colormap_values = makePCAcolormap_tm( 'DarkRose-White-DarkGreen' ); scaleColorMap(colormap_values, 0); title({['pc ' num2str(componenti) ' scores - ' num2str(explainedVariance(componenti,1)) '% of explained variance' ]})
+                cmap = makePCAcolormap_tm('DarkRose-LightRose-White-LightGreen-DarkGreen'); scaleColorMap(cmap, 0);
+                
+                title({['pc ' num2str(componenti) ' scores - ' num2str(explainedVariance(componenti,1)) '% of explained variance' ]})
                 
                 outputs_path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\pc ' num2str(componenti) '\top loadings images\'];
                 mkdir(outputs_path)
@@ -159,7 +161,7 @@ else
                 
                 spectral_component = H(componenti,:);
                 
-                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12); 
+                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
                 
                 colormap(viridis); title({['factor ' num2str(componenti) ' image ' ]})
                 
@@ -175,7 +177,7 @@ else
                 
                 spectral_component = C(componenti,:);
                 
-                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12); 
+                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
                 
                 colormap(clustmap([1 componenti+1],:)); title({['cluster ' num2str(componenti) ' image ' ]})
                 
@@ -200,7 +202,7 @@ else
                 
                 spectral_component = outputSpectralContriubtion{1,componenti}';
                 
-                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12); 
+                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
                 
                 colormap(cmap([1 componenti+1],:)); title({['cluster ' num2str(componenti) ' image ' ]})
                 
@@ -257,89 +259,90 @@ else
         close all
         clear fig
         
-        % if ~strcmpi(main_mask,"no mask")
-        
-        % saving single ion images of the highest loadings
-                
-        [ ~, mz_indexes ] = sort(abs(spectral_component),'descend');
-        
-        mva_mzvalues        = datacube_cell{1}.spectralChannels(datacube_mzvalues_indexes);
-        mini_mzvalues       = mva_mzvalues(mz_indexes(1:numLoadings));
-        
-        mva_peakDetails     = datacubeonly_peakDetails(datacube_mzvalues_indexes,:);
-        mini_peak_details   = mva_peakDetails(mz_indexes(1:numLoadings),:); % Peak details need to be sorted in the intended way (e.g, highest loading peaks first)! Sii will be saved based on it.
-        
-        all_mzvalues        = double(hmdb_sample_info(:,4));
-        
-        load([ spectra_details_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
-        
-        th_mz_diff          = min(diff(totalSpectrum_mzvalues));
-        
-        mini_mzvalues_aux   = repmat(mini_mzvalues,1,size(all_mzvalues,1));
-        all_mzvalues_aux    = repmat(all_mzvalues',size(mini_mzvalues,1),1);
-        
-        mini_sample_info    = hmdb_sample_info(logical(sum(abs(mini_mzvalues_aux-all_mzvalues_aux)<th_mz_diff,1))',:);
-        
-        aux_string1 = "not assigned";
-        aux_string2 = "NA";
-        
-        aux_string_left     = repmat([ aux_string1 aux_string2 aux_string2 ],1,1);
-        aux_string_right    = repmat([ aux_string2 aux_string2 aux_string1 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 ],1,1);
-        
-        ii = 0;
-        mini_sample_info_indexes = [];
-        for mzi = mini_mzvalues'
-            ii = ii + 1;
-            if sum(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff,1)
-                mini_sample_info_indexes = [
-                    mini_sample_info_indexes
-                    find(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff,1,'first')
-                    ];
-            else
-                mini_sample_info_indexes = [
-                    mini_sample_info_indexes
-                    size(mini_sample_info,1)+1
-                    ];
-                mini_sample_info = [
-                    mini_sample_info
-                    aux_string_left string(mzi) aux_string_right
+        if 1<0 % ~strcmpi(main_mask,"no mask")
+            
+            % saving single ion images of the highest loadings
+            
+            [ ~, mz_indexes ] = sort(abs(spectral_component),'descend');
+            
+            mva_mzvalues        = datacube_cell{1}.spectralChannels(datacube_mzvalues_indexes);
+            mini_mzvalues       = mva_mzvalues(mz_indexes(1:numLoadings));
+            
+            mva_peakDetails     = datacubeonly_peakDetails(datacube_mzvalues_indexes,:);
+            mini_peak_details   = mva_peakDetails(mz_indexes(1:numLoadings),:); % Peak details need to be sorted in the intended way (e.g, highest loading peaks first)! Sii will be saved based on it.
+            
+            all_mzvalues        = double(hmdb_sample_info(:,4));
+            
+            load([ spectra_details_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
+            
+            th_mz_diff          = min(diff(totalSpectrum_mzvalues));
+            
+            mini_mzvalues_aux   = repmat(mini_mzvalues,1,size(all_mzvalues,1));
+            all_mzvalues_aux    = repmat(all_mzvalues',size(mini_mzvalues,1),1);
+            
+            mini_sample_info    = hmdb_sample_info(logical(sum(abs(mini_mzvalues_aux-all_mzvalues_aux)<th_mz_diff,1))',:);
+            
+            aux_string1 = "not assigned";
+            aux_string2 = "NA";
+            
+            aux_string_left     = repmat([ aux_string1 aux_string2 aux_string2 ],1,1);
+            aux_string_right    = repmat([ aux_string2 aux_string2 aux_string1 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 ],1,1);
+            
+            ii = 0;
+            mini_sample_info_indexes = [];
+            for mzi = mini_mzvalues'
+                ii = ii + 1;
+                if sum(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff,1)
+                    mini_sample_info_indexes = [
+                        mini_sample_info_indexes
+                        find(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff,1,'first')
+                        ];
+                else
+                    mini_sample_info_indexes = [
+                        mini_sample_info_indexes
+                        size(mini_sample_info,1)+1
+                        ];
+                    mini_sample_info = [
+                        mini_sample_info
+                        aux_string_left string(mzi) aux_string_right
+                        ];
+                end
+                table =    [
+                    table
+                    [ repmat([ string(componenti) string(ii) ],length(find(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff)),1) mini_sample_info(logical(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff),[1 12 2 4 3 8 11 14:size(mini_sample_info,2)]) ]
                     ];
             end
-            table =    [
-                table
-                [ repmat([ string(componenti) string(ii) ],length(find(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff)),1) mini_sample_info(logical(abs(mzi-double(mini_sample_info(:,4)))<th_mz_diff),[1 12 2 4 3 8 11 14:size(mini_sample_info,2)]) ]
-                ];
+            
+            mini_ion_images_cell = {};
+            
+            for file_index = 1:length(datacube_cell)
+                
+                mva_ion_images = f_norm_datacube_v2( datacube_cell{file_index}, main_mask_cell{file_index}, norm_type );
+                mva_ion_images = mva_ion_images(:,datacube_mzvalues_indexes);
+                
+                mini_ion_images_cell{file_index}.data = mva_ion_images(:,mz_indexes(1:numLoadings));
+                mini_ion_images_cell{file_index}.width = datacube_cell{file_index}.width;
+                mini_ion_images_cell{file_index}.height = datacube_cell{file_index}.height;
+                
+            end
+            
+            % figures generation and saving
+            
+            f_saving_sii_files_ca( ...
+                outputs_path, ...
+                smaller_masks_list, ...
+                outputs_xy_pairs, ...
+                mini_sample_info, mini_sample_info_indexes, ...
+                mini_ion_images_cell, smaller_masks_cell, ...
+                mini_peak_details, ...
+                meanSpectrum_intensities, meanSpectrum_mzvalues, ...
+                fig_ppmTolerance, 1 )
+            
         end
         
-        mini_ion_images_cell = {};
-        
-        for file_index = 1:length(datacube_cell)
-            
-            mva_ion_images = f_norm_datacube_v2( datacube_cell{file_index}, main_mask_cell{file_index}, norm_type );
-            mva_ion_images = mva_ion_images(:,datacube_mzvalues_indexes);
-            
-            mini_ion_images_cell{file_index}.data = mva_ion_images(:,mz_indexes(1:numLoadings));
-            mini_ion_images_cell{file_index}.width = datacube_cell{file_index}.width;
-            mini_ion_images_cell{file_index}.height = datacube_cell{file_index}.height;
-                        
-        end
-        
-        % figures generation and saving
-        
-        f_saving_sii_files_ca( ...
-            outputs_path, ...
-            smaller_masks_list, ...
-            outputs_xy_pairs, ...
-            mini_sample_info, mini_sample_info_indexes, ...
-            mini_ion_images_cell, smaller_masks_cell, ...
-            mini_peak_details, ...
-            meanSpectrum_intensities, meanSpectrum_mzvalues, ...
-            fig_ppmTolerance, 1 )
-        
-        % end
     end
     
-    % saving table with the to loading information
+    % saving table with the top loading information
     
     if (strcmpi(mva_type,'nntsne') && isnan(o_numComponents))
         cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
@@ -354,7 +357,7 @@ else
     fileID = fopen('top_loadings_info.txt','w');
     fprintf(fileID,txt_row, table');
     fclose(fileID);
-        
+    
     % curating the top loadings info table and saving it
     
     curated_table = f_saving_curated_top_loadings_info( table, relevant_lists_sample_info );

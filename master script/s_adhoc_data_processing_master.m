@@ -27,10 +27,10 @@ addpath(genpath('X:\SpectralAnalysis\')) % SpectralAnalysis
 % to process below.
 
 data_folders = { ...
-    ...
+    'X:\Beatson\negative DESI ibds and imzMLs\'
     };
 
-dataset_name_portion = '*20190904*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
+dataset_name_portion = '*SA1-2*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
 
 filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion '.imzML']) ]; end % Files and adducts information gathering
 
@@ -73,9 +73,9 @@ f_saving_data_cube( filesToProcess, "no mask" )
 
 % Multivariate analysis (running and saving outputs)
 
-f_running_mva( filesToProcess, "no mask", norm_list, string([]) ) % running MVAs
+f_running_mva( filesToProcess, "no mask", norm_list, string([]), string([]) ) % running MVAs
 
-f_saving_mva_outputs( filesToProcess, "no mask", norm_list, string([]) ); % saving MVAs outputs
+f_saving_mva_outputs( filesToProcess, "no mask", norm_list, string([]), string([]) ); % saving MVAs outputs
 
 %% Saving single ion images of relevant molecules with background
 
@@ -150,8 +150,15 @@ norm_list = [
     "no norm"
     "pqn median"
     "zscore"
-    % "pqn median & zscore"
+    "pqn median & zscore"
     ]';
+
+mva_molecules_list = "Shorter Beatson metabolomics & CRUK list"; % string([]); % 
+mva_classes_list = "all"; % string([]); %
+
+f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Running MVAs
+
+f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Saving MVAs outputs
 
 mva_molecules_list = string([]); % "Shorter Beatson metabolomics & CRUK list"; %  
 mva_classes_list = string([]); % "all"; % 

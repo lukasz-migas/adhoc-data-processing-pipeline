@@ -80,7 +80,7 @@ for main_mask = main_mask_list
                 
                 % Lists
                 
-                for molecules_list = mva_molecules_lists_label_list
+                for molecules_list = mva_molecules_list
                     
                     mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ];
                     

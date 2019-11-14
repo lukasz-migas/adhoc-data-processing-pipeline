@@ -77,7 +77,7 @@ for main_mask = main_mask_list
             load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
             load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
             load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacubeonly_peakDetails' ])
-        
+            
         end
         
         % Loading datacube
@@ -106,6 +106,24 @@ for main_mask = main_mask_list
     
     for norm_type = norm_list
         
+        assembled_norm_data = [];
+        assembled_mask = [];
+        
+        for file_index = 1:length(datacube_cell)
+            
+            if (file_index==1) || (~strcmpi(filesToProcess(file_index-1).name(1,1:end-6),filesToProcess(file_index).name(1,1:end-6)))
+                
+                % normalisation
+                
+                norm_data = f_norm_datacube_v2( datacube_cell{file_index}, main_mask_cell{file_index}, norm_type );
+                
+            end
+            
+            assembled_norm_data = [ assembled_norm_data; norm_data ];
+            assembled_mask = [ assembled_mask; smaller_masks_cell{file_index}.*main_mask_cell{file_index} ];
+            
+        end
+        
         mvai = 0;
         for mva_type = mva_list
             mvai = mvai+1;
@@ -119,19 +137,19 @@ for main_mask = main_mask_list
             for molecules_list = mva_molecules_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
-                                
-                datacube_mzvalues_indexes = f_datacube_mzvalues_lists( molecules_list, ppmTolerance, relevant_lists_sample_info, datacubeonly_peakDetails, totalSpectrum_mzvalues );
-            
-                % Data normalisation and compilation
                 
-                [ data4mva, mask4mva ] = f_data4mva_ca_comp_norm(filesToProcess, datacube_cell, main_mask_cell, smaller_masks_cell, norm_type, datacube_mzvalues_indexes );
+                datacube_mzvalues_indexes = f_datacube_mzvalues_lists( molecules_list, ppmTolerance, relevant_lists_sample_info, datacubeonly_peakDetails, totalSpectrum_mzvalues );
+                
+                mask4mva = logical(assembled_mask.*(sum(assembled_norm_data(:,datacube_mzvalues_indexes),2)>0));
+                data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
+                
                 
                 % Creating a new folder, running and saving MVA results
                 
                 f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                 
             end
-                        
+            
             % Highest peaks
             
             for numPeaks4mva = numPeaks4mva_array
@@ -142,9 +160,8 @@ for main_mask = main_mask_list
                 
                 datacube_mzvalues_indexes = f_datacube_mzvalues_highest_peaks( numPeaks4mva, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues );
                 
-                % Data normalisation and compilation
-                
-                [ data4mva, mask4mva ] = f_data4mva_ca_comp_norm(filesToProcess, datacube_cell, main_mask_cell, smaller_masks_cell, norm_type, datacube_mzvalues_indexes );
+                mask4mva = logical(assembled_mask.*(sum(assembled_norm_data(:,datacube_mzvalues_indexes),2)>0));
+                data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
                 
                 % Creating a new folder, running and saving MVA results
                 
@@ -157,14 +174,13 @@ for main_mask = main_mask_list
             for perc4mva = perc4mva_array
                 
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(perc4mva)) ' percentile\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
-                                
+                
                 % Determining the indexes of the mzvalues that are of interest from the datacube
                 
                 datacube_mzvalues_indexes = f_datacube_mzvalues_percentile( perc4mva, ppmTolerance, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues, y );
                 
-                % Data normalisation and compilation
-                
-                [ data4mva, mask4mva ] = f_data4mva_ca_comp_norm(filesToProcess, datacube_cell, main_mask_cell, smaller_masks_cell, norm_type, datacube_mzvalues_indexes );
+                mask4mva = logical(assembled_mask.*(sum(assembled_norm_data(:,datacube_mzvalues_indexes),2)>0));
+                data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
                 
                 % Creating a new folder, running and saving MVA results
                 
@@ -192,14 +208,13 @@ for main_mask = main_mask_list
                         
                         datacube_mzvalues_indexes = f_datacube_mzvalues_classes( classes_info, classi, hmdb_sample_info, datacubeonly_peakDetails, totalSpectrum_mzvalues );
                         
-                        % Data normalisation and compilation
-                        
-                        [ data4mva, mask4mva ] = f_data4mva_ca_comp_norm(filesToProcess, datacube_cell, main_mask_cell, smaller_masks_cell, norm_type, datacube_mzvalues_indexes );
+                        mask4mva = logical(assembled_mask.*(sum(assembled_norm_data(:,datacube_mzvalues_indexes),2)>0));
+                        data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
                         
                         % Creating a new folder, running and saving MVA results
                         
                         f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
-                                                
+                        
                     end
                     
                 end
@@ -218,16 +233,17 @@ for main_mask = main_mask_list
                     
                     % Data normalisation and compilation
                     
-                    [ data4mva, mask4mva ] = f_data4mva_ca_comp_norm(filesToProcess, datacube_cell, main_mask_cell, smaller_masks_cell, norm_type, datacube_mzvalues_indexes );
+                    mask4mva = logical(assembled_mask.*(sum(assembled_norm_data(:,datacube_mzvalues_indexes),2)>0));
+                    data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
                     
                     % Creating a new folder, running and saving MVA results
                     
                     f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                     
-                end                
+                end
                 
             end
-                                                
+            
         end
     end
 end

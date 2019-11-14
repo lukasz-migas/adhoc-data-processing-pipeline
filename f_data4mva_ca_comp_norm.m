@@ -15,10 +15,13 @@ for file_index = 1:length(datacube_cell)
         
     end
     
+    small_norm_data = norm_data(:,datacube_mzvalues_indexes);
+    small_pix_mask = smaller_masks_cell{file_index}.*main_mask_cell{file_index}.*(sum(small_norm_data,2)>0);
+    
     % compilation
     
-    data4mva 	= [ data4mva;  norm_data(logical(smaller_masks_cell{file_index}.*main_mask_cell{file_index}.*(sum(norm_data(:,datacube_mzvalues_indexes),2)>0)),datacube_mzvalues_indexes)    ];
-    mask4mva    = [ mask4mva;  logical(smaller_masks_cell{file_index}.*main_mask_cell{file_index}.*(sum(norm_data(:,datacube_mzvalues_indexes),2)>0))                                         ];
+    data4mva 	= [ data4mva; small_norm_data(small_norm_data,:) ];
+    mask4mva    = [ mask4mva; small_pix_mask ];
     
 end
 
