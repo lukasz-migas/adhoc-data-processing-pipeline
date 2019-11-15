@@ -1,0 +1,54 @@
+
+load('X:\Beatson\dpo mva article\negative DESI\spectra details\20180305 SA1-1\tissue only\datacube.mat')
+original_x = datacube.data;
+
+load('X:\Beatson\dpo mva article\negative DESI\rois\20180305 SA1-1\tissue only\roi.mat')
+
+mask = logical((sum(original_x,2)>0).*reshape(roi.pixelSelection',[],1));
+
+x = original_x(mask,300:100:end);
+
+%%
+
+[ y, loss, tsne_parameters ] = f_tsne_with_diff_parameters( x );
+
+norm_y = y;
+
+for k = 1:3
+    norm_y(:,k) = (y(:,k) - min(y(:,k))) ./ max(y(:,k) - min(y(:,k)));
+end
+
+if isnan(clusters_num)
+    [ idx, C, ~, ~ ] = kmeans_elbow( norm_y, 30 );
+else    
+    [ idc, C ] = kmeans( norm_y, clusters_num, 'Distance', 'cosine' );
+end
+
+C(C<0) = 0;
+C(C>1) = 1;
+
+tsne_colomap(1,1:3) = 0;
+tsne_colomap(2:max(idx)+1,:) = C;
+
+
+image_component = reshape(idx,data);
+
+rgb_image_component = zeros(size(image_component,1),size(image_component,2),size(rgbData,2));
+for ci = 1:size(rgbData,2); aux_rgbData = 0*idx; aux_rgbData(idx>0) = rgbData(:,ci); rgb_image_component(:,:,ci) = f_mva_output_collage( aux_rgbData, datacube_cell, outputs_xy_pairs ); end
+
+subplot(2,2,[1 3])
+image(rgb_image_component)
+axis off; axis image; set(gca, 'fontsize', 12);
+title({'t-sne space colours'})
+
+subplot(2,2,2)
+imagesc(image_component)
+colormap(cmap)
+axis off; axis image; colorbar; set(gca, 'fontsize', 12);
+title({['t-sne space segmentation - ' num2str(numComponents)  ' clusters']})
+
+scatter3_colour_vector = []; for cii = min(idx)+1:max(idx); scatter3_colour_vector(idx(idx>0)==cii,1:3) = repmat(cmap(cii+1,:),sum(idx(idx>0)==cii),1); end
+
+subplot(2,2,4)
+scatter3(rgbData(:,1),rgbData(:,2),rgbData(:,3),1,scatter3_colour_vector); colorbar;
+title({'t-sne space'})

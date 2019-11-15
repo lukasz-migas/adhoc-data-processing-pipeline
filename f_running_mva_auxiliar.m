@@ -63,6 +63,10 @@ switch mva_type
         save('cmap','cmap')
         save('outputSpectralContriubtion','outputSpectralContriubtion')
         
+    case 'tsne'
+        
+        
+        
 end
 
 t = toc; disp([ '!!! ' char(mva_type) ' time elapsed: ' num2str(t) ])
