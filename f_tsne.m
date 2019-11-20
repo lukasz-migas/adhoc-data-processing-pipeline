@@ -9,7 +9,7 @@ end
 
 if isnan(clusters_num)
     [ idx, C, ~, ~ ] = kmeans_elbow( reduced_x, 30 );
-else    
+else
     [ idx, C ] = kmeans( reduced_x, clusters_num, 'Distance', 'cosine' );
 end
 
@@ -19,17 +19,19 @@ C(C>1) = 1;
 tsne_colomap(1,1:3) = 0;
 tsne_colomap(2:max(idx)+1,:) = C;
 
+end
+
 function [ y, loss, tsne_parameters ] = f_tsne_with_diff_parameters( x )
 
-step = round(size(x,1)/1000);
+step = ceil(1/1000*size(x,1)); % 0.1% of the original data
 
 small_x = x(step:step:(end-step),:);
 
 loss0 = Inf;
 
-for Perplexity = [ 30, 50 ]
+for Perplexity = [ 30, 50, 100 ]
     for Distance = [ "cosine" , "correlation" ]
-        for Exaggeration = [ 4, 8, 16 ] % size of natural clusters in data
+        for Exaggeration = [ 4, 8, 16, 32 ] % size of natural clusters in data
             for NumDimensions = 3
                 for NumPCAComponents = [ 3, 10, 50, 0 ]
                     
@@ -81,3 +83,4 @@ disp(join([ '!!! tsne parameters - Distance ' , Distance, ' - Exaggeration ', nu
 
 [ y, loss ] = tsne( x, 'Distance' , char(Distance), 'Exaggeration', Exaggeration, 'NumDimensions' , NumDimensions, 'NumPCAComponents', NumPCAComponents, 'Perplexity', Perplexity, 'Standardize', Standardize );
 
+end

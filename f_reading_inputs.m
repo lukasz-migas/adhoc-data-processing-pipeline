@@ -471,6 +471,14 @@ for i = 1:length(inputs_info_reshaped)
                 numComponents_array = [ numComponents_array, aux_vector ];
                 numLoadings_array = [ numLoadings_array, repmat(10,1,size(aux_vector,2)) ];
             end
+        case "t-sne"
+            if strcmpi(inputs_info_reshaped(i+2),"yes")
+                aux_vector = [ NaN str2num(char(inputs_info_reshaped(i+4))) ];
+                mva_list = [ mva_list, repmat("tsne",1,size(aux_vector,2)) ];
+                numComponents_array = [ numComponents_array, aux_vector ];
+                numLoadings_array = [ numLoadings_array, repmat(10,1,size(aux_vector,2)) ];
+            end
+            
     end
     
     if logical_list_path && strcmpi(inputs_info_reshaped(i+2),"yes")

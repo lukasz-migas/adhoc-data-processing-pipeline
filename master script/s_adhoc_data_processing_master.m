@@ -30,7 +30,7 @@ data_folders = { ...
     'X:\Beatson\negative DESI ibds and imzMLs\'
     };
 
-dataset_name_portion = '*SA1-2*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
+dataset_name_portion = '*SA2-2*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
 
 filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion '.imzML']) ]; end % Files and adducts information gathering
 
@@ -38,8 +38,8 @@ filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToP
 
 norm_list = [
     "no norm"
-    "pqn median"
-    "zscore"
+    %"pqn median"
+    %"zscore"
     % "pqn median & zscore"
     ]';
 
@@ -87,7 +87,7 @@ f_saving_sii_relevant_molecules( filesToProcess, "no mask", norm_list, "all" ); 
 
 file_index = 1; disp(filesToProcess(file_index).name); % Index of which one of the files in filesToProcess would you like to work on?                      
 
-output_mask = "SI-B2-7-APC-KRAS-2";    % Name for the new mask.
+output_mask = "SI-B2-7-APC-KRAS-2"; % Name for the new mask.
 
 % Details regarding the MVA results that you would like to use to create the mask.
 
@@ -95,7 +95,7 @@ input_mask      = "no mask";
 numComponents   = 16;   
 mva_type        = "kmeans";
 norm_type       = "zscore";
-vector_set      = [ 2 3 4 6 7 8 10 11 12 15 16 ];     % IDs of the clusters that will be added to create the mask.
+vector_set      = [ 2 3 4 6 7 8 10 11 12 15 16 ]; % IDs of the clusters that will be added to create the mask.
 
 regionsNum2keep = 1;
 regionsNum2fill = 0;
@@ -120,7 +120,7 @@ filesToProcess = f_unique_extensive_filesToProcess(extensive_filesToProcess); % 
 
 f_saving_spectra_details( filesToProcess, preprocessing_file, "tissue only" )
 
-% Peak picking and saving peak details 
+% Peak picking and saving peak details
 
 f_saving_peaks_details_ca( filesToProcess, "tissue only" )
 
@@ -149,8 +149,8 @@ f_saving_sii_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, sm
 norm_list = [
     "no norm"
     "pqn median"
-    "zscore"
-    "pqn median & zscore"
+    % "zscore"
+    % "pqn median & zscore"
     ]';
 
 mva_molecules_list = "Shorter Beatson metabolomics & CRUK list"; % string([]); % 

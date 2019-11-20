@@ -2,12 +2,12 @@ function f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, no
 
 % Creating a new folder
 
-if strcmpi(mva_type,"pca") || strcmpi(mva_type,"nnmf") || strcmpi(mva_type,"kmeans") || (strcmpi(mva_type,"nntsne") && ~isnan(numComponents))
+if ~isnan(numComponents)
     
     mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
     cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
     
-elseif strcmpi(mva_type,"nntsne") && isnan(numComponents)
+else
     
     mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
     cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
@@ -65,7 +65,15 @@ switch mva_type
         
     case 'tsne'
         
+        [ rgbData, idx0, cmap, loss, tsne_parameters ] = f_tsne( data4mva, numComponents );
         
+        idx = zeros(length(mask4mva),1); idx(mask4mva,:) = idx0; idx(isnan(idx)) = 0;
+        
+        save('rgbData','rgbData')
+        save('idx','idx')
+        save('cmap','cmap')
+        save('loss')
+        save('tsne_parameters')
         
 end
 

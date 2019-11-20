@@ -1,12 +1,14 @@
 function f_saving_mva_auxiliar( file_name, main_mask, mva_type, mva_path, norm_type, numComponents, numLoadings, datacube, datacubeonly_peakDetails, mask, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
 
-if strcmpi(mva_type,"pca") || strcmpi(mva_type,"nnmf") || strcmpi(mva_type,"kmeans") || (strcmpi(mva_type,"nntsne") && ~isnan(numComponents))
+if ~isnan(numComponents)
     
-    cd([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
+    mkdir([ mva_path char(file_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
+    cd([ mva_path char(file_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
     
-elseif strcmpi(mva_type,"nntsne") && isnan(numComponents)
+else
     
-    cd([ mva_path file_name '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
+    mkdir([ mva_path char(file_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
+    cd([ mva_path char(file_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
     
 end
 
@@ -52,6 +54,16 @@ switch mva_type
         o_numComponents = numComponents;
         numComponents = numComponentsSaved;
         
+    case 'tsne'
+        
+        load('idx')
+        load('cmap')
+        load('rgbData')
+        
+        numComponentsSaved = max(idx);
+        o_numComponents = numComponents;
+        numComponents = numComponentsSaved;
+        
 end
 
 if numComponents > numComponentsSaved
@@ -60,8 +72,8 @@ if numComponents > numComponentsSaved
 else
     
     for componenti = 1:numComponents
-                
-        if ( componenti == 1 ) && ( (isequal(char(mva_type),'kmeans')) || (isequal(char(mva_type),'nntsne')) )
+        
+        if ( componenti == 1 ) && ( (isequal(char(mva_type),'kmeans')) || (isequal(char(mva_type),'nntsne')) || isequal(char(mva_type),'tsne') )
             
             fig0 = figure('units','normalized','outerposition',[0 0 .7 .7]); % set(gcf,'Visible', 'off');
             jFrame = get(handle(fig0), 'JavaFrame');
@@ -81,7 +93,7 @@ else
                 
                 title({'all clusters image'})
                 
-            elseif isequal(char(mva_type),'nntsne')
+            elseif isequal(char(mva_type),'nntsne') || isequal(char(mva_type),'tsne')
                 
                 image_component = reshape(idx,datacube.width,datacube.height)';
                 rgb_image_component = zeros(size(image_component,1),size(image_component,2),size(rgbData,2));
@@ -103,7 +115,6 @@ else
                 subplot(2,2,4)
                 scatter3(rgbData(:,1),rgbData(:,2),rgbData(:,3),1,scatter3_colour_vector); colorbar;
                 title({'t-sne space'})
-                
                 
             end
             
@@ -132,9 +143,9 @@ else
                 
                 spectral_component = firstCoeffs(:,componenti);
                 
-                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12); 
+                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
                 
-                cmap = makePCAcolormap_tm('DarkRose-LightRose-White-LightGreen-DarkGreen'); scaleColorMap(cmap, 0); 
+                cmap = makePCAcolormap_tm('DarkRose-LightRose-White-LightGreen-DarkGreen'); scaleColorMap(cmap, 0);
                 
                 title({['pc ' num2str(componenti) ' scores - ' num2str(explainedVariance(componenti,1)) '% of explained variance' ]})
                 
@@ -192,8 +203,30 @@ else
                 
                 colormap(cmap([1 componenti+1],:)); title({['cluster ' num2str(componenti) ' image ' ]})
                 
-        end
+            case 'tsne'
                 
+                if isnan(o_numComponents)
+                    mkdir([ mva_path file_name '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    cd([ mva_path file_name '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
+                    mkdir(outputs_path)
+                else
+                    mkdir([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    cd([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
+                    mkdir(outputs_path)
+                end
+                
+                image_component = reshape(logical(idx.*(idx==componenti)),datacube.width,datacube.height)';
+                
+                spectral_component = 1:sum(datacube_mzvalues_indexes>0);
+                
+                imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
+                
+                colormap(cmap([1 componenti+1],:)); title({['cluster ' num2str(componenti) ' image ' ]})
+                
+        end
+        
         subplot(1,2,2)
         
         stem(datacube.spectralChannels(datacube_mzvalues_indexes), spectral_component, 'color', [0 0 0] , 'marker', 'none'); xlabel('\it{m/z}'); axis square;
@@ -232,6 +265,13 @@ else
                 figname_char = [ 'cluster ' num2str(componenti) ' image and spectrum.fig'];
                 tifname_char = [ 'cluster ' num2str(componenti) ' image and spectrum.tif'];
                 
+            case 'tsne'
+                
+                title({'Spectral Component is not available.'})
+                
+                figname_char = [ 'cluster ' num2str(componenti) ' image and spectrum.fig'];
+                tifname_char = [ 'cluster ' num2str(componenti) ' image and spectrum.tif'];
+                
         end
         
         savefig(fig,figname_char,'compact')
@@ -239,8 +279,8 @@ else
         
         close all
         clear fig
-                
-        if ~strcmpi(main_mask,'no mask')
+        
+        if ~strcmpi(main_mask,'no mask') && ~strcmpi(mva_type,'tsne')
             
             % saving single ion images of the highest loadings
             
