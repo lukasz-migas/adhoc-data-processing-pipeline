@@ -114,15 +114,15 @@ else
                 for ci = 1:size(rgbData,2); aux_rgbData = 0*idx; aux_rgbData(idx>0) = rgbData(:,ci); rgb_image_component(:,:,ci) = f_mva_output_collage( aux_rgbData, datacube_cell, outputs_xy_pairs ); end
                 
                 subplot(2,2,[1 3])
-                image(rgb_image_component)
-                axis off; axis image; set(gca, 'fontsize', 12);
-                title({'t-sne space colours'})
-                
-                subplot(2,2,2)
                 imagesc(image_component)
                 colormap(cmap)
                 axis off; axis image; colorbar; set(gca, 'fontsize', 12);
                 title({['t-sne space segmentation - ' num2str(numComponents)  ' clusters']})
+                
+                subplot(2,2,2)
+                image(rgb_image_component)
+                axis off; axis image; set(gca, 'fontsize', 12);
+                title({'t-sne space colours'})               
                 
                 scatter3_colour_vector = []; for cii = min(idx)+1:max(idx); scatter3_colour_vector(idx(idx>0)==cii,1:3) = repmat(cmap(cii+1,:),sum(idx(idx>0)==cii),1); end
                 

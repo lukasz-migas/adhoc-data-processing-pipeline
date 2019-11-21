@@ -1,4 +1,4 @@
-function f_saving_roc_analysis_ca( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list )
+function f_saving_t_tests_ca( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list )
 
 aux_names = []; for i = 1:length(filesToProcess); aux_names = [ aux_names, string(filesToProcess(i).name) ]; end
 [ ~, uindexes ] = unique(aux_names);
@@ -10,7 +10,7 @@ csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
 
 spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
 peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];
-roc_path                = [ char(outputs_path) '\roc\' ]; if ~exist(roc_path, 'dir'); mkdir(roc_path); end
+ttest_path              = [ char(outputs_path) '\ttest\' ]; if ~exist(ttest_path, 'dir'); mkdir(ttest_path); end
 rois_path               = [ char(outputs_path) '\rois\' ];
 
 for main_mask = main_mask_list
@@ -91,61 +91,61 @@ for main_mask = main_mask_list
             pixels_per_model = [ pixels_per_model; pixels_per_model0 ];
             
             disp(sum(pixels_per_model,1))
-                        
+            
         end
-                
+        
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
         
-        extended_hmdb_sample_info = [ 
+        extended_hmdb_sample_info = [
             hmdb_sample_info
-            [ relevant_lists_sample_info, repmat("",size( relevant_lists_sample_info,1),size(hmdb_sample_info,2)-size(relevant_lists_sample_info,2))] 
+            [ relevant_lists_sample_info, repmat("",size( relevant_lists_sample_info,1),size(hmdb_sample_info,2)-size(relevant_lists_sample_info,2))]
             ];
         
         new_hmdb_sample_info = f_saving_curated_hmdb_info( extended_hmdb_sample_info, relevant_lists_sample_info );
         
-        %%% ROC curves
+        %%% Statistical test curves
         
-        roc_analysis_table = [ "AUC", "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)" ];
+        ttest_analysis_table = [ "p value(ttest2,mean)", "p value(ttest2,median)", "p value(ranksum,mean)", "p value(ranksum,median)", "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)" ];
         
         for mzi = 1:size(datacube.spectralChannels,1)
             
-            labels = [
-                repmat(group0_name,  size(data4roc(logical(pixels_per_model(:,1) == 1),mzi),1), 1)
-                repmat(group1_name,  size(data4roc(logical(pixels_per_model(:,2) == 1),mzi),1), 1)
+            d1 = data4roc(logical(pixels_per_model(:,1) == 1),mzi);
+            d2 = data4roc(logical(pixels_per_model(:,2) == 1),mzi);
+            
+            mean_d1     = mean(d1,'omitnan');
+            median_d1   = median(d1,'omitnan');
+            
+            mean_d2     = mean(d2,'omitnan');
+            median_d2   = median(d2,'omitnan');
+            
+            
+            [ h_ttest2_mean, p_ttest2_mean, ci_ttest2_mean, ~ ] = ttest2( mean_d1, mean_d2, 'Alpha', 0.05, 'Vartype', 'unequal' );
+            [ h_ttest2_median, p_ttest2_median, ci_ttest2_median, ~ ] = ttest2( median_d1, median_d2, 'Alpha', 0.05, 'Vartype', 'unequal' );
+            
+            [ p_ranksum_mean, h_ranksum_mean, ~ ] = ranksum( mean_d1, mean_d2,'Alpha', 0.05 );
+            [ p_ranksum_median, h_ranksum_median, ~ ] = ranksum( median_d1, median_d2,'Alpha', 0.05 );
+            
+            indexes2add = (abs(datacube.spectralChannels(mzi)-double(new_hmdb_sample_info(:,3))) < min(diff(totalSpectrum_mzvalues)));
+            
+            ttest_analysis_table = [
+                ttest_analysis_table
+                [ string(repmat([ p_ttest2_mean, p_ttest2_median, p_ranksum_mean, p_ranksum_median, datacube.spectralChannels(mzi)],sum(indexes2add),1)) new_hmdb_sample_info(indexes2add,[1:2 4:end]) ]
                 ];
             
-            scores = [
-                data4roc(logical(pixels_per_model(:,1) == 1),mzi)
-                data4roc(logical(pixels_per_model(:,2) == 1),mzi)
-                ];
-            
-            posclass = group1_name;
-            
-            [~,~,~,AUC] = perfcurve(labels,scores,posclass);
-            
-            if (AUC >= 0.7) || ((AUC <= 0.3) && (AUC > 0))
-                                
-                indexes2add = (abs(datacube.spectralChannels(mzi)-double(new_hmdb_sample_info(:,3))) < min(diff(totalSpectrum_mzvalues)));
-                
-                roc_analysis_table = [
-                    roc_analysis_table
-                    [ string(repmat([ AUC, datacube.spectralChannels(mzi)],sum(indexes2add),1)) new_hmdb_sample_info(indexes2add,[1:2 4:end]) ]
-                    ];
-                
-            end
         end
         
-        mkdir([ roc_path char(main_mask) '\' char(norm_type) ])
-        cd([ roc_path char(main_mask) '\' char(norm_type) ])
+        mkdir([ ttest_path char(main_mask) '\' char(norm_type) ])
+        cd([ ttest_path char(main_mask) '\' char(norm_type) ])
         
-        save([ 'roc_analysis_' char(strjoin([ group1_name ' vs ' group0_name])) '.mat'],'roc_analysis_table' )
+        save([ 'ttest_' char(strjoin([ group1_name ' vs ' group0_name])) '.mat'],'ttest_analysis_table' )
         
-        txt_row = strcat(repmat('%s\t',1,size(roc_analysis_table,2)-1),'%s\n');
+        txt_row = strcat(repmat('%s\t',1,size(ttest_analysis_table,2)-1),'%s\n');
         
-        fileID = fopen([ 'roc_analysis_' char(strjoin([ group1_name ' vs ' group0_name])) '.txt' ],'w');
-        fprintf(fileID,txt_row, roc_analysis_table');
+        fileID = fopen([ 'ttest_' char(strjoin([ group1_name ' vs ' group0_name])) '.txt' ],'w');
+        fprintf(fileID,txt_row, ttest_analysis_table');
         fclose(fileID);
         
     end
+    
 end
