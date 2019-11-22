@@ -47,13 +47,13 @@ for main_mask = main_mask_list
                 
                 if isnan(numComponents)
                     
-                    mkdir([ rois_path filesToProcess(file_index).name(1,1:end-6) '\' char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\' char(molecules_list) '\' ])
-                    cd([ rois_path filesToProcess(file_index).name(1,1:end-6) '\' char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\' char(molecules_list) '\' ])
+                    mkdir([ rois_path filesToProcess(file_index).name(1,1:end-6) '\mva based rois\' char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\' char(molecules_list) '\' ])
+                    cd([ rois_path filesToProcess(file_index).name(1,1:end-6) '\mva based rois\' char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\' char(molecules_list) '\' ])
                     
                 else
                     
-                    mkdir([ rois_path filesToProcess(file_index).name(1,1:end-6) '\' char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\' char(molecules_list) '\' ])
-                    cd([ rois_path filesToProcess(file_index).name(1,1:end-6) '\' char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\' char(molecules_list) '\' ])
+                    mkdir([ rois_path filesToProcess(file_index).name(1,1:end-6) '\mva based rois\' char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\' char(molecules_list) '\' ])
+                    cd([ rois_path filesToProcess(file_index).name(1,1:end-6) '\mva based rois\' char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\' char(molecules_list) '\' ])
                     
                 end
                 

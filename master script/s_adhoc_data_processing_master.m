@@ -103,6 +103,14 @@ regionsNum2fill = 0;
 %
 
 f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, numComponents, norm_type, vector_set, regionsNum2keep, regionsNum2fill, output_mask )
+
+%% Saving masks for each one of the MVA results
+
+mva_list = "nntsne"; % example
+numComponents_list = NaN; % example
+molecules_list = string([]); % example
+
+f_saving_mva_rois_ca( extensive_filesToProcess, main_mask_list, dataset_name, mva_list, numComponents_list, norm_list, molecules_list )
  
 %% Treating all datasets together (note: you need to update the samples_scheme_info function below so that it has the image grid you would like to look at)
 
@@ -205,6 +213,11 @@ group1_name = "APC-KRAS";
 
 f_saving_t_tests_ca( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list )
 
+%% 
+
+
 %% Saving data for supervised classification in Python
 
 f_data_4_sup_class_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name )
+
+
