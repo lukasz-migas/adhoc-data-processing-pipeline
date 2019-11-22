@@ -194,6 +194,15 @@ f_saving_roc_analysis_ca( filesToProcess, main_mask_list, group0, group0_name, g
 
 %% T-test
 
+WT_group =          [ "SA1-2-WT","SA2-2-WT" ];
+APC_KRAS_group =    [ "SA1-1-APC-KRAS","SA1-2-APC-KRAS","SA2-1-APC-KRAS","SA2-2-APC-KRAS" ];
+
+group0 = WT_group;
+group0_name = "WT";
+
+group1 = APC_KRAS_group;
+group1_name = "APC-KRAS";
+
 f_saving_t_tests_ca( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list )
 
 %% Saving data for supervised classification in Python

@@ -63,7 +63,7 @@ for main_mask = main_mask_list
                     load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(all_folders_names(aux_i)) filesep 'roi' ])
                     
                     model_mask = reshape(roi.pixelSelection',[],1);
-                    pixels_per_model0(:,1) = pixels_per_model0(:,1) + model_mask;
+                    pixels_per_model0(:,1) = pixels_per_model0(:,1) + aux_i*model_mask;
                     
                 end
                 
@@ -82,7 +82,7 @@ for main_mask = main_mask_list
                     load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(all_folders_names(aux_i)) filesep 'roi' ])
                     
                     model_mask = reshape(roi.pixelSelection',[],1);
-                    pixels_per_model0(:,2) = pixels_per_model0(:,2) + model_mask;
+                    pixels_per_model0(:,2) = pixels_per_model0(:,2) + aux_i*model_mask;
                     
                 end
                 
@@ -91,7 +91,7 @@ for main_mask = main_mask_list
             pixels_per_model = [ pixels_per_model; pixels_per_model0 ];
             
             disp(sum(pixels_per_model,1))
-            
+                        
         end
         
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
@@ -106,43 +106,65 @@ for main_mask = main_mask_list
         
         %%% Statistical test curves
         
-        ttest_analysis_table = [ "p value(ttest2,mean)", "p value(ttest2,median)", "p value(ranksum,mean)", "p value(ranksum,median)", "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)" ];
+        ttest_analysis_table = [ "p value (ttest2, mean)", "p value (ranksum, mean)", "p value (ttest2, median)", "p value (ranksum, median)", "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)" ];
         
         for mzi = 1:size(datacube.spectralChannels,1)
             
-            d1 = data4roc(logical(pixels_per_model(:,1) == 1),mzi);
-            d2 = data4roc(logical(pixels_per_model(:,2) == 1),mzi);
+            d1 = NaN*ones(size(data4roc,1),size(unique(pixels_per_model(:,1)),1));
+            i = 0;
+            for maski = unique(pixels_per_model(:,1))'
+                i = i+1;
+                d1(logical(pixels_per_model(:,1) == maski),i) = data4roc(logical(pixels_per_model(:,1) == maski),mzi); 
+            end
+            d1 = d1(:,2:end);
+            d1(d1==0)=NaN;
             
-            mean_d1     = mean(d1,'omitnan');
-            median_d1   = median(d1,'omitnan');
+            d2 = NaN*ones(size(data4roc,1),size(unique(pixels_per_model(:,2)),1));
+            i = 0;
+            for maski = unique(pixels_per_model(:,2))'
+                i = i+1;
+                d2(logical(pixels_per_model(:,2) == maski),i) = data4roc(logical(pixels_per_model(:,2) == maski),mzi);
+            end
+            d2 = d2(:,2:end);
+            d2(d2==0)=NaN;
             
-            mean_d2     = mean(d2,'omitnan');
-            median_d2   = median(d2,'omitnan');
+            mean_d1     = mean(d1,1,'omitnan');
+            median_d1   = median(d1,1,'omitnan');
+            
+            mean_d2     = mean(d2,1,'omitnan');
+            median_d2   = median(d2,1,'omitnan');
             
             
-            [ h_ttest2_mean, p_ttest2_mean, ci_ttest2_mean, ~ ] = ttest2( mean_d1, mean_d2, 'Alpha', 0.05, 'Vartype', 'unequal' );
-            [ h_ttest2_median, p_ttest2_median, ci_ttest2_median, ~ ] = ttest2( median_d1, median_d2, 'Alpha', 0.05, 'Vartype', 'unequal' );
+            [ ~, p_ttest2_mean, ~, ~ ] = ttest2( mean_d1, mean_d2, 'Alpha', 0.05, 'Vartype', 'unequal' );
+            [ ~, p_ttest2_median, ~, ~ ] = ttest2( median_d1, median_d2, 'Alpha', 0.05, 'Vartype', 'unequal' );
             
-            [ p_ranksum_mean, h_ranksum_mean, ~ ] = ranksum( mean_d1, mean_d2,'Alpha', 0.05 );
-            [ p_ranksum_median, h_ranksum_median, ~ ] = ranksum( median_d1, median_d2,'Alpha', 0.05 );
+            [ p_ranksum_mean, ~, ~ ] = ranksum( mean_d1, mean_d2,'Alpha', 0.05 );
+            [ p_ranksum_median, ~, ~ ] = ranksum( median_d1, median_d2,'Alpha', 0.05 );
             
             indexes2add = (abs(datacube.spectralChannels(mzi)-double(new_hmdb_sample_info(:,3))) < min(diff(totalSpectrum_mzvalues)));
             
-            ttest_analysis_table = [
-                ttest_analysis_table
-                [ string(repmat([ p_ttest2_mean, p_ttest2_median, p_ranksum_mean, p_ranksum_median, datacube.spectralChannels(mzi)],sum(indexes2add),1)) new_hmdb_sample_info(indexes2add,[1:2 4:end]) ]
-                ];
+            if sum(indexes2add) > 0
+                
+                aux_row = string(repmat([ p_ttest2_mean, p_ranksum_mean, p_ttest2_median, p_ranksum_median, datacube.spectralChannels(mzi) ], sum(indexes2add), 1));
+                aux_row(ismissing(aux_row)) = "NaN";
+                
+                ttest_analysis_table = [
+                    ttest_analysis_table
+                    [ aux_row, new_hmdb_sample_info(indexes2add,[1:2 4:end]) ]
+                    ];
+                
+            end
             
         end
         
         mkdir([ ttest_path char(main_mask) '\' char(norm_type) ])
         cd([ ttest_path char(main_mask) '\' char(norm_type) ])
         
-        save([ 'ttest_' char(strjoin([ group1_name ' vs ' group0_name])) '.mat'],'ttest_analysis_table' )
+        save([ 'ttest ' char(group1_name), ' vs ', char(group0_name), '.mat' ],'ttest_analysis_table' )
         
         txt_row = strcat(repmat('%s\t',1,size(ttest_analysis_table,2)-1),'%s\n');
         
-        fileID = fopen([ 'ttest_' char(strjoin([ group1_name ' vs ' group0_name])) '.txt' ],'w');
+        fileID = fopen([ 'ttest ' char(group1_name), ' vs ', char(group0_name), '.txt' ],'w');
         fprintf(fileID,txt_row, ttest_analysis_table');
         fclose(fileID);
         
