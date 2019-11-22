@@ -1,5 +1,5 @@
 function f_saving_sii_ratio_relevant_molecules_ca( filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, ratios_info_file )
- 
+
 metabolite_lists_path = 'X:\2019_Scripts for Data Processing\molecules-lists\';
 
 csv_inputs = [ filesToProcess(1).folder filesep 'inputs_file' ];
@@ -12,8 +12,8 @@ sii_ratios_path         = [ char(outputs_path) filesep 'sii ratios' filesep ];
 for main_mask = main_mask_list
     
     load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) filesep char(main_mask) filesep 'relevant_lists_sample_info' ])
-            [ ~, ~, cell ] = xlsread([metabolite_lists_path filesep char(ratios_info_file) '.xlsx']);
-        
+    [ ~, ~, cell ] = xlsread([metabolite_lists_path filesep char(ratios_info_file) '.xlsx']);
+    
     sample_info_10 = [];
     sample_info_20 = [];
     
@@ -26,10 +26,10 @@ for main_mask = main_mask_list
         logical_string  = strfind(relevant_lists_sample_info(:,1), cell{molecules_i,2});
         logical_vector  = []; for logical_string_i = 1:size(logical_string,1); logical_vector(logical_string_i,1)  = ~isempty(logical_string{logical_string_i,1}); end
         sample_info_20   = [ sample_info_20; [ relevant_lists_sample_info(logical(logical_vector),:) 2*ones(sum(logical_vector),1) molecules_i.*ones(sum(logical_vector),1) ]];
-    
+        
     end
     
-    for norm_type = norm_list 
+    for norm_type = norm_list
         
         [ smaller_masks_list, sample_info_1, sample_info_indexes_1, norm_sii_cell_1, smaller_masks_cell, peak_details_1, pixels_num_cell, totalSpectrum_intensities_cell, totalSpectrum_mzvalues_cell ] = ...
             f_saving_sii_ratio_sample_info_ca( filesToProcess, main_mask, smaller_masks_list, norm_type, sample_info_10 );

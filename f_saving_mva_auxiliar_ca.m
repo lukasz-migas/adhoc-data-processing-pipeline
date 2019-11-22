@@ -329,7 +329,7 @@ else
             aux_string2 = "NA";
             
             aux_string_left     = repmat([ aux_string1 aux_string2 aux_string2 ],1,1);
-            aux_string_right    = repmat([ aux_string2 aux_string2 aux_string1 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 aux_string2 ],1,1);
+            aux_string_right    = repmat([ aux_string2 aux_string2 aux_string1 repmat(aux_string2, 1, size(mini_sample_info,2)-7) ],1,1);
             
             ii = 0;
             mini_sample_info_indexes = [];
