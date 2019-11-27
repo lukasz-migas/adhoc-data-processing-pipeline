@@ -2,6 +2,13 @@ function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs
 
 if strcmpi(dataset_name,'negative DESI') || strcmpi(dataset_name,'negative DESI all bulk tissue') || strcmpi(dataset_name,'negative DESI all tumour')
     
+    data_folders = { 'X:\PDAC Combo\negative DESI ibds and imzMLs\Individual\' };
+    
+    dataset_name = '*';
+    
+    filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+
+    
     % * Positive & Negative * DESI data treated as 1 dataset
     
     extensive_filesToProcess((1:6)+0*6,:)   = filesToProcess(1,:);
@@ -73,6 +80,11 @@ elseif strcmpi(dataset_name,'positive MALDI')
     
     % * Positive & Negative * MALDI data treated as 1 dataset
     
+    data_folders = { 'X:\PDAC Combo\positive MALDI ibds and imzMLs\Individual\' };
+    
+    dataset_name = '*';
+    
+    filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
     
     extensive_filesToProcess(1:48,:)  = filesToProcess([ 11 11 13 15 16 18 1 3 5 6 7 9 10 12 14 19 17 19 2 4 2 2 8 2 20:2:42 21:2:43 ],:);
     

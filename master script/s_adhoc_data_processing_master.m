@@ -182,7 +182,7 @@ norm_list = "zscore"; mva_peak_list = "Shorter Beatson metabolomics & CRUK list"
 f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, "pca", 16, 8, mva_peak_list )
 f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, [ "nnmf", "kmeans"], 16, 4, mva_peak_list )
 
-%% ROC analysis - whole tissue
+%% ROC analysis
 
 % Note: As it is, the ROC analysis is done for the entire list of m/z
 % values saved in the datacube. However, the name of the database is assig
@@ -203,6 +203,8 @@ f_saving_roc_analysis_ca( filesToProcess, main_mask_list, group0, group0_name, g
 %% T-test
 
 WT_group =          [ "SA1-2-WT","SA2-2-WT" ];
+KRAS_group =        [ "SA1-1-KRAS","SA1-2-KRAS","SA2-1-KRAS","SA2-2-KRAS" ];
+APC_group =         [ "SA1-1-APC","SA1-2-APC","SA2-2-APC" ];
 APC_KRAS_group =    [ "SA1-1-APC-KRAS","SA1-2-APC-KRAS","SA2-1-APC-KRAS","SA2-2-APC-KRAS" ];
 
 group0 = WT_group;

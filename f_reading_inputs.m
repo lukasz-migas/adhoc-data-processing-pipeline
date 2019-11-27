@@ -54,7 +54,7 @@ fig_ppm = [];
 numPeaks4mva = NaN;
 perc4mva = NaN;
 
-metabolite_lists_path = "X:\2019_Scripts for Data Processing\molecules-lists\";
+metabolite_lists_path = "D:\git-hub-repositories\adhoc-data-processing-pipeline\master script\molecules-lists\";
 logical_list_path = 0;
 
 pa_molecules_lists_csv_list(1,1)    = strcat(metabolite_lists_path,"4_Reference_List.xlsx");
