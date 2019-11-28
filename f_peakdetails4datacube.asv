@@ -62,22 +62,22 @@ end
 % super-class, class and/or sub-class.
 
 if isfile(molecules_classes_specification_path)
+
+[ ~, ~, classes_info ] = xlsread(molecules_classes_specification_path);
+
+for rowi = 2:size(classes_info,1)
+
+    indexes2keep = 0;
     
-    [ ~, ~, classes_info ] = xlsread(molecules_classes_specification_path);
+    indexes2keep = indexes2keep + strcmpi(hmdb_sample_info(:,14),classes_info{rowi,2});
+    indexes2keep = indexes2keep + strcmpi(hmdb_sample_info(:,15),classes_info{rowi,3});
+    indexes2keep = indexes2keep + strcmpi(hmdb_sample_info(:,16),classes_info{rowi,4});
+    indexes2keep = indexes2keep + strcmpi(hmdb_sample_info(:,17),classes_info{rowi,5});
     
-    for rowi = 2:size(classes_info,1)
-        
-        indexes2keep = 0;
-        
-        indexes2keep = indexes2keep + strcmpi(hmdb_sample_info(:,14),classes_info{rowi,2});
-        indexes2keep = indexes2keep + strcmpi(hmdb_sample_info(:,15),classes_info{rowi,3});
-        indexes2keep = indexes2keep + strcmpi(hmdb_sample_info(:,16),classes_info{rowi,4});
-        indexes2keep = indexes2keep + strcmpi(hmdb_sample_info(:,17),classes_info{rowi,5});
-        
-    end
-    
-    mzvalues2keep4 = double(unique(hmdb_sample_info(logical(indexes2keep),4)));
-    
+end
+
+mzvalues2keep4 = double(unique(hmdb_sample_info(logical(indexes2keep),4)));
+
 else
     
     mzvalues2keep4 = [];

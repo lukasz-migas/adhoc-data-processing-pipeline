@@ -411,8 +411,10 @@ for i = 1:length(inputs_info_reshaped)
         case "study2_dhap_T_ratio th3"
             list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_ratio th3.xlsx" );
         case "study2_dhap_T_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_ratio th10.xlsx" );            
-
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_ratio th10.xlsx" );     
+            
+        case "Small intestine DESI neg APC-KRAS vs WT"
+            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "Small intestine DESI neg APC-KRAS vs WT.xlsx" ); 
             
         case "maximum ppm error"
             if peak_assign_info == 0

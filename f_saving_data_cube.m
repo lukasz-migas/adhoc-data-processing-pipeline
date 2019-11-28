@@ -26,7 +26,7 @@ for mask_type = mask_list
         parser.parse;
         data = DataOnDisk(parser);
         
-        reduction = DatacubeReductionAutomated('integrate over peak', 'New Window');
+        reduction = DatacubeReduction('Integrate over peak', 'New Window', 'Double', 'Processed');
         reduction.setPeakList(datacubeonly_peakDetails(:,2));
         reduction.setPeakDetails(datacubeonly_peakDetails);
         reduction.setIntegrateOverPeak;
