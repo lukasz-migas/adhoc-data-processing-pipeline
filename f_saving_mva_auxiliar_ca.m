@@ -43,7 +43,9 @@ switch mva_type
         load('C')
         load('idx')
         
-        numComponentsSaved = size(C,1);
+        numComponentsSaved = max(idx);
+        o_numComponents = numComponents;
+        numComponents = numComponentsSaved;
         
     case 'nntsne'
         
@@ -83,9 +85,15 @@ else
             
             fig0 = figure('units','normalized','outerposition',[0 0 .7 .7]); % set(gcf,'Visible', 'off');
             
+            if isnan(o_numComponents)
+                cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
+            else
+                cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
+            end
+            
             if isequal(char(mva_type),'kmeans')
                 
-                cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
+                
                 
                 clustmap = f_full_colourscheme(numComponents)./255;
                 
@@ -103,12 +111,6 @@ else
                 
             elseif isequal(char(mva_type),'nntsne') || isequal(char(mva_type),'tsne')
                 
-                if isnan(o_numComponents)
-                    cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
-                else
-                    cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
-                end
-                
                 image_component = f_mva_output_collage( idx, datacube_cell, outputs_xy_pairs );
                 rgb_image_component = zeros(size(image_component,1),size(image_component,2),size(rgbData,2));
                 for ci = 1:size(rgbData,2); aux_rgbData = 0*idx; aux_rgbData(idx>0) = rgbData(:,ci); rgb_image_component(:,:,ci) = f_mva_output_collage( aux_rgbData, datacube_cell, outputs_xy_pairs ); end
@@ -122,7 +124,7 @@ else
                 subplot(2,2,2)
                 image(rgb_image_component)
                 axis off; axis image; set(gca, 'fontsize', 12);
-                title({'t-sne space colours'})               
+                title({'t-sne space colours'})
                 
                 scatter3_colour_vector = []; for cii = min(idx)+1:max(idx); scatter3_colour_vector(idx(idx>0)==cii,1:3) = repmat(cmap(cii+1,:),sum(idx(idx>0)==cii),1); end
                 
@@ -183,8 +185,17 @@ else
                 
             case 'kmeans'
                 
-                mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
-                cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                if isnan(o_numComponents)
+                    mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    outputs_path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
+                    mkdir(outputs_path)
+                else
+                    mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    outputs_path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
+                    mkdir(outputs_path)
+                end
                 
                 image_component = f_mva_output_collage( logical(idx.*(idx==componenti)), datacube_cell, outputs_xy_pairs );
                 
@@ -193,9 +204,6 @@ else
                 imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
                 
                 colormap(clustmap([1 componenti+1],:)); title({['cluster ' num2str(componenti) ' image ' ]})
-                
-                outputs_path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
-                mkdir(outputs_path)
                 
             case 'nntsne'
                 
@@ -387,7 +395,7 @@ else
     
     % saving table with the top loading information
     
-    if (strcmpi(mva_type,'nntsne') && isnan(o_numComponents)) || (strcmpi(mva_type,'tsne') && isnan(o_numComponents))
+    if isnan(o_numComponents)
         cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
     else
         cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])

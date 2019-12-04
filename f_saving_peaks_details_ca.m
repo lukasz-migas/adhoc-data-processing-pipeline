@@ -26,6 +26,8 @@ for mask_type = mask_list
     
     disp('! Running peak picking on total spectum...')
     
+    addJARsToClassPath()
+    
     peakPicking = GradientPeakDetection();
     
     [ ~, ~, peakDetails ] = peakPicking.process(totalSpectrum_mzvalues, y); % peak pick total spectrum

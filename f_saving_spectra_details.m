@@ -18,6 +18,8 @@ for file_index = 1:length(filesToProcess)
         
         disp('! Running pre-processing and generating representative spectra...')
         
+        addJARsToClassPath()
+        
         preprocessing = PreprocessingWorkflow;
         preprocessing.loadWorkflow(preprocessing_file);
         
@@ -28,6 +30,8 @@ for file_index = 1:length(filesToProcess)
         
         spectrumGeneration = TotalSpectrumAutomated(); % this function is changed to output SpectralData instead of SpectralList
         spectrumGeneration.setPreprocessingWorkflow(preprocessing); % set preprocessing workflow
+
+        addlistener(spectrumGeneration, 'FastMethods', @(src, canUseFastMethods)disp(['! Using fast Methods? A: ' num2str(canUseFastMethods)]));
         
         % ROI
         
@@ -49,6 +53,7 @@ for file_index = 1:length(filesToProcess)
         end
                 
         totalSpectrum = spectrumGeneration.process(data); % create total spectrum
+        %totalSpectrum = totalSpectrum.get(1);
         
         totalSpectrum_mzvalues      = totalSpectrum.spectralChannels;
         totalSpectrum_intensities   = totalSpectrum.intensities;

@@ -138,9 +138,13 @@ for main_mask = main_mask_list
                 
                 molecules_classes_specification_path = [ filesToProcess(1).folder '\molecules_classes_specification' ];
                 
-                [ ~, ~, classes_info ] = xlsread(molecules_classes_specification_path);
-                
                 %
+                
+                if isfile(molecules_classes_specification_path)
+                    [ ~, ~, classes_info ] = xlsread(molecules_classes_specification_path);
+                elseif ~isempty(mva_classes_list)
+                    disp(['! No file specifying classes available in ' char(molecules_classes_specification_path) '.'])
+                end
                 
                 for classes_list = mva_classes_list
                     

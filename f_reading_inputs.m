@@ -54,7 +54,7 @@ fig_ppm = [];
 numPeaks4mva = NaN;
 perc4mva = NaN;
 
-metabolite_lists_path = "D:\git-hub-repositories\adhoc-data-processing-pipeline\master script\molecules-lists\";
+metabolite_lists_path = "D:\git-hub-repositories\adhoc-data-processing-pipeline\molecules-lists\";
 logical_list_path = 0;
 
 pa_molecules_lists_csv_list(1,1)    = strcat(metabolite_lists_path,"4_Reference_List.xlsx");
@@ -414,7 +414,7 @@ for i = 1:length(inputs_info_reshaped)
             list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_ratio th10.xlsx" );     
             
         case "Small intestine DESI neg APC-KRAS vs WT"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "Small intestine DESI neg APC-KRAS vs WT.xlsx" ); 
+            list_path = strcat( metabolite_lists_path, "Small intestine DESI neg APC-KRAS vs WT.xlsx" ); 
             
         case "maximum ppm error"
             if peak_assign_info == 0
@@ -457,7 +457,7 @@ for i = 1:length(inputs_info_reshaped)
             end
         case "k-means"
             if strcmpi(inputs_info_reshaped(i+2),"yes")
-                aux_vector = str2num(char(inputs_info_reshaped(i+4)));
+                aux_vector = [ NaN str2num(char(inputs_info_reshaped(i+4))) ];
                 mva_list = [ mva_list, repmat("kmeans",1,size(aux_vector,2)) ];
                 numComponents_array = [ numComponents_array, aux_vector ];
                 numLoadings_array = [ numLoadings_array, repmat(10,1,size(aux_vector,2)) ];

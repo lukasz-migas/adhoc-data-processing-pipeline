@@ -1,6 +1,6 @@
 function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_pdac_samples_scheme_info( dataset_name, background, check_datacubes_size )
 
-if strcmpi(dataset_name,'negative DESI') || strcmpi(dataset_name,'negative DESI all bulk tissue') || strcmpi(dataset_name,'negative DESI all tumour')
+if strcmpi(dataset_name,'negative DESI all') || strcmpi(dataset_name,'negative DESI all bulk tissue') || strcmpi(dataset_name,'negative DESI all tumour')
     
     data_folders = { 'X:\PDAC Combo\negative DESI ibds and imzMLs\Individual\' };
     
@@ -76,7 +76,7 @@ if strcmpi(dataset_name,'negative DESI') || strcmpi(dataset_name,'negative DESI 
         1 8; 2 8; 3 8; 4 8; 5 8; 6 8;
         ];
     
-elseif strcmpi(dataset_name,'positive MALDI')
+elseif strcmpi(dataset_name,'positive MALDI all')
     
     % * Positive & Negative * MALDI data treated as 1 dataset
     

@@ -45,12 +45,13 @@ switch mva_type
         
     case 'kmeans'
         
-        [ idx0, C ] = kmeans(data4mva, numComponents,'distance','cosine');
-        
+        [ idx0, C, optimal_numComponents ] = f_kmeans( data4mva, numComponents, 'cosine' );
+                
         idx = zeros(length(mask4mva),1); idx(mask4mva,:) = idx0; idx(isnan(idx)) = 0;
         
         save('idx','idx','-v7.3')
         save('C','C','-v7.3')
+        save('optimal_numComponents','optimal_numComponents','-v7.3')
         
     case 'nntsne'
         

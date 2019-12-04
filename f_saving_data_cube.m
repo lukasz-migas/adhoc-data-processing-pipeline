@@ -18,24 +18,31 @@ for mask_type = mask_list
         
         %%% Generating the data cube
         
-        disp('! Generating data cube...')
+        disp(['! Generating data cube with ' num2str(size(datacubeonly_peakDetails,1)) ' peaks...'])
         
         % Data loading (SpectralAnalysis functions)
+        
+        addJARsToClassPath()
         
         parser = ImzMLParser([filesToProcess(file_index).folder '\' filesToProcess(file_index).name]);
         parser.parse;
         data = DataOnDisk(parser);
         
-        reduction = DatacubeReduction('Integrate over peak', 'New Window', 'Double', 'Processed');
+        reduction = DatacubeReduction('Integrate over peak', 'New Window');
+        
+        addlistener(reduction, 'FastMethods', @(src, canUseFastMethods)disp(['! Using fast Methods?   ' num2str(canUseFastMethods.bool)]));
+        
         reduction.setPeakList(datacubeonly_peakDetails(:,2));
         reduction.setPeakDetails(datacubeonly_peakDetails);
         reduction.setIntegrateOverPeak;
         
         datacube = reduction.process(data);
+        datacube = datacube.get(1);
+        datacube = datacube.saveobj();
         
         cd([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\'])
         
-        save('datacube','datacube','-v7.3')
+        save('datacube.mat','datacube','-v7.3')
         
         disp('! Data cube has been saved.')
         
