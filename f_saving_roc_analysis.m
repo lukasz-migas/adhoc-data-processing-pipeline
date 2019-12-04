@@ -167,7 +167,7 @@ for main_mask = main_mask_list
         
         % Saving siis
         
-        sii_sample_info(1:end,7) = strjoin([ 'roc analysis ' group1_name ' vs ' group0_name ]);
+        sii_sample_info(1:end,7) = strjoin([ 'roc analysis ', group1_name, ' vs ', group0_name ]);
         
         disp(['! Started saving ' num2str(size(sii_sample_info,1)-1) ' SIIs...'])
         
@@ -194,11 +194,11 @@ for main_mask = main_mask_list
         mkdir([ roc_path char(main_mask) '\' char(norm_type) ])
         cd([ roc_path char(main_mask) '\' char(norm_type) ])
         
-        save([ 'roc analysis ' char(strjoin([ group1_name ' vs ' group0_name])) '.mat'],'roc_analysis_table' )
+        save([ 'roc analysis ' char(group1_name) ' vs ' char(group0_name) '.mat' ],'roc_analysis_table' )
         
         txt_row = strcat(repmat('%s\t',1,size(roc_analysis_table,2)-1),'%s\n');
         
-        fileID = fopen([ 'roc analysis ' char(strjoin([ group1_name ' vs ' group0_name])) '.txt' ],'w');
+        fileID = fopen([ 'roc analysis ' char(group1_name) ' vs ' char(group0_name) '.txt' ],'w');
         fprintf(fileID,txt_row, roc_analysis_table');
         fclose(fileID);
         
