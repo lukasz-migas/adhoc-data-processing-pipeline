@@ -6,6 +6,6 @@ if ~isnan(numComponents)
     
 else
     
-    [ idx, C , ~, optimal_numComponents ] = kmeans_elbow( data, 30 );
+    [ idx, C , ~, optimal_numComponents ] = kmeans_elbow( data, 24 );
     
 end

@@ -8,14 +8,6 @@ function f_saving_sii_files_ca( ...
     meanSpectrum_intensities, meanSpectrum_mzvalues, ...
     fig_ppmTolerance, isitloadings )
 
-for database_type = unique(sample_info(:,7))'
-    if ~strcmp(database_type,'not assigned')
-        if ~exist([ outputs_path '\' char(database_type) '\0 to 5 ppm\' ], 'dir'); mkdir([ outputs_path '\' char(database_type) '\0 to 5 ppm\' ]); end
-        if ~exist([ outputs_path '\' char(database_type) '\5 to 15 ppm\' ], 'dir'); mkdir([ outputs_path '\' char(database_type) '\5 to 15 ppm\' ]); end
-        if ~exist([ outputs_path '\' char(database_type) '\15 to 30 ppm\' ], 'dir'); mkdir([ outputs_path '\' char(database_type) '\15 to 30 ppm\' ]); end
-    end
-end
-
 table1 = [ "database", "name", "meas mz", "sample set" ];
 tableri = 2;
 
@@ -37,18 +29,8 @@ for peak_i = 1:size(peak_details,1)
         
         for sample_info_i = sample_info_i3
             
-            % Organising the outputs
-            
-            if double(sample_info(sample_info_i,5)) <= 5
-                cd([ outputs_path '\' char(sample_info(sample_info_i,7)) '\0 to 5 ppm\' ])
-            elseif double(sample_info(sample_info_i,5)) <= 15
-                cd([ outputs_path '\' char(sample_info(sample_info_i,7)) '\5 to 15 ppm\' ])
-            elseif double(sample_info(sample_info_i,5)) <= 30
-                cd([ outputs_path '\' char(sample_info(sample_info_i,7)) '\15 to 30 ppm\' ])
-            else
-                if ~exist([ outputs_path '\' char(sample_info(sample_info_i,7)) '\' ], 'dir'); mkdir([ outputs_path '\' char(sample_info(sample_info_i,7)) '\' ]); end
-                cd([ outputs_path '\' char(sample_info(sample_info_i,7)) '\' ])
-            end
+            if ~exist([ outputs_path '\' char(sample_info(sample_info_i,7)) '\' ], 'dir'); mkdir([ outputs_path '\' char(sample_info(sample_info_i,7)) '\' ]); end
+            cd([ outputs_path '\' char(sample_info(sample_info_i,7)) '\' ])
             
             % Sii collage
             

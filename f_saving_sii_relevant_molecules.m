@@ -25,7 +25,7 @@ for file_index = 1:length(filesToProcess)
             disp('Unkown list of molecules. Please specify a valid list.')
         end
         
-        f_saving_sii_sample_info(filesToProcess, mask, norm_list, sample_info, double(sample_info(:,4)) )
+        f_saving_sii_sample_info(filesToProcess, mask, norm_list, sample_info )
         
     end
     

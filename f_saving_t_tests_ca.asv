@@ -52,8 +52,7 @@ for main_mask = main_mask_list
             
             [ common1, all_folders_names_i1, ~ ] = intersect(all_folders_names,group0);
             
-            roi_mean_col_names_1 = string([]);
-            roi_median_col_names_1 = string([]);
+            roi_names_1 = string([]);
             
             if ~isempty(common1)
                 
@@ -63,8 +62,7 @@ for main_mask = main_mask_list
                     
                     disp(all_folders_names(aux_i))
                     
-                    roi_mean_col_names_1 = [ roi_mean_col_names_1, join([all_folders_names(aux_i), " mean" ]) ];
-                    roi_median_col_names_1 = [ roi_median_col_names_1, join([all_folders_names(aux_i), " median" ]) ];
+                    roi_names_1 = [ roi_names_1, join([all_folders_names(aux_i) ' mean' ] ]
                     
                     load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(all_folders_names(aux_i)) filesep 'roi' ])
                     

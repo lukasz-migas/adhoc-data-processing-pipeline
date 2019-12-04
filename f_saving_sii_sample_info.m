@@ -1,4 +1,4 @@
-function f_saving_sii_sample_info(filesToProcess, mask_list, norm_list, sample_info, sample_info_mzvalues )
+function f_saving_sii_sample_info(filesToProcess, mask_list, norm_list, sample_info )
 
 % Saving sii given a curated sample_info matrix.
 
@@ -16,7 +16,7 @@ for file_index = 1:length(filesToProcess)
         
         % Defining mz values of interest (to plot sii of)
         
-        mzvalues2plot = unique(sample_info_mzvalues);
+        mzvalues2plot = unique(double(sample_info(:,4)));
                 
         % Loading datacube
         

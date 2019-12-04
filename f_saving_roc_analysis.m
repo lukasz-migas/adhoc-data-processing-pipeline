@@ -1,8 +1,6 @@
-function f_saving_roc_analysis_ca( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list )
+function f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
 
-aux_names = []; for i = 1:length(filesToProcess); aux_names = [ aux_names, string(filesToProcess(i).name) ]; end
-[ ~, uindexes ] = unique(aux_names);
-filesToProcess = filesToProcess(uindexes,:);
+filesToProcess = f_unique_extensive_filesToProcess(extensive_filesToProcess); % This function collects all files that need to have a common axis.
 
 csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
 
@@ -107,6 +105,7 @@ for main_mask = main_mask_list
         %%% ROC curves
         
         roc_analysis_table = [ "AUC", "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)" ];
+        sii_sample_info = [];
         
         for mzi = 1:size(datacube.spectralChannels,1)
             
@@ -125,16 +124,62 @@ for main_mask = main_mask_list
             [~,~,~,AUC] = perfcurve(labels,scores,posclass);
             
             if (AUC >= 0.7) || ((AUC <= 0.3) && (AUC > 0))
+                
+                % ROC table
                                 
                 indexes2add = (abs(datacube.spectralChannels(mzi)-double(new_hmdb_sample_info(:,3))) < min(diff(totalSpectrum_mzvalues)));
+                
+                if sum(indexes2add) >= 1
                 
                 roc_analysis_table = [
                     roc_analysis_table
                     [ string(repmat([ AUC, datacube.spectralChannels(mzi)],sum(indexes2add),1)) new_hmdb_sample_info(indexes2add,[1:2 4:end]) ]
                     ];
                 
+                else
+                    
+                    roc_analysis_table = [
+                    roc_analysis_table
+                    [ string(repmat([ AUC, datacube.spectralChannels(mzi)],1,1)) repmat("not assigned", 1, size(new_hmdb_sample_info(:,[1:2 4:end]),2)) ]
+                    ];
+                
+                end
+                
+                % SIIs
+                                
+                indexes2add = (abs(datacube.spectralChannels(mzi)-double(extended_hmdb_sample_info(:,4))) < min(diff(totalSpectrum_mzvalues)));
+                
+                if sum(indexes2add) >= 1
+                    
+                    sii_sample_info = [ sii_sample_info; extended_hmdb_sample_info(find(indexes2add,1),:) ]; % just one sii per peak
+                    
+                else
+                    
+                    aux_row = repmat("not assigned", 1, size(extended_hmdb_sample_info,2));
+                    aux_row(:,4) = datacube.spectralChannels(mzi);
+                    
+                    sii_sample_info = [ sii_sample_info; aux_row ]; % just one sii per peak
+                    
+                end
+                
             end
         end
+        
+        % Saving siis
+        
+        sii_sample_info(2:end,7) = strjoin([ group1_name ' vs ' group0_name]);
+        
+        if isempty(dataset_name)
+            
+            f_saving_sii_sample_info( filesToProcess, main_mask, norm_type, sii_sample_info )
+            
+        else
+            
+            f_saving_sii_sample_info_ca( extensive_filesToProcess, main_mask, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_type, sii_sample_info )
+            
+        end
+        
+        % Saving roc results
         
         mkdir([ roc_path char(main_mask) '\' char(norm_type) ])
         cd([ roc_path char(main_mask) '\' char(norm_type) ])
@@ -146,6 +191,6 @@ for main_mask = main_mask_list
         fileID = fopen([ 'roc_analysis_' char(strjoin([ group1_name ' vs ' group0_name])) '.txt' ],'w');
         fprintf(fileID,txt_row, roc_analysis_table');
         fclose(fileID);
-        
+                
     end
 end
