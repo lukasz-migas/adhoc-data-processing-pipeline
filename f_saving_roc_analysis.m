@@ -167,30 +167,42 @@ for main_mask = main_mask_list
         
         % Saving siis
         
-        sii_sample_info(2:end,7) = strjoin([ group1_name ' vs ' group0_name]);
+        sii_sample_info(1:end,7) = strjoin([ 'roc analysis ' group1_name ' vs ' group0_name ]);
         
-        if isempty(dataset_name)
+        disp(['! Started saving ' num2str(size(sii_sample_info,1)-1) ' SIIs...'])
+        
+        if size(sii_sample_info,1)>1
             
-            f_saving_sii_sample_info( filesToProcess, main_mask, norm_type, sii_sample_info )
-            
-        else
-            
-            f_saving_sii_sample_info_ca( extensive_filesToProcess, main_mask, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_type, sii_sample_info )
+            if isempty(dataset_name)
+                
+                f_saving_sii_sample_info( filesToProcess, main_mask, norm_type, sii_sample_info )
+                
+            else
+                
+                f_saving_sii_sample_info_ca( extensive_filesToProcess, main_mask, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_type, sii_sample_info )
+                
+            end
             
         end
         
+        disp('! Finished saving SIIs...')
+        
         % Saving roc results
+        
+        disp('! Started saving ROC table...')
         
         mkdir([ roc_path char(main_mask) '\' char(norm_type) ])
         cd([ roc_path char(main_mask) '\' char(norm_type) ])
         
-        save([ 'roc_analysis_' char(strjoin([ group1_name ' vs ' group0_name])) '.mat'],'roc_analysis_table' )
+        save([ 'roc analysis ' char(strjoin([ group1_name ' vs ' group0_name])) '.mat'],'roc_analysis_table' )
         
         txt_row = strcat(repmat('%s\t',1,size(roc_analysis_table,2)-1),'%s\n');
         
-        fileID = fopen([ 'roc_analysis_' char(strjoin([ group1_name ' vs ' group0_name])) '.txt' ],'w');
+        fileID = fopen([ 'roc analysis ' char(strjoin([ group1_name ' vs ' group0_name])) '.txt' ],'w');
         fprintf(fileID,txt_row, roc_analysis_table');
         fclose(fileID);
+        
+        disp('! Finished saving ROC table...')
                 
     end
 end

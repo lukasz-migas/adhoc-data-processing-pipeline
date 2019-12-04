@@ -1,8 +1,6 @@
 function f_saving_t_tests_ca( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list )
 
-aux_names = []; for i = 1:length(filesToProcess); aux_names = [ aux_names, string(filesToProcess(i).name) ]; end
-[ ~, uindexes ] = unique(aux_names);
-filesToProcess = filesToProcess(uindexes,:);
+filesToProcess = f_unique_extensive_filesToProcess(filesToProcess); % This function collects all files that need to have a common axis.
 
 csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
 
@@ -19,6 +17,11 @@ for main_mask = main_mask_list
         
         data4roc = [];
         pixels_per_model = [];
+        
+        roi_mean_col_names_1 = string([]);
+        roi_median_col_names_1 = string([]);
+        roi_mean_col_names_2 = string([]);
+        roi_median_col_names_2 = string([]);
         
         for file_index = 1:length(filesToProcess)
             
@@ -52,22 +55,23 @@ for main_mask = main_mask_list
             
             [ common1, all_folders_names_i1, ~ ] = intersect(all_folders_names,group0);
             
-            roi_names_1 = string([]);
-            
             if ~isempty(common1)
                 
                 disp(filesToProcess(file_index).name(1,1:end-6))
                 
                 for aux_i = all_folders_names_i1'
+                    small_mask_1 = small_mask_1 + 1;
                     
                     disp(all_folders_names(aux_i))
+                    disp(aux_i)
                     
-                    roi_names_1 = [ roi_names_1, join([all_folders_names(aux_i) ' mean' ] ]
+                    roi_mean_col_names_1 = [ roi_mean_col_names_1, join([all_folders_names(aux_i), " mean" ]) ];
+                    roi_median_col_names_1 = [ roi_median_col_names_1, join([all_folders_names(aux_i), " median" ]) ];
                     
                     load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(all_folders_names(aux_i)) filesep 'roi' ])
                     
                     model_mask = reshape(roi.pixelSelection',[],1);
-                    pixels_per_model0(:,1) = pixels_per_model0(:,1) + aux_i*model_mask;
+                    pixels_per_model0(:,1) = pixels_per_model0(:,1) + aux_ii*model_mask;
                     
                 end
                 
@@ -80,13 +84,18 @@ for main_mask = main_mask_list
                 disp(filesToProcess(file_index).name(1,1:end-6))
                 
                 for aux_i = all_folders_names_i2'
+                    small_mask_2 = small_mask_2 + 1;
                     
                     disp(all_folders_names(aux_i))
+                    disp(aux_i)
+                    
+                    roi_mean_col_names_2 = [ roi_mean_col_names_2, join([all_folders_names(aux_i), " mean" ]) ];
+                    roi_median_col_names_2 = [ roi_median_col_names_2, join([all_folders_names(aux_i), " median" ]) ];
                     
                     load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(all_folders_names(aux_i)) filesep 'roi' ])
                     
                     model_mask = reshape(roi.pixelSelection',[],1);
-                    pixels_per_model0(:,2) = pixels_per_model0(:,2) + aux_i*model_mask;
+                    pixels_per_model0(:,2) = pixels_per_model0(:,2) + aux_ii*model_mask;
                     
                 end
                 
@@ -95,7 +104,7 @@ for main_mask = main_mask_list
             pixels_per_model = [ pixels_per_model; pixels_per_model0 ];
             
             disp(sum(pixels_per_model,1))
-                        
+            
         end
         
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
@@ -110,7 +119,7 @@ for main_mask = main_mask_list
         
         %%% Statistical test curves
         
-        ttest_analysis_table = [  "p value (ttest2, mean)", "p value (ranksum, mean)", "p value (ttest2, median)", "p value (ranksum, median)", "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)" ];
+        ttest_analysis_table = [  "p value (ttest2, mean)", "p value (ranksum, mean)", roi_mean_col_names_1, roi_mean_col_names_2, "p value (ttest2, median)", "p value (ranksum, median)", roi_median_col_names_1, roi_median_col_names_2, "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)" ];
         
         for mzi = 1:size(datacube.spectralChannels,1)
             
@@ -118,7 +127,7 @@ for main_mask = main_mask_list
             i = 0;
             for maski = unique(pixels_per_model(:,1))'
                 i = i+1;
-                d1(logical(pixels_per_model(:,1) == maski),i) = data4roc(logical(pixels_per_model(:,1) == maski),mzi); 
+                d1(logical(pixels_per_model(:,1) == maski),i) = data4roc(logical(pixels_per_model(:,1) == maski),mzi);
             end
             d1 = d1(:,2:end);
             d1(d1==0)=NaN;
@@ -147,14 +156,24 @@ for main_mask = main_mask_list
             
             indexes2add = (abs(datacube.spectralChannels(mzi)-double(new_hmdb_sample_info(:,3))) < min(diff(totalSpectrum_mzvalues)));
             
-            if sum(indexes2add) > 0
+            if sum(indexes2add) >= 1
                 
-                aux_row = string(repmat([ p_ttest2_mean, p_ranksum_mean, p_ttest2_median, p_ranksum_median, datacube.spectralChannels(mzi) ], sum(indexes2add), 1));
+                aux_row = string(repmat([ p_ttest2_mean, p_ranksum_mean, mean_d1, mean_d2, p_ttest2_median, p_ranksum_median, median_d1, median_d2, datacube.spectralChannels(mzi) ], sum(indexes2add), 1));
                 aux_row(ismissing(aux_row)) = "NaN";
                 
                 ttest_analysis_table = [
                     ttest_analysis_table
                     [ aux_row, new_hmdb_sample_info(indexes2add,[1:2 4:end]) ]
+                    ];
+                
+            else
+                
+                aux_row = string(repmat([ p_ttest2_mean, p_ranksum_mean, mean_d1, mean_d2, p_ttest2_median, p_ranksum_median, median_d1, median_d2, datacube.spectralChannels(mzi) ], 1, 1));
+                aux_row(ismissing(aux_row)) = "NaN";
+
+                ttest_analysis_table = [
+                    ttest_analysis_table
+                    [ aux_row, repmat("not assigned", 1, size(new_hmdb_sample_info(indexes2add,[1:2 4:end]),2)) ]
                     ];
                 
             end
