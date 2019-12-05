@@ -1,13 +1,5 @@
 function f_saving_sii_files( outputs_path, sample_info, sample_info_indexes, ion_images, image_width, image_height, peakDetails, pixels_num, totalSpectrum_intensities, totalSpectrum_mzvalues, fig_ppmTolerance, isitloadings )
 
-for database_type = unique(sample_info(:,7))'
-    if ~strcmp(database_type,'not assigned')
-        mkdir([ outputs_path '\' char(database_type) '\0 to 5 ppm\' ])
-        mkdir([ outputs_path '\' char(database_type) '\5 to 15 ppm\' ])
-        mkdir([ outputs_path '\' char(database_type) '\15 to 30 ppm\' ])
-    end
-end
-
 for peak_i = 1:size(peakDetails,1)
     
     sample_info_i0 = sample_info_indexes(peak_i);
@@ -26,16 +18,8 @@ for peak_i = 1:size(peakDetails,1)
             
             % Organising the outputs
             
-            if double(sample_info(sample_info_i,5)) <= 5
-                cd([ outputs_path '\' char(sample_info(sample_info_i,7)) '\0 to 5 ppm\' ])
-            elseif double(sample_info(sample_info_i,5)) <= 15
-                cd([ outputs_path '\' char(sample_info(sample_info_i,7)) '\5 to 15 ppm\' ])
-            elseif double(sample_info(sample_info_i,5)) <= 30
-                cd([ outputs_path '\' char(sample_info(sample_info_i,7)) '\15 to 30 ppm\' ])
-            else
-                mkdir([ outputs_path '\' char(sample_info(sample_info_i,7)) '\' ])
-                cd([ outputs_path '\' char(sample_info(sample_info_i,7)) '\' ])
-            end
+            mkdir([ outputs_path '\' char(sample_info(sample_info_i,7)) '\' ])
+            cd([ outputs_path '\' char(sample_info(sample_info_i,7)) '\' ])
             
             % Creating the figure
             
