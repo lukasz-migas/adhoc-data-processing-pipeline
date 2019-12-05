@@ -204,8 +204,6 @@ f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, group0, group0_
 
 f_saving_t_tests( extensive_filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list )
 
-%% 
-
 
 %% Saving data for supervised classification in Python
 
