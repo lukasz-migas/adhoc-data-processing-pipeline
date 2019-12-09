@@ -3,7 +3,6 @@ function f_saving_sii_sample_info_ca( filesToProcess, main_mask, smaller_masks_l
 % Saving sii given a curated sample_info matrix.
 
 datacube_cell = {};
-main_masks_cell = {};
 smaller_masks_cell = {};
 
 for file_index = 1:length(filesToProcess)
@@ -50,16 +49,7 @@ for file_index = 1:length(filesToProcess)
         end
         
     end
-        
-    % Loading main mask information
     
-    if ~strcmpi(main_mask,"no mask")
-        load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'roi'])
-        main_masks_cell{file_index} = logical((sum(datacube.data,2)>0).*reshape(roi.pixelSelection',[],1));
-    else
-        main_masks_cell{file_index} = logical((sum(datacube.data,2)>0).*true(ones(size(datacube,1),1)));
-    end
-
     % Loading smaller masks information
     
     load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(smaller_masks_list(file_index)) filesep 'roi'])
@@ -98,8 +88,8 @@ for norm_type = norm_list
     norm_sii_cell = {};
     for file_index = 1:length(datacube_cell)
                 
-        norm_sii = f_norm_datacube_v2( datacube_cell{file_index}, main_masks_cell{file_index}, norm_type );
-        
+        norm_sii = f_norm_datacube( datacube_cell{file_index}, norm_type );
+               
         norm_sii_cell{file_index}.data = norm_sii(:,datacube_indexes);
         norm_sii_cell{file_index}.width = datacube_cell{file_index}.width;
         norm_sii_cell{file_index}.height = datacube_cell{file_index}.height;

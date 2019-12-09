@@ -1,4 +1,4 @@
-function f_saving_sii_relevant_molecules( filesToProcess, mask_list, norm_list, outputs_folder_name_list )
+function f_saving_sii_relevant_molecules( filesToProcess, mask_list, mask_on, norm_list, outputs_folder_name_list )
 
 database_col = 7;
 
@@ -25,7 +25,7 @@ for file_index = 1:length(filesToProcess)
             disp('Unkown list of molecules. Please specify a valid list.')
         end
         
-        f_saving_sii_sample_info(filesToProcess, mask, norm_list, sample_info )
+        f_saving_sii_sample_info(filesToProcess, mask, norm_list, sample_info, mask_on )
         
     end
     

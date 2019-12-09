@@ -72,28 +72,18 @@ for main_mask = main_mask_list
         if file_index == 1
             
             load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
-            
             load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\peakDetails' ])
+            load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacubeonly_peakDetails' ])
+            
             load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
             load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
-            load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacubeonly_peakDetails' ])
             
         end
         
         % Loading datacube
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacube' ])
-        
         datacube_cell{file_index} = datacube;
-        
-        % Loading main mask information
-        
-        if ~strcmpi(main_mask,"no mask")
-            load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'roi'])
-            main_mask_cell{file_index} = reshape(roi.pixelSelection',[],1);
-        else
-            main_mask_cell{file_index} = true(ones(size(datacube,1),1));
-        end
         
         % Loading smaller masks information
         
@@ -115,12 +105,12 @@ for main_mask = main_mask_list
                 
                 % normalisation
                 
-                norm_data = f_norm_datacube_v2( datacube_cell{file_index}, main_mask_cell{file_index}, norm_type );
+                norm_data = f_norm_datacube( datacube_cell{file_index}, norm_type );
                 
             end
             
             assembled_norm_data = [ assembled_norm_data; norm_data ];
-            assembled_mask = [ assembled_mask; smaller_masks_cell{file_index}.*main_mask_cell{file_index} ];
+            assembled_mask = [ assembled_mask; smaller_masks_cell{file_index} ];
             
         end
         

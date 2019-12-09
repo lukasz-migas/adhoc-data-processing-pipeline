@@ -1,10 +1,10 @@
-function norm_data = f_norm_datacube_v2( datacube, mask0, norm_type )
+function norm_data = f_norm_datacube( datacube, norm_type )
 
 % Datacube normalisation using a particular mask.
 
 % mz selection
 
-data = datacube.data(logical(sum(datacube.data,2)>0),:);
+data = datacube.data(logical(sum(datacube.data,2)>0),logical(sum(datacube.data,1)>0));
 
 % Multiple normalisation metrics
 
@@ -68,5 +68,4 @@ end
 if norm_data0==0; disp('!!! Unknown normalisation metric. Please specify a different one.'); for i=1; break; end; end
     
 norm_data = NaN*ones(size(datacube.data,1),size(datacube.data,2));
-norm_data(logical(sum(datacube.data,2)>0),:) = norm_data0;
-norm_data(~mask0,:) = NaN;
+norm_data(logical(sum(datacube.data,2)>0),logical(sum(datacube.data,1)>0)) = norm_data0;

@@ -1,4 +1,4 @@
-function f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, main_mask_cell, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance)
+function f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance)
 
 if ~isnan(numComponents)
     
@@ -92,9 +92,7 @@ else
             end
             
             if isequal(char(mva_type),'kmeans')
-                
-                
-                
+
                 clustmap = f_full_colourscheme(numComponents)./255;
                 
                 image_component = f_mva_output_collage( idx, datacube_cell, outputs_xy_pairs );
@@ -310,7 +308,7 @@ else
         close all
         clear fig
         
-        if 1<0 % ~strcmpi(main_mask,"no mask")
+        if ~strcmpi(main_mask,'no mask') && ~strcmpi(mva_type,'tsne')
             
             % saving single ion images of the highest loadings
             
@@ -368,7 +366,7 @@ else
             
             for file_index = 1:length(datacube_cell)
                 
-                mva_ion_images = f_norm_datacube_v2( datacube_cell{file_index}, main_mask_cell{file_index}, norm_type );
+                mva_ion_images = norm_data_cell{file_index};
                 mva_ion_images = mva_ion_images(:,datacube_mzvalues_indexes);
                 
                 mini_ion_images_cell{file_index}.data = mva_ion_images(:,mz_indexes(1:numLoadings));

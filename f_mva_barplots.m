@@ -12,9 +12,7 @@ for file_index = 1:length(datacube_cell)
     endi = starti+datacube_cell{file_index}.width*datacube_cell{file_index}.height-1;
     
     mva_output0 = mva_output(starti:endi,:);
-    
-    % figure; imagesc(reshape(mva_output0,datacube_cell{file_index}.width,datacube_cell{file_index}.height)')
-        
+           
     if sum(mva_output0,1)~=0
         
         starti = endi+1;

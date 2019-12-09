@@ -67,7 +67,7 @@ for main_mask = main_mask_list
             
             % Data normalisation and compilation
             
-            norm_data = f_norm_datacube_v2( datacube, mask, norm_type );
+            norm_data = f_norm_datacube( datacube, norm_type );
             
             %
             

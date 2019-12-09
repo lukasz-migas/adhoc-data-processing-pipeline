@@ -1,4 +1,4 @@
-function f_saving_mva_outputs( filesToProcess, main_mask_list, norm_list, mva_molecules_list0, mva_classes_list0 )
+function f_saving_mva_outputs( filesToProcess, main_mask_list, mask_on, norm_list, mva_molecules_list0, mva_classes_list0 )
 
 for main_mask = main_mask_list
     
@@ -29,10 +29,10 @@ for main_mask = main_mask_list
         
         % Defining all paths needed
         
-        rois_path               = [ char(outputs_path) '\rois\' ];
         spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
         peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];
-        
+        rois_path               = [ char(outputs_path) '\rois\' ];
+
         % Loading information about the peaks, the mz values saved as a
         % dacube cube and the matching of the dataset with a set of lists
         % of relevant molecules
@@ -52,20 +52,22 @@ for main_mask = main_mask_list
         
         % Loading main mask information
         
-        if ~strcmpi(main_mask,"no mask")
+        if (mask_on == 1) && ~strcmpi(main_mask,"no mask")
             load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'roi'])
             mask = reshape(roi.pixelSelection',[],1);
         else
             mask = true(ones(size(datacube,1),1));
         end
-        
-        %%
-        
+                
         for norm_type = norm_list
             
             % Data normalisation and compilation
             
-            norm_data = f_norm_datacube_v2( datacube, mask, norm_type );
+            norm_data = f_norm_datacube( datacube, norm_type );
+            
+            if mask_on == 1
+                norm_data(~mask,:) = NaN;                
+            end
             
             %
             
@@ -84,7 +86,7 @@ for main_mask = main_mask_list
                     
                     mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ];
                     
-                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, numComponents, numLoadings, datacube, datacubeonly_peakDetails, mask, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
+                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
                     
                 end
                 
@@ -94,7 +96,7 @@ for main_mask = main_mask_list
                     
                     mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks\' ];
                     
-                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, numComponents, numLoadings, datacube, datacubeonly_peakDetails, mask, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
+                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
                     
                 end
                 
@@ -104,7 +106,7 @@ for main_mask = main_mask_list
                     
                     mva_path = [ char(outputs_path) '\mva ' char(num2str(perc4mva)) ' percentile\' ];
                     
-                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, numComponents, numLoadings, datacube, datacubeonly_peakDetails, mask, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
+                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
                     
                 end
                 
@@ -128,7 +130,7 @@ for main_mask = main_mask_list
                             
                             mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                             
-                            f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, numComponents, numLoadings, datacube, datacubeonly_peakDetails, mask, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
+                            f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
                             
                         end
                         
@@ -142,7 +144,7 @@ for main_mask = main_mask_list
                         
                         mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                         
-                        f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, numComponents, numLoadings, datacube, datacubeonly_peakDetails, mask, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
+                        f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
                         
                     end
                     

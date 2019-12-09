@@ -1,4 +1,4 @@
-function f_saving_sii_sample_info(filesToProcess, mask_list, norm_list, sample_info )
+function f_saving_sii_sample_info(filesToProcess, mask_list, norm_list, sample_info, mask_on )
 
 % Saving sii given a curated sample_info matrix.
 
@@ -8,11 +8,11 @@ for file_index = 1:length(filesToProcess)
     
     [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, fig_ppmTolerance, outputs_path ] = f_reading_inputs(csv_inputs);
     
-    rois_path               = [ char(outputs_path) '\rois\' ];
     spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
+    rois_path               = [ char(outputs_path) '\rois\' ];
     sii_path                = [ char(outputs_path) '\single ion images\' ];
     
-    for mask = mask_list
+    for main_mask = mask_list
         
         % Defining mz values of interest (to plot sii of)
         
@@ -20,14 +20,21 @@ for file_index = 1:length(filesToProcess)
                 
         % Loading datacube
         
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\datacube' ])
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\datacubeonly_peakDetails' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacube' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacubeonly_peakDetails' ])
         
         % Loading spectral information
         
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\totalSpectrum_intensities' ])
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\totalSpectrum_mzvalues' ])
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\pixels_num' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_intensities' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\pixels_num' ])
+        
+        % Loading main main_mask
+
+        if mask_on            
+            load([ rois_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\roi' ])
+            mask = logical((sum(datacube.data,2)>0).*reshape(roi.pixelSelection',[],1));
+        end
         
         %
         
@@ -50,26 +57,18 @@ for file_index = 1:length(filesToProcess)
             break
         end
         
-        % Loading mask
-        
-        if ~strcmpi(mask,"no mask")
-            load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(mask) filesep 'roi'])
-            mask0 = logical((sum(datacube.data,2)>0).*reshape(roi.pixelSelection',[],1));
-        else
-            mask0 = logical((sum(datacube.data,2)>0).*true(ones(size(datacube,1),1)));
-        end
-
         for norm_type = norm_list
                         
-            outputs_path = [ sii_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask) '\' char(norm_type) '\' ]; mkdir(outputs_path)
+            outputs_path = [ sii_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(norm_type) '\' ]; mkdir(outputs_path)
                         
-            norm_sii = f_norm_datacube_v2( datacube, mask0, norm_type );
-            
+            norm_sii = f_norm_datacube( datacube, norm_type );
             norm_sii = norm_sii(:,datacube_indexes);
-                        
             
-            f_saving_sii_files( outputs_path, sample_info, sample_info_indexes, norm_sii, image_width, image_height, peak_details, pixels_num,...
-                                totalSpectrum_intensities, totalSpectrum_mzvalues, fig_ppmTolerance, 0 )
+            if mask_on
+                norm_sii(~mask,:) = NaN;
+            end
+                        
+            f_saving_sii_files( outputs_path, sample_info, sample_info_indexes, norm_sii, image_width, image_height, peak_details, pixels_num, totalSpectrum_intensities, totalSpectrum_mzvalues, fig_ppmTolerance, 0 )
             
         end
         

@@ -1,4 +1,4 @@
-function f_saving_mva_auxiliar( file_name, main_mask, mva_type, mva_path, norm_type, numComponents, numLoadings, datacube, datacubeonly_peakDetails, mask, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
+function f_saving_mva_auxiliar( file_name, main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
 
 if ~isnan(numComponents)
     
@@ -287,8 +287,7 @@ else
             [ ~, mz_indexes ] = sort(abs(spectral_component),'descend');
             
             mva_mzvalues        = datacube.spectralChannels(datacube_mzvalues_indexes);
-            mva_ion_images      = f_norm_datacube_v2( datacube, mask, norm_type );
-            mva_ion_images      = mva_ion_images(:,datacube_mzvalues_indexes);
+            mva_ion_images      = norm_data(:,datacube_mzvalues_indexes);
             mva_peakDetails     = datacubeonly_peakDetails(datacube_mzvalues_indexes,:);
             
             mini_mzvalues       = mva_mzvalues(mz_indexes(1:numLoadings));

@@ -35,12 +35,10 @@ for main_mask = main_mask_list
             if file_index
                 load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
             end
-            
-            norm_mask = reshape(roi.pixelSelection',[],1);
-            
+                        
             % Data normalisation
             
-            norm_data = f_norm_datacube_v2( datacube, norm_mask, norm_type );
+            norm_data = f_norm_datacube( datacube, norm_type );
             
             % Data compilation
             

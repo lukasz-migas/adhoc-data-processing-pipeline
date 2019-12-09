@@ -8,7 +8,7 @@ function [ ...
     pixels_num_cell, ...
     totalSpectrum_intensities_cell, ...
     totalSpectrum_mzvalues_cell ...
-    ] = f_saving_sii_ratio_sample_info_ca( filesToProcess, main_mask, smaller_masks_list, norm_type, sample_info0 )
+    ] = f_saving_sii_ratio_sample_info_ca( filesToProcess, mask, smaller_masks_list, norm_type, sample_info0, mask_on  )
 
 % Saving sii given a curated sample_info matrix.
 
@@ -39,7 +39,7 @@ for file_index = 1:length(filesToProcess)
     
     % Loading datacube
     
-    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'datacube' ])
+    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(mask) filesep 'datacube' ])
     
     datacube_cell{file_index} = datacube;
     
@@ -59,8 +59,8 @@ for file_index = 1:length(filesToProcess)
             
             %  Spectral information
             
-            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'datacubeonly_peakDetails' ])
-            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_mzvalues' ])
+            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(mask) filesep 'datacubeonly_peakDetails' ])
+            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(mask) filesep 'totalSpectrum_mzvalues' ])
             
             th_mz_diff = min(diff(totalSpectrum_mzvalues));
             
@@ -81,11 +81,9 @@ for file_index = 1:length(filesToProcess)
     
     % Loading main mask information
     
-    if ~strcmpi(main_mask,"no mask")
-        load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'roi'])
-        main_masks_cell{file_index} = logical((sum(datacube.data,2)>0).*reshape(roi.pixelSelection',[],1));
-    else
-        main_masks_cell{file_index} = logical((sum(datacube.data,2)>0).*true(ones(size(datacube,1),1)));
+    if mask_on == 1
+        load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(mask) filesep 'roi'])
+        main_mask = logical((sum(datacube.data,2)>0).*reshape(roi.pixelSelection',[],1));
     end
     
     % Loading smaller masks information
@@ -95,9 +93,9 @@ for file_index = 1:length(filesToProcess)
     
     % Loading spectral information
     
-    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_intensities' ])
-    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_mzvalues' ])
-    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'pixels_num' ])
+    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(mask) filesep 'totalSpectrum_intensities' ])
+    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(mask) filesep 'totalSpectrum_mzvalues' ])
+    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(mask) filesep 'pixels_num' ])
     
     totalSpectrum_intensities_cell{file_index}  = totalSpectrum_intensities;
     totalSpectrum_mzvalues_cell{file_index}   	= totalSpectrum_mzvalues;
@@ -107,7 +105,12 @@ end
 
 for file_index = 1:length(datacube_cell)
     
-    norm_sii = f_norm_datacube_v2( datacube_cell{file_index}, main_masks_cell{file_index}, norm_type );
+    norm_sii = f_norm_datacube( datacube_cell{file_index}, norm_type );
+    
+    if mask_on == 1
+        disp('hello')
+        %norm_sii(main_mask,:) = NaN;
+    end
     
     norm_sii_cell{file_index}.data = norm_sii(:,datacube_indexes);
     norm_sii_cell{file_index}.width = datacube_cell{file_index}.width;

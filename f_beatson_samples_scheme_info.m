@@ -1485,9 +1485,21 @@ switch dataset_name
             
             % with background
             
-            main_mask_list = "no mask";
+            main_mask_list = "tissue only";
             
-        else
+            extensive_filesToProcess(1:4,:) = filesToProcess(1,:);
+            smaller_masks_list = [ "CB1-1-WT-BACKGROUND"; "CB1-1-KRAS-BACKGROUND"; "CB1-1-APC-BACKGROUND"; "CB1-1-APC-KRAS-BACKGROUND" ];
+            
+            extensive_filesToProcess(5:8,:) = filesToProcess(2,:);
+            smaller_masks_list = [ smaller_masks_list; "CB1-2-WT-BACKGROUND"; "CB1-2-KRAS-BACKGROUND"; "CB1-2-APC-BACKGROUND"; "CB1-2-APC-KRAS-BACKGROUND" ];
+            
+            extensive_filesToProcess(9:12,:) = filesToProcess(3,:);
+            smaller_masks_list = [ smaller_masks_list; "CB2-1-WT-BACKGROUND"; "CB2-1-KRAS-BACKGROUND"; "CB2-1-APC-BACKGROUND"; "CB2-1-APC-KRAS-BACKGROUND" ];
+            
+            extensive_filesToProcess(13:16,:) = filesToProcess(4,:);
+            smaller_masks_list = [ smaller_masks_list; "CB2-2-WT-BACKGROUND"; "CB2-2-KRAS-BACKGROUND"; "CB2-2-APC-BACKGROUND"; "CB2-2-APC-KRAS-BACKGROUND" ];
+            
+        elseif background == 0
             
             % tissue only
             

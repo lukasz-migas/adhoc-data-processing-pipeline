@@ -1,9 +1,6 @@
 function f_mask_creation( filesToProcess, input_mask, dataset_name, mva_type, numComponents, norm_type, vector_set, regionsNumE, regionsNumI, output_mask )
 
 % Creation of masks using the previously run mva results.
-% GUESS WHO DID THIS!!%
-% TRYING IT AGAIN!!!!%
-%test branch
 
 if size(filesToProcess,1) > 1; disp('Please select a unique file to create the roi!'); end
 
@@ -13,23 +10,11 @@ csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
 
 [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
 
-% outputs_path = 'X:\Beatson\data processing outputs\positive MALDI\';
-
 spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
 mva_path                = [ char(outputs_path) '\mva\' ];
 rois_path               = [ char(outputs_path) '\rois\' ];
 
 mkdir(rois_path)
-
-% load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(input_mask) '\datacube' ])
-% 
-% width = datacube.width;
-% height = datacube.height;
-% 
-% cd([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(input_mask) '\' ])
-% 
-% save('width','width')
-% save('height','height')
 
 load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(input_mask) '\width' ])
 load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(input_mask) '\height' ])
@@ -109,7 +94,3 @@ if isequal(output_mask,"tissue only")
     save('roi','roi')
 
 end
-
-%         tissue_roi_test2 = tissue_roi;
-%         save([ filesToProcess(file_index).folder '\tissue_roi_test2' ],'tissue_roi_test2')
-

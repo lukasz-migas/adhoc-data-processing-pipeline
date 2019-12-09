@@ -1,4 +1,4 @@
-function f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
+function f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
 
 filesToProcess = f_unique_extensive_filesToProcess(extensive_filesToProcess); % This function collects all files that need to have a common axis.
 
@@ -28,12 +28,10 @@ for main_mask = main_mask_list
             if file_index
                 load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\totalSpectrum_mzvalues' ])
             end
-            
-            norm_mask = reshape(roi.pixelSelection',[],1);
-            
+                       
             % Data normalisation
             
-            norm_data = f_norm_datacube_v2( datacube, norm_mask, norm_type );
+            norm_data = f_norm_datacube( datacube, norm_type );
             
             % Data compilation
             
@@ -107,7 +105,7 @@ for main_mask = main_mask_list
         roc_analysis_table = [ "AUC", "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)" ];
         sii_sample_info = [];
         
-        for mzi = 1:3%size(datacube.spectralChannels,1)
+        for mzi = 1:size(datacube.spectralChannels,1)
             
             labels = [
                 repmat(group0_name,  size(data4roc(logical(pixels_per_model(:,1) == 1),mzi),1), 1)
@@ -123,7 +121,7 @@ for main_mask = main_mask_list
             
             [~,~,~,AUC] = perfcurve(labels,scores,posclass);
             
-            if 1>0%(AUC >= 0.7) || ((AUC <= 0.3) && (AUC > 0))
+            if (AUC >= 0.7) || ((AUC <= 0.3) && (AUC > 0))
                 
                 % ROC table
                                 
@@ -192,7 +190,7 @@ for main_mask = main_mask_list
             
             if isempty(dataset_name)
                 
-                f_saving_sii_sample_info( filesToProcess, main_mask, norm_type, sii_sample_info )
+                f_saving_sii_sample_info( filesToProcess, main_mask, norm_type, sii_sample_info, mask_on )
                 
             else
                 
