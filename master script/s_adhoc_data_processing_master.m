@@ -192,11 +192,11 @@ KRAS_group =        [ "SA1-1-KRAS","SA1-2-KRAS","SA2-1-KRAS","SA2-2-KRAS" ];
 APC_group =         [ "SA1-1-APC","SA1-2-APC","SA2-2-APC" ];
 APC_KRAS_group =    [ "SA1-1-APC-KRAS","SA1-2-APC-KRAS","SA2-1-APC-KRAS","SA2-2-APC-KRAS" ];
 
-group0 = KRAS_group;
-group0_name = "KRAS";
+group0 = WT_group;
+group0_name = "WT";
 
-group1 = APC_KRAS_group;
-group1_name = "APC-KRAS";
+group1 = [ KRAS_group, APC_group, APC_KRAS_group ];
+group1_name = "not WT";
 
 f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
 

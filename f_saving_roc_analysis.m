@@ -107,7 +107,7 @@ for main_mask = main_mask_list
         roc_analysis_table = [ "AUC", "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)" ];
         sii_sample_info = [];
         
-        for mzi = 1:size(datacube.spectralChannels,1)
+        for mzi = 1:3%size(datacube.spectralChannels,1)
             
             labels = [
                 repmat(group0_name,  size(data4roc(logical(pixels_per_model(:,1) == 1),mzi),1), 1)
@@ -123,7 +123,7 @@ for main_mask = main_mask_list
             
             [~,~,~,AUC] = perfcurve(labels,scores,posclass);
             
-            if (AUC >= 0.7) || ((AUC <= 0.3) && (AUC > 0))
+            if 1>0%(AUC >= 0.7) || ((AUC <= 0.3) && (AUC > 0))
                 
                 % ROC table
                                 
@@ -186,7 +186,7 @@ for main_mask = main_mask_list
         
         % Saving siis
         
-        disp(['! Started saving ' num2str(size(sii_sample_info,1)-1) ' SIIs...'])
+        disp(['! Started saving ' num2str(size(sii_sample_info,1)) ' SIIs...'])
         
         if size(sii_sample_info,1)>1
             
