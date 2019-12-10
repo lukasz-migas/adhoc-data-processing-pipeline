@@ -150,10 +150,10 @@ for main_mask = main_mask_list
             median_d2   = median(d2,1,'omitnan');
             
             [ ~, p_ttest2_mean, ~, ~ ] = ttest2( mean_d1(~isnan(mean_d1)), mean_d2(~isnan(mean_d2)), 'Alpha', 0.05, 'Vartype', 'unequal' );
-            [ p_ranksum_mean, ~, ~ ] = ranksum( mean_d1(~isnan(mean_d1)), mean_d2(~isnan(mean_d2)), 'Alpha', 0.05 );
+            if sum(isnan(mean_d1))~=length(mean_d1); [ p_ranksum_mean, ~, ~ ] = ranksum( mean_d1(~isnan(mean_d1)), mean_d2(~isnan(mean_d2)), 'Alpha', 0.05 ); else; p_ranksum_mean = NaN; end
             
             [ ~, p_ttest2_median, ~, ~ ] = ttest2( median_d1(~isnan(median_d1)), median_d2(~isnan(median_d2)), 'Alpha', 0.05, 'Vartype', 'unequal' );
-            [ p_ranksum_median, ~, ~ ] = ranksum( median_d1(~isnan(median_d1)), median_d2(~isnan(median_d2)),'Alpha', 0.05 );
+            if sum(isnan(median_d1))~=length(median_d1); [ p_ranksum_median, ~, ~ ] = ranksum( median_d1(~isnan(median_d1)), median_d2(~isnan(median_d2)), 'Alpha', 0.05 ); else; p_ranksum_median = NaN; end
             
             indexes2add = (abs(datacube.spectralChannels(mzi)-double(new_hmdb_sample_info(:,3))) < min(diff(totalSpectrum_mzvalues)));
             

@@ -211,16 +211,16 @@ APC_KRAS_group =    [ "CB1-1-APC-KRAS", "CB1-2-APC-KRAS", "CB2-1-APC-KRAS", "CB2
 
 
 group0 = WT_group;
-group0_name = "WT";
+group0_name = "colon WT";
 
 group1 = [ KRAS_group, APC_group, APC_KRAS_group ];
-group1_name = "not WT";
+group1_name = "colon not WT";
 
-% single imzml
-
-mask_on = 0; % 1 or 0 depending on either the sii are to be masked with the main mask or not.
-
-f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, [], [], [] )
+% % single imzml
+% 
+% mask_on = 0; % 1 or 0 depending on either the sii are to be masked with the main mask or not.
+% 
+% f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, [], [], [] )
 
 % combined imzmls
 
