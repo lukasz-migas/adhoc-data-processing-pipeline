@@ -34,7 +34,7 @@ for peaki = 1:size(peakDetails,1)
     portion = 1;
     peak_samples = round(ppm_windown*peakDetails(peaki,2)/(1E6*min(diff(x))));
     
-    peak_window_y = y(max(1,(peakDetails(peaki,6)-ceil(portion*peak_samples))):min(length(y),(peakDetails(peaki,7)+ceil(portion*peak_samples))));
+    peak_window_y = y((peakDetails(peaki,6)-max(0,ceil(portion*peak_samples))):(peakDetails(peaki,7)+ceil(portion*peak_samples)));
     peak_window_y(peak_window_y>max(y(peakDetails(peaki,6):peakDetails(peaki,7)))) = NaN;
     
     peak_window_y = peak_window_y(~isnan(peak_window_y));

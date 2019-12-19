@@ -30,7 +30,7 @@ data_folders = { ...
     'X:\Crick\OrbiSIMS-2019-11-21\'
     };
 
-dataset_name_portion = '*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
+dataset_name_portion = '*1*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
 
 filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion '.imzML']) ]; end % Files and adducts information gathering
 
@@ -44,7 +44,7 @@ norm_list = [
 
 % Pre-processing (location of spectralAnalysis preprocessing file)
 
-preprocessing_file = 'X:\Crick\OrbiSIMS-2019-11-21\preprocessingWorkflowOrbitrap.sap';
+preprocessing_file = 'X:\Crick\OrbiSIMS-2019-11-21\preprocessingWorkflow_rebin0_001.sap';
 
 %% Treating each dataset individually to create the tissue only ROI
 
