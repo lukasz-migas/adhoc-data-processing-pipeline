@@ -28,7 +28,7 @@ for file_index = 1:length(filesToProcess)
         
         % Total Spectrum
         
-        spectrumGeneration = TotalSpectrumAutomated(); % this function is changed to output SpectralData instead of SpectralList
+        spectrumGeneration = TotalSpectrum();
         spectrumGeneration.setPreprocessingWorkflow(preprocessing); % set preprocessing workflow
 
         addlistener(spectrumGeneration, 'FastMethods', @(src, canUseFastMethods)disp(['! Using fast Methods? A: ' num2str(canUseFastMethods)]));
@@ -53,7 +53,7 @@ for file_index = 1:length(filesToProcess)
         end
                 
         totalSpectrum = spectrumGeneration.process(data); % create total spectrum
-        %totalSpectrum = totalSpectrum.get(1);
+        totalSpectrum = totalSpectrum.get(1);
         
         totalSpectrum_mzvalues      = totalSpectrum.spectralChannels;
         totalSpectrum_intensities   = totalSpectrum.intensities;

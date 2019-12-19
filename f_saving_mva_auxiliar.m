@@ -75,11 +75,12 @@ else
         
         if ( componenti == 1 ) && ( (isequal(char(mva_type),'kmeans')) || (isequal(char(mva_type),'nntsne')) || isequal(char(mva_type),'tsne') )
             
-            fig0 = figure('units','normalized','outerposition',[0 0 .7 .7]); % set(gcf,'Visible', 'off');
-            jFrame = get(handle(fig0), 'JavaFrame');
-            jFrame.setMinimized(1);
             
             if isequal(char(mva_type),'kmeans')
+                          
+                fig0 = figure('units','normalized','outerposition',[0 0 .7 .7]); % set(gcf,'Visible', 'off');
+                jFrame = get(handle(fig0), 'JavaFrame');
+                jFrame.setMinimized(1);
                 
                 image_component = reshape(idx,datacube.width,datacube.height)';
                 imagesc(image_component);
@@ -93,7 +94,17 @@ else
                 
                 title({'all clusters image'})
                 
+                figname_char = 'all clusters image.fig'; savefig(fig0,figname_char,'compact')
+                tifname_char = 'all clusters image.tif'; saveas(fig0,tifname_char)
+                
+                close all
+                clear fig0
+
             elseif isequal(char(mva_type),'nntsne') || isequal(char(mva_type),'tsne')
+                
+                fig0 = figure('units','normalized','outerposition',[0 0 .7 .7]); % set(gcf,'Visible', 'off');
+                jFrame = get(handle(fig0), 'JavaFrame');
+                jFrame.setMinimized(1);
                 
                 image_component = reshape(idx,datacube.width,datacube.height)';
                 rgb_image_component = zeros(size(image_component,1),size(image_component,2),size(rgbData,2));
@@ -116,13 +127,33 @@ else
                 scatter3(rgbData(:,1),rgbData(:,2),rgbData(:,3),1,scatter3_colour_vector); colorbar;
                 title({'t-sne space'})
                 
+                figname_char = 'all clusters image.fig'; savefig(fig0,figname_char,'compact')
+                tifname_char = 'all clusters image.tif'; saveas(fig0,tifname_char)
+                
+                close all
+                clear fig0
+                
+                fig0 = figure('units','normalized','outerposition',[0 0 .7 .7]); % set(gcf,'Visible', 'off');
+                jFrame = get(handle(fig0), 'JavaFrame');
+                jFrame.setMinimized(1);
+                
+                subplot(1,2,1)
+                image(rgb_image_component)
+                axis off; axis image; set(gca, 'fontsize', 12);
+                title({'t-sne space colours'})
+                                
+                subplot(1,2,1)
+                scatter3(rgbData(:,1),rgbData(:,2),rgbData(:,3),1,rgbData);
+                title({'t-sne space colours'})
+                
+                figname_char = 'all clusters image - t-sne space colours.fig'; savefig(fig0,figname_char,'compact')
+                tifname_char = 'all clusters image - t-sne space colours.tif'; saveas(fig0,tifname_char)
+                
+                close all
+                clear fig0
+                
             end
             
-            figname_char = 'all clusters image.fig'; savefig(fig0,figname_char,'compact')
-            tifname_char = 'all clusters image.tif'; saveas(fig0,tifname_char)
-            
-            close all
-            clear fig0
             
         end
         

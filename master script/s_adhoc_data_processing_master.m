@@ -27,10 +27,10 @@ addpath(genpath('X:\SpectralAnalysis\')) % SpectralAnalysis
 % to process below.
 
 data_folders = { ...
-    'X:\Beatson\negative DESI ibds and imzMLs\'
+    'X:\Crick\OrbiSIMS-2019-11-21\'
     };
 
-dataset_name_portion = '*SA2-2*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
+dataset_name_portion = '*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
 
 filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion '.imzML']) ]; end % Files and adducts information gathering
 
@@ -44,7 +44,7 @@ norm_list = [
 
 % Pre-processing (location of spectralAnalysis preprocessing file)
 
-preprocessing_file = '\\encephalon\D\AutomatedProcessing\preprocessingWorkflowForAll.sap';
+preprocessing_file = 'X:\Crick\OrbiSIMS-2019-11-21\preprocessingWorkflowOrbitrap.sap';
 
 %% Treating each dataset individually to create the tissue only ROI
 
@@ -95,15 +95,15 @@ f_saving_sii_relevant_molecules( filesToProcess, "no mask", mask_on, norm_list, 
 
 file_index = 1; disp(filesToProcess(file_index).name); % Index of which one of the files in filesToProcess would you like to work on?                      
 
-output_mask = "SI-B2-7-APC-KRAS-2"; % Name for the new mask.
+output_mask = "Tumour_7-D_APC_KRAS"; % Name for the new mask.
 
 % Details regarding the MVA results that you would like to use to create the mask.
 
-input_mask      = "no mask"; 
-numComponents   = 16;   
-mva_type        = "kmeans";
+input_mask      = "tissue only"; 
+numComponents   = NaN;   
+mva_type        = "nntsne";
 norm_type       = "zscore";
-vector_set      = [ 2 3 4 6 7 8 10 11 12 15 16 ]; % IDs of the clusters that will be added to create the mask.
+vector_set      = [ 11 13 ]; % IDs of the clusters that will be added to create the mask.
 
 regionsNum2keep = 1;
 regionsNum2fill = 0;
@@ -122,7 +122,7 @@ f_saving_mva_rois_ca( extensive_filesToProcess, main_mask_list, dataset_name, mv
  
 %% Treating all datasets together (note: you need to update the samples_scheme_info function below so that it has the image grid you would like to look at)
 
-dataset_name = "negative MALDI small intestine"; background = 0; check_datacubes_size = 1;
+dataset_name = "negative DESI small intestine"; background = 0; check_datacubes_size = 1;
 
 [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size );
 
@@ -165,21 +165,21 @@ f_saving_sii_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, sm
 norm_list = [
     "no norm"
     "pqn median"
-    "zscore"
+    % "zscore"
     % "pqn median & zscore"
     ]';
 
 mva_molecules_list = [ "Citric acid cycle", "Glycolysis", "Shorter Beatson metabolomics & CRUK list" ]; %,  ]; % string([]); % 
 mva_classes_list = "all"; % string([]); %
 
-f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Running MVAs
+% f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Running MVAs
 
 f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Saving MVAs outputs
 
 mva_molecules_list = string([]); % "Shorter Beatson metabolomics & CRUK list"; %  
 mva_classes_list = string([]); % "all"; % 
 
-f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Running MVAs
+% f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Running MVAs
 
 f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Saving MVAs outputs
 
