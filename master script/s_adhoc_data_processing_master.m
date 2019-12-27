@@ -70,7 +70,7 @@ f_saving_datacube_peaks_details( filesToProcess, "no mask" )
 
 f_saving_data_cube( filesToProcess, "no mask" )
 
-% !!! Multivariate analysis
+%% !!! Multivariate analysis
 
 % running
 

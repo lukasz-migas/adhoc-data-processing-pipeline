@@ -51,7 +51,12 @@ switch mva_type
         
         save('idx','idx','-v7.3')
         save('C','C','-v7.3')
-        save('optimal_numComponents','optimal_numComponents','-v7.3')
+        
+        if ~isnan(optimal_numComponents)
+            save('optimal_numComponents','optimal_numComponents','-v7.3')
+        end
+        
+        
         
     case 'nntsne'
         
