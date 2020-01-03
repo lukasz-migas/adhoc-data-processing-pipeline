@@ -41,7 +41,9 @@ switch mva_type
         load('C')
         load('idx')
         
-        numComponentsSaved = size(C,1);
+        numComponentsSaved = max(idx);
+        o_numComponents = numComponents;
+        numComponents = numComponentsSaved;
         
     case 'nntsne'
         
@@ -74,7 +76,6 @@ else
     for componenti = 1:numComponents
         
         if ( componenti == 1 ) && ( (isequal(char(mva_type),'kmeans')) || (isequal(char(mva_type),'nntsne')) || isequal(char(mva_type),'tsne') )
-            
             
             if isequal(char(mva_type),'kmeans')
                           
@@ -199,8 +200,17 @@ else
                 
             case 'kmeans'
                 
-                mkdir([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
-                cd([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                if isnan(o_numComponents)
+                    mkdir([ mva_path file_name '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    cd([ mva_path file_name '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
+                    mkdir(outputs_path)
+                else
+                    mkdir([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    cd([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                    outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
+                    mkdir(outputs_path)
+                end
                 
                 image_component = reshape(logical(idx.*(idx==componenti)),datacube.width,datacube.height)';
                 
@@ -209,9 +219,7 @@ else
                 imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
                 
                 colormap(viridis); title({['cluster ' num2str(componenti) ' image ' ]})
-                
-                outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\']; mkdir(outputs_path)
-                
+                                
             case 'nntsne'
                 
                 if isnan(o_numComponents)
