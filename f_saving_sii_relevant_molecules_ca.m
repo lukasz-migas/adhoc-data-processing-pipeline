@@ -17,7 +17,11 @@ for main_mask = main_mask_list
     if ~strcmpi(outputs_folder_name_list(1),"all")
         sample_info = [];
         for listi = outputs_folder_name_list
-            sample_info = [ sample_info; relevant_lists_sample_info(strcmpi(listi,relevant_lists_sample_info(:,database_col)),:) ];
+            sample_info = [ 
+                sample_info
+                relevant_lists_sample_info(strcmpi(listi,relevant_lists_sample_info(:,database_col)),:) 
+                relevant_lists_sample_info(strcmpi(listi,relevant_lists_sample_info(:,database_col)),:)
+                ];
         end
     elseif strcmpi(outputs_folder_name_list(1),"all")
         sample_info = relevant_lists_sample_info;
