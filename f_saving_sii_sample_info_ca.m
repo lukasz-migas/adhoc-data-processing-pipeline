@@ -93,7 +93,9 @@ for norm_type = norm_list
         norm_sii_cell{file_index}.data = norm_sii(:,datacube_indexes);
         norm_sii_cell{file_index}.width = datacube_cell{file_index}.width;
         norm_sii_cell{file_index}.height = datacube_cell{file_index}.height;
-
+        
+        disp([ num2str(size(norm_sii(:,datacube_indexes),1)) ' ' num2str(datacube_cell{file_index}.width .* datacube_cell{file_index}.height) ' ' num2str(size(smaller_masks_cell{file_index},1)) ])       
+        
     end
     
     f_saving_sii_files_ca( ...

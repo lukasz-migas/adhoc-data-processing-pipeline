@@ -35,30 +35,34 @@ for main_mask = main_mask_list
                     ];
             else
                 
-                hmdb_sample_info(strcmpi(listi,hmdb_sample_info(:,superclass_col)),database_col) = hmdb_sample_info(strcmpi(listi,hmdb_sample_info(:,superclass_col)),superclass_col);
-                hmdb_sample_info(strcmpi(listi,hmdb_sample_info(:,class_col)),database_col) = hmdb_sample_info(strcmpi(listi,hmdb_sample_info(:,class_col)),class_col);
-                hmdb_sample_info(strcmpi(listi,hmdb_sample_info(:,subclass_col)),database_col) = hmdb_sample_info(strcmpi(listi,hmdb_sample_info(:,subclass_col)),subclass_col);
-                
                 sample_info = [
                     sample_info
                     relevant_lists_sample_info(strcmpi(listi,relevant_lists_sample_info(:,database_col)),:)
                     ];
                 
-                hmdb_indexes = logical( strcmpi(listi,hmdb_sample_info(:,superclass_col)) + strcmpi(listi,hmdb_sample_info(:,class_col)) + strcmpi(listi,hmdb_sample_info(:,subclass_col)) );
-                hmdb_sample_info_curated = hmdb_sample_info(hmdb_indexes,:);
-                
-                [~, sorted_by_ppm_indexes] = sort(double(hmdb_sample_info_curated(:, abs_ppm_col)),'ascend');
-                hmdb_sample_info_sorted_by_ppm = hmdb_sample_info_curated(sorted_by_ppm_indexes,:);
-                
-                [~, unique_measmz_indexes] = unique(double(hmdb_sample_info_sorted_by_ppm(:, measmz_col)));
-                               
-                sample_info = [
-                    sample_info
-                    hmdb_sample_info_sorted_by_ppm(unique_measmz_indexes,1:12)
-                    ];
+                if size(hmdb_sample_info) > 14
+                    
+                    hmdb_sample_info(strcmpi(listi,hmdb_sample_info(:,superclass_col)),database_col) = hmdb_sample_info(strcmpi(listi,hmdb_sample_info(:,superclass_col)),superclass_col);
+                    hmdb_sample_info(strcmpi(listi,hmdb_sample_info(:,class_col)),database_col) = hmdb_sample_info(strcmpi(listi,hmdb_sample_info(:,class_col)),class_col);
+                    hmdb_sample_info(strcmpi(listi,hmdb_sample_info(:,subclass_col)),database_col) = hmdb_sample_info(strcmpi(listi,hmdb_sample_info(:,subclass_col)),subclass_col);
+                    
+                    hmdb_indexes = logical( strcmpi(listi,hmdb_sample_info(:,superclass_col)) + strcmpi(listi,hmdb_sample_info(:,class_col)) + strcmpi(listi,hmdb_sample_info(:,subclass_col)) );
+                    hmdb_sample_info_curated = hmdb_sample_info(hmdb_indexes,:);
+                    
+                    [~, sorted_by_ppm_indexes] = sort(double(hmdb_sample_info_curated(:, abs_ppm_col)),'ascend');
+                    hmdb_sample_info_sorted_by_ppm = hmdb_sample_info_curated(sorted_by_ppm_indexes,:);
+                    
+                    [~, unique_measmz_indexes] = unique(double(hmdb_sample_info_sorted_by_ppm(:, measmz_col)));
+                    
+                    sample_info = [
+                        sample_info
+                        hmdb_sample_info_sorted_by_ppm(unique_measmz_indexes,1:12)
+                        ];
+                    
+                end
                 
             end
-        
+            
         end
         
     elseif ~isempty(sii_peak_list)
@@ -83,7 +87,7 @@ for main_mask = main_mask_list
         end
         
     end
-
+    
     f_saving_sii_sample_info_ca( filesToProcess, main_mask, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, sample_info )
     
 end
