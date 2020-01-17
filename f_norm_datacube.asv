@@ -49,13 +49,9 @@ switch norm_type
         % norm_data0 = log(data+prctile(d0(:),5));
         norm_data0 = log(data+1);
         
-    case 'log & pqn median'
+    case 'log & median norm'
         
-        norm_data0 = crukNormalise(log(data+1),'pqn-median');
-        
-    case 'pqn median & log'
-        
-        norm_data0 = log(crukNormalise(data,'pqn-median')+1);
+        norm_data0 = f_median_norm(log(data+1));
 
     case 'median norm & log' % median normalisation & log
         

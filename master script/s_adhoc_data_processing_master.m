@@ -165,13 +165,15 @@ f_saving_sii_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, o
 %% Multivariate analysis (running and saving outputs)
 
 norm_list = [
-    "no norm"
-    "pqn median"
+    % "no norm"
+    % "pqn median"
     % "zscore"
     % "pqn median & zscore"
+    "log"
+    "log & pqn median"
     ]';
 
-mva_molecules_list = "Immunometabolites"; % [ "Citric acid cycle", "Glycolysis", "Shorter Beatson metabolomics & CRUK list" ]; %,  ]; % string([]); % 
+mva_molecules_list = [ "Citric acid cycle", "Glycolysis", "Shorter Beatson metabolomics & CRUK list", "Immunometabolites" ]; % string([]); % 
 mva_classes_list = string([]); % "all"; % string([]); %
 
 f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Running MVAs
