@@ -3,6 +3,7 @@ function [ ...
     polarity, ...
     adducts_list, ...
     mva_list, ...
+    amplratio4mva_array, ...
     numPeaks4mva_array, ...
     perc4mva_array, ...
     numComponents_array, ...
@@ -36,6 +37,7 @@ adducts_list = {};
 adducts_i = 0;
 
 mva_list = string([]);
+amplratio4mva_array = [];
 numPeaks4mva_array = [];
 perc4mva_array = [];
 
@@ -123,26 +125,26 @@ for i = 1:length(inputs_info_reshaped)
             end
         case "Outputs path"
             outputs_path = char(inputs_info_reshaped(i+1));
-        case "Highest intensity"
+        case "Highest Intensity"
             if strcmpi(inputs_info_reshaped(i+2),"yes")
+                % Number
                 aux_vector = str2num(char(inputs_info_reshaped(i+4)));
                 numPeaks4mva_array = [ numPeaks4mva_array, aux_vector ];
                 numPeaks4mva = aux_vector(1);
-                if isnan(numPeaks4mva)
-                    disp("Undefined number of highest intensity peaks!")
-                    break
-                end
-            end
-            
-        case "Top percentile (within moving windowns)"
-            if strcmpi(inputs_info_reshaped(i+2),"yes")
-                aux_vector = str2num(char(inputs_info_reshaped(i+4)));
+                if isnan(numPeaks4mva); numPeaks4mva_array = []; disp("Undefined number of highest intensity peaks!"); end
+                % Percentile
+                aux_vector = str2num(char(inputs_info_reshaped(i+6)));
                 perc4mva_array = [ perc4mva_array, aux_vector ];
                 perc4mva = aux_vector(1);
-                if isnan(perc4mva)
-                    disp("Undefined percentile!")
-                    break
-                end
+                if isnan(perc4mva); perc4mva_array = []; disp("Undefined percentile of highest intensity peaks!"); end
+            end
+        case "Ratio of Amplitudes Threshold"
+            if strcmpi(inputs_info_reshaped(i+2),"yes")
+                % Amplitudes ratio
+                aux_vector = str2num(char(inputs_info_reshaped(i+4)));
+                amplratio4mva_array = [ amplratio4mva_array, aux_vector ];
+                amplratio4mva = aux_vector(1);
+                if isnan(amplratio4mva); amplratio4mva_array = []; disp("Undefined amplitudes ration threshold!"); end
             end
             
         case "CRUK metabolites"
@@ -205,219 +207,9 @@ for i = 1:length(inputs_info_reshaped)
             list_path = strcat( metabolite_lists_path, "lipids_first_pass.xlsx" );
         case "Coenzymes"
             list_path = strcat( metabolite_lists_path, "8_Coenzymes.xlsx" );
-            
-        case "30k_S_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th1.xlsx" );
-        case "30k_S_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th3.xlsx" );
-        case "30k_S_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S_ratio th10.xlsx" );
-        case "30k_T_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_T_ratio th1.xlsx" );
-        case "30k_T_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_T_ratio th3.xlsx" );
-        case "30k_T_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_T_ratio th10.xlsx" );
-        case "30k_B_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_B_ratio th1.xlsx" );
-        case "30k_B_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_B_ratio th3.xlsx" );
-        case "30k_B_ratio th10" 
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_B_ratio th10.xlsx" );
-        case "30k_S&T_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S&T_ratio th1.xlsx" );
-        case "30k_S&T_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S&T_ratio th3.xlsx" );
-        case "30k_S&T_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S&T_ratio th10.xlsx" );
-        case "30k_T&B_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_T&B_ratio th1.xlsx" );
-        case "30k_T&B_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_T&B_ratio th3.xlsx" );
-        case "30k_T&B_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_T&B_ratio th10.xlsx" );
-        case "30k_S&T&B_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S&T&B_ratio th1.xlsx" );
-        case "30k_S&T&B_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S&T&B_ratio th3.xlsx" );
-        case "30k_S&T&B_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "30k_S&T&B_ratio th10.xlsx" );
-
-        case "60k_dhb_S_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_S_ratio th1.xlsx" );
-        case "60k_dhb_S_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_S_ratio th3.xlsx" );
-        case "60k_dhb_S_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_S_ratio th10.xlsx" );
-        case "60k_dhb_T_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_T_ratio th1.xlsx" );
-        case "60k_dhb_T_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_T_ratio th3.xlsx" );
-        case "60k_dhb_T_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_T_ratio th10.xlsx" );
-        case "60k_dhb_B_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_B_ratio th1.xlsx" );
-        case "60k_dhb_B_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_B_ratio th3.xlsx" );
-        case "60k_dhb_B_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_B_ratio th10.xlsx" );
-        case "60k_dhb_S&T_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_S&T_ratio th1.xlsx" );
-        case "60k_dhb_S&T_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_S&T_ratio th3.xlsx" );
-        case "60k_dhb_S&T_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_S&T_ratio th10.xlsx" );
-        case "60k_dhb_T&B_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_T&B_ratio th1.xlsx" );
-        case "60k_dhb_T&B_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_T&B_ratio th3.xlsx" );
-        case "60k_dhb_T&B_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_T&B_ratio th10.xlsx" );
-        case "60k_dhb_S&B_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_S&B_ratio th1.xlsx" );
-        case "60k_dhb_S&B_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_S&B_ratio th3.xlsx" );
-        case "60k_dhb_S&B_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_S&B_ratio th10.xlsx" );
-        case "60k_dhb_S&T&B_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_S&T&B_ratio th1.xlsx" );
-        case "60k_dhb_S&T&B_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_S&T&B_ratio th3.xlsx" );
-        case "60k_dhb_S&T&B_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhb_S&T&B_ratio th10.xlsx" );
-
-        case "60k_dhap_B_&_no_matrix_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_B_&_no_matrix_ratio th1.xlsx" );
-        case "60k_dhap_B_&_no_matrix_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_B_&_no_matrix_ratio th3.xlsx" );
-        case "60k_dhap_B_&_no_matrix_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_B_&_no_matrix_ratio th10.xlsx" );
-        case "60k_dhap_B_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_B_ratio th1.xlsx" );
-        case "60k_dhap_B_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_B_ratio th3.xlsx" );
-        case "60k_dhap_B_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_B_ratio th10.xlsx" );
-        case "60k_dhap_T_&_dhap_B_&_no_matrix_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_T_&_dhap_B_&_no_matrix_ratio th1.xlsx" );
-        case "60k_dhap_T_&_dhap_B_&_no_matrix_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_T_&_dhap_B_&_no_matrix_ratio th3.xlsx" );
-        case "60k_dhap_T_&_dhap_B_&_no_matrix_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_T_&_dhap_B_&_no_matrix_ratio th10.xlsx" );
-        case "60k_dhap_T_&_dhap_B_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_T_&_dhap_B_ratio th1.xlsx" );
-        case "60k_dhap_T_&_dhap_B_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_T_&_dhap_B_ratio th3.xlsx" );
-        case "60k_dhap_T_&_dhap_B_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_T_&_dhap_B_ratio th10.xlsx" );
-        case "60k_dhap_T_&_no_matrix_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_T_&_no_matrix_ratio th1.xlsx" );
-        case "60k_dhap_T_&_no_matrix_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_T_&_no_matrix_ratio th3.xlsx" );
-        case "60k_dhap_T_&_no_matrix_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_T_&_no_matrix_ratio th10.xlsx" );
-        case "60k_dhap_T_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_T_ratio th1.xlsx" );
-        case "60k_dhap_T_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_T_ratio th3.xlsx" );
-        case "60k_dhap_T_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_dhap_T_ratio th10.xlsx" );
-        case "60k_no_matrix_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_no_matrix_ratio th1.xlsx" );
-        case "60k_no_matrix_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_no_matrix_ratio th3.xlsx" );
-        case "60k_no_matrix_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "60k_no_matrix_ratio th10.xlsx" );
-            
-        case "120k_dhap_B_&_dhap_S_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_B_&_dhap_S_ratio th1.xlsx" );
-        case "120k_dhap_B_&_dhap_S_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_B_&_dhap_S_ratio th3.xlsx" );
-        case "120k_dhap_B_&_dhap_S_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_B_&_dhap_S_ratio th10.xlsx" );
-        case "120k_dhap_B_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_B_ratio th1.xlsx" );
-        case "120k_dhap_B_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_B_ratio th3.xlsx" );
-        case "120k_dhap_B_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_B_ratio th10.xlsx" );
-        case "120k_dhap_S_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_S_ratio th1.xlsx" );
-        case "120k_dhap_S_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_S_ratio th3.xlsx" );
-        case "120k_dhap_S_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_S_ratio th10.xlsx" );
-        case "120k_dhap_T_&_dhap_B_&_dhap_S_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_T_&_dhap_B_&_dhap_S_ratio th1.xlsx" );
-        case "120k_dhap_T_&_dhap_B_&_dhap_S_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_T_&_dhap_B_&_dhap_S_ratio th3.xlsx" );
-        case "120k_dhap_T_&_dhap_B_&_dhap_S_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_T_&_dhap_B_&_dhap_S_ratio th10.xlsx" );
-        case "120k_dhap_T_&_dhap_B_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_T_&_dhap_B_ratio th1.xlsx" );
-        case "120k_dhap_T_&_dhap_B_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_T_&_dhap_B_ratio th3.xlsx" );
-        case "120k_dhap_T_&_dhap_B_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_T_&_dhap_B_ratio th10.xlsx" );
-        case "120k_dhap_T_&_dhap_S_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_T_&_dhap_S_ratio th1.xlsx" );
-        case "120k_dhap_T_&_dhap_S_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_T_&_dhap_S_ratio th3.xlsx" );
-        case "120k_dhap_T_&_dhap_S_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_T_&_dhap_S_ratio th10.xlsx" );
-        case "120k_dhap_T_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_T_ratio th1.xlsx" );
-        case "120k_dhap_T_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_T_ratio th3.xlsx" );
-        case "120k_dhap_T_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "120k_dhap_T_ratio th10.xlsx" );
-            
-        case "study2_dhap_B_&_dhap_S_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_B_&_dhap_S_ratio th1.xlsx" );
-        case "study2_dhap_B_&_dhap_S_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_B_&_dhap_S_ratio th3.xlsx" );
-        case "study2_dhap_B_&_dhap_S_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_B_&_dhap_S_ratio th10.xlsx" );
-        case "study2_dhap_B_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_B_ratio th1.xlsx" );
-        case "study2_dhap_B_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_B_ratio th3.xlsx" );
-        case "study2_dhap_B_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_B_ratio th10.xlsx" );
-        case "study2_dhap_S_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_S_ratio th1.xlsx" );
-        case "study2_dhap_S_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_S_ratio th3.xlsx" );
-        case "study2_dhap_S_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_S_ratio th10.xlsx" );
-        case "study2_dhap_T_&_dhap_B_&_dhap_S_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_&_dhap_B_&_dhap_S_ratio th1.xlsx" );
-        case "study2_dhap_T_&_dhap_B_&_dhap_S_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_&_dhap_B_&_dhap_S_ratio th3.xlsx" );
-        case "study2_dhap_T_&_dhap_B_&_dhap_S_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_&_dhap_B_&_dhap_S_ratio th10.xlsx" );
-        case "study2_dhap_T_&_dhap_B_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_&_dhap_B_ratio th1.xlsx" );
-        case "study2_dhap_T_&_dhap_B_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_&_dhap_B_ratio th3.xlsx" );
-        case "study2_dhap_T_&_dhap_B_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_&_dhap_B_ratio th10.xlsx" );
-        case "study2_dhap_T_&_dhap_S_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_&_dhap_S_ratio th1.xlsx" );
-        case "study2_dhap_T_&_dhap_S_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_&_dhap_S_ratio th3.xlsx" );
-        case "study2_dhap_T_&_dhap_S_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_&_dhap_S_ratio th10.xlsx" );
-        case "study2_dhap_T_ratio th1"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_ratio th1.xlsx" );
-        case "study2_dhap_T_ratio th3"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_ratio th3.xlsx" );
-        case "study2_dhap_T_ratio th10"
-            list_path = strcat( metabolite_lists_path, "matrix-coating", filesep, "study2_dhap_T_ratio th10.xlsx" );     
-            
         case "Small intestine DESI neg APC-KRAS vs WT"
             list_path = strcat( metabolite_lists_path, "Small intestine DESI neg APC-KRAS vs WT.xlsx" ); 
-            
+
         case "maximum ppm error"
             if peak_assign_info == 0
                 mva_max_ppm = double(inputs_info_reshaped(i+1));

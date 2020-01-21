@@ -4,7 +4,7 @@ filesToProcess = f_unique_extensive_filesToProcess(filesToProcess); % This funct
 
 csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
 
-[ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
+[ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
 
 spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
 peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];

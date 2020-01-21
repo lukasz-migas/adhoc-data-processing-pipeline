@@ -30,7 +30,7 @@ switch norm_type
         
     case 'median' % median normalisation
         
-        norm_data0 = f_median_norm(data); 
+        norm_data0 = f_median_norm(data);
         
     case 'zscore'
         

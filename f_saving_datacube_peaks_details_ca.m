@@ -6,7 +6,7 @@ for mask_type = mask_list
     
     csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
     
-    [ ~, ~, ~, ~, numPeaks4mva_array, perc4mva_array, ~, ~, ~, ~, ~, ~, ~, ppmTolerance, ~, outputs_path ] = f_reading_inputs(csv_inputs);
+    [ ~, ~, ~, ~, amplratio4mva_array, numPeaks4mva_array, perc4mva_array, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
     
     spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
     peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];
@@ -40,7 +40,7 @@ for mask_type = mask_list
     
     molecules_classes_specification_path = [ filesToProcess(file_index).folder '\molecules_classes_specification' ];
                 
-    datacubeonly_peakDetails = f_peakdetails4datacube( relevant_lists_sample_info, ppmTolerance, numPeaks4mva_array, perc4mva_array, molecules_classes_specification_path, hmdb_sample_info, peakDetails, totalSpectrum_mzvalues, y );
+    datacubeonly_peakDetails = f_peakdetails4datacube( relevant_lists_sample_info, amplratio4mva_array, numPeaks4mva_array, perc4mva_array, molecules_classes_specification_path, hmdb_sample_info, peakDetails, totalSpectrum_mzvalues, y );
     
     for file_index = 1:length(filesToProcess)
         

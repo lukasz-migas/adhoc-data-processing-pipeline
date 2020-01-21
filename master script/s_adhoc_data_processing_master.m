@@ -39,7 +39,8 @@ filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToP
 norm_list = [
     "no norm"
     "pqn median"
-    "zscore"
+    "log"
+    "log & pqn median"
     ]';
 
 % Pre-processing (location of spectralAnalysis preprocessing file)
@@ -163,15 +164,6 @@ f_saving_sii_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, sm
 f_saving_sii_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, sii_peak_list ) % New function - it can accept hmdb classes, relevant molecules lists names or a vector of meas masses.
 
 %% Multivariate analysis (running and saving outputs)
-
-norm_list = [
-    % "no norm"
-    % "pqn median"
-    % "zscore"
-    % "pqn median & zscore"
-    "log"
-    "log & pqn median"
-    ]';
 
 mva_molecules_list = [ "Citric acid cycle", "Glycolysis", "Shorter Beatson metabolomics & CRUK list", "Immunometabolites" ]; % string([]); % 
 mva_classes_list = string([]); % "all"; % string([]); %

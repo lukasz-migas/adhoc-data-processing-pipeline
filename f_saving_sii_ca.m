@@ -4,7 +4,7 @@ file_index = 1;
 
 csv_inputs = [ filesToProcess(file_index).folder filesep 'inputs_file' ];
 
-[ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
+[ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
 
 peak_assignments_path   = [ char(outputs_path) filesep 'peak assignments' filesep ];
 

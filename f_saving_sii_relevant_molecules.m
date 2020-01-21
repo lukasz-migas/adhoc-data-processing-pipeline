@@ -6,7 +6,7 @@ for file_index = 1:length(filesToProcess)
     
     csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
     
-    [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
+    [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
     
     peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];
     

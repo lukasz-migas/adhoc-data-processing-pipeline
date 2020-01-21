@@ -10,7 +10,6 @@ for main_mask = main_mask_list
     % tissue or a set of tissues).
     
     datacube_cell = {};
-    main_mask_cell = {};
     smaller_masks_cell = {};
     
     % Loading peak details information
@@ -18,7 +17,9 @@ for main_mask = main_mask_list
     csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
     
     [ ~, ~, ~, ...
-        mva_list, numPeaks4mva_array, perc4mva_array, numComponents_array, ...
+        mva_list, ...
+        amplratio4mva_array, numPeaks4mva_array, perc4mva_array, ...
+        numComponents_array, ...
         ~, ~, ...
         mva_molecules_list, ppmTolerance, ...
         ~, ~, ...
@@ -167,7 +168,7 @@ for main_mask = main_mask_list
                 
                 % Determining the indexes of the mzvalues that are of interest from the datacube
                 
-                datacube_mzvalues_indexes = f_datacube_mzvalues_percentile( perc4mva, ppmTolerance, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues, y );
+                datacube_mzvalues_indexes = f_datacube_mzvalues_percentile( perc4mva, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues, y );
                 
                 mask4mva = logical(assembled_mask.*(sum(assembled_norm_data(:,datacube_mzvalues_indexes),2)>0));
                 data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);

@@ -2,7 +2,7 @@ function f_saving_mva_rois_ca( filesToProcess, main_mask_list, dataset_name, mva
 
 csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
 
-[ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
+[ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
 
 spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
 if isempty(molecules_list)

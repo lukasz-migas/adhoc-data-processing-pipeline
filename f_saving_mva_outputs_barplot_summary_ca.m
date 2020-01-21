@@ -10,7 +10,7 @@ for main_mask = main_mask_list
         
         csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
         
-        [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
+        [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
         
         rois_path               = [ char(outputs_path) '\rois\' ];
         spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
