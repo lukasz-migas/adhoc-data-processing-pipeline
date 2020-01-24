@@ -123,7 +123,7 @@ for main_mask = main_mask_list
                 
                 for perc4mva = perc4mva_array
                     
-                    mva_path = [ char(outputs_path) '\mva ' char(num2str(perc4mva)) ' highest peaks percentile\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
+                    mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     
                     % Determining the indexes of the mzvalues that are of interest from the datacube
                     
@@ -146,11 +146,11 @@ for main_mask = main_mask_list
                     
                     for numPeaks4mva = numPeaks4mva_array
                         
-                        mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks + ' char(num2str(amplratio4mva)) ' ampls ratio \' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
+                        mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                         
                         % Determining the indexes of the mzvalues that are of interest from the datacube
                         
-                        datacube_mzvalues_indexes = f_datacube_mzvalues_ampl_ratio_highest_peaks( amplratio4mva, numPeaks4mva, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues );
+                        datacube_mzvalues_indexes = f_datacube_mzvalues_ampl_ratio_highest_peaks( amplratio4mva, numPeaks4mva, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities );
                         
                         mask4mva = logical(mask.*(sum(norm_data(:,datacube_mzvalues_indexes),2)>0));
                         data4mva = norm_data(mask4mva,datacube_mzvalues_indexes);
@@ -165,11 +165,11 @@ for main_mask = main_mask_list
                     
                     for perc4mva = perc4mva_array
                         
-                        mva_path = [ char(outputs_path) '\mva ' char(num2str(perc4mva)) ' highest peaks percentile\+ ' char(num2str(amplratio4mva)) ' ampls ratio \' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
+                        mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                         
                         % Determining the indexes of the mzvalues that are of interest from the datacube
                         
-                        datacube_mzvalues_indexes = f_datacube_mzvalues_ampl_ratio_highest_peaks_percentile( amplratio4mva, perc4mva, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues );
+                        datacube_mzvalues_indexes = f_datacube_mzvalues_ampl_ratio_highest_peaks_percentile( amplratio4mva, perc4mva, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities );
                         
                         mask4mva = logical(mask.*(sum(norm_data(:,datacube_mzvalues_indexes),2)>0));
                         data4mva = norm_data(mask4mva,datacube_mzvalues_indexes);

@@ -1,4 +1,4 @@
-function datacube_mzvalues_indexes = f_datacube_mzvalues_ampl_ratio_highest_peaks( amplratio4mva, numPeaks4mva, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues )
+function datacube_mzvalues_indexes = f_datacube_mzvalues_ampl_ratio_highest_peaks( amplratio4mva, numPeaks4mva, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities )
 
 % Select the mz values of peaks that survive the 'amplitude test' - Teresa Jan 2019.
 
@@ -22,14 +22,24 @@ end
 peaki2keep = logical(peak_amplitude_feature>=amplratio4mva);
 
 smaller_peakDetails = peakDetails(peaki2keep,:);
-    
-% Select the mz values of the peaks that show the highest counts in the total spectrum.
 
-if ~isempty(numPeaks4mva)
-    [ ~, mzvalues_highest_peaks_indexes ] = sort(smaller_peakDetails(:,4),'descend');
-    mzvalues2keep2 = smaller_peakDetails(mzvalues_highest_peaks_indexes(1:numPeaks4mva,1),2);
-else
+if size(smaller_peakDetails,1)<numPeaks4mva
+    
+    disp("!!! There is not enought peaks in the curated list to keep running the analysis.");
+    
     mzvalues2keep2 = [];
+    
+else
+    
+    % Select the mz values of the peaks that show the highest counts in the total spectrum.
+    
+    if ~isempty(numPeaks4mva)
+        [ ~, mzvalues_highest_peaks_indexes ] = sort(smaller_peakDetails(:,4),'descend');
+        mzvalues2keep2 = smaller_peakDetails(mzvalues_highest_peaks_indexes(1:numPeaks4mva,1),2);
+    else
+        mzvalues2keep2 = [];
+    end
+    
 end
 
 mzvalues2keep = unique(mzvalues2keep2);

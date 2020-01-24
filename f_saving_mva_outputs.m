@@ -95,6 +95,8 @@ for main_mask = main_mask_list
                 
                 % Highest peaks
                 
+                % Number
+                
                 for numPeaks4mva = numPeaks4mva_array
                     
                     mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks\' ];
@@ -103,13 +105,39 @@ for main_mask = main_mask_list
                     
                 end
                 
-                % Percentile survival test
+                % Percentile
                 
                 for perc4mva = perc4mva_array
                     
-                    mva_path = [ char(outputs_path) '\mva ' char(num2str(perc4mva)) ' percentile\' ];
+                    mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks\' ];
                     
                     f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
+                    
+                end
+                
+                % Highest peaks after a thresholding step based on the ratio between the two amplitudes of each peak
+                
+                for amplratio4mva = amplratio4mva_array
+                    
+                    % Number
+                    
+                    for numPeaks4mva = numPeaks4mva_array
+                        
+                        mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
+                        
+                        f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
+                        
+                    end
+                    
+                    % Percentile
+                    
+                    for perc4mva = perc4mva_array
+                        
+                        mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
+                        
+                        f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
+                        
+                    end
                     
                 end
                 

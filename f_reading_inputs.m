@@ -130,12 +130,12 @@ for i = 1:length(inputs_info_reshaped)
                 % Number
                 aux_vector = str2num(char(inputs_info_reshaped(i+4)));
                 numPeaks4mva_array = [ numPeaks4mva_array, aux_vector ];
-                numPeaks4mva = aux_vector(1);
+                if length(aux_vector)>0; numPeaks4mva = aux_vector(1); end
                 if isnan(numPeaks4mva); numPeaks4mva_array = []; disp("Undefined number of highest intensity peaks!"); end
                 % Percentile
                 aux_vector = str2num(char(inputs_info_reshaped(i+6)));
                 perc4mva_array = [ perc4mva_array, aux_vector ];
-                perc4mva = aux_vector(1);
+                if length(aux_vector)>0; perc4mva = aux_vector(1); end
                 if isnan(perc4mva); perc4mva_array = []; disp("Undefined percentile of highest intensity peaks!"); end
             end
         case "Ratio of Amplitudes Threshold"

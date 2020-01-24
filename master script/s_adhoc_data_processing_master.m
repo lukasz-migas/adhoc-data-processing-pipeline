@@ -39,8 +39,6 @@ filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToP
 norm_list = [
     "no norm"
     "pqn median"
-    "log"
-    "log & pqn median"
     ]';
 
 % Pre-processing (location of spectralAnalysis preprocessing file)
