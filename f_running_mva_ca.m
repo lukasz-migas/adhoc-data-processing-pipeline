@@ -226,9 +226,12 @@ for main_mask = main_mask_list
             
             % Classes of molecules
             
-            molecules_classes_specification_path = [ filesToProcess(1).folder '\molecules_classes_specification' ];
-            
-            [ ~, ~, classes_info ] = xlsread(molecules_classes_specification_path);
+            if ~isempty(mva_classes_list)
+                
+                molecules_classes_specification_path = [ filesToProcess(1).folder '\molecules_classes_specification' ];
+                [ ~, ~, classes_info ] = xlsread(molecules_classes_specification_path);
+                
+            end
             
             %
             

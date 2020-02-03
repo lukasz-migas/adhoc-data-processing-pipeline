@@ -35,7 +35,7 @@ for main_mask = main_mask_list
         spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
         peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];
         rois_path               = [ char(outputs_path) '\rois\' ];
-
+        
         % Loading information about the peaks, the mz values saved as a
         % dacube cube and the matching of the dataset with a set of lists
         % of relevant molecules
@@ -61,7 +61,7 @@ for main_mask = main_mask_list
         else
             mask = true(ones(size(datacube,1),1));
         end
-                
+        
         for norm_type = norm_list
             
             % Data normalisation and compilation
@@ -69,7 +69,7 @@ for main_mask = main_mask_list
             norm_data = f_norm_datacube( datacube, norm_type );
             
             if mask_on == 1
-                norm_data(~mask,:) = NaN;                
+                norm_data(~mask,:) = NaN;
             end
             
             %
@@ -143,12 +143,16 @@ for main_mask = main_mask_list
                 
                 % Classes of molecules
                 
-                molecules_classes_specification_path = [ filesToProcess(1).folder '\molecules_classes_specification' ];
-                
-                if isfile(molecules_classes_specification_path)
-                    [ ~, ~, classes_info ] = xlsread(molecules_classes_specification_path);
-                elseif ~isempty(mva_classes_list)
-                    disp(['! No file specifying classes available in ' char(molecules_classes_specification_path) '.'])
+                if ~isempty(mva_classes_list)
+                    
+                    molecules_classes_specification_path = [ filesToProcess(1).folder '\molecules_classes_specification' ];
+                    
+                    if isfile(molecules_classes_specification_path)
+                        [ ~, ~, classes_info ] = xlsread(molecules_classes_specification_path);
+                    elseif ~isempty(mva_classes_list)
+                        disp(['! No file specifying classes available in ' char(molecules_classes_specification_path) '.'])
+                    end
+                    
                 end
                 
                 %

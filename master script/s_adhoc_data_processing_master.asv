@@ -187,8 +187,6 @@ f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_lis
 
 %% ROC analysis
 
-norm_list = "pqn median";
-
 % Note: As it is, the ROC analysis is done for the entire list of m/z
 % values saved in the datacube. However, the name of the database is assig
 
@@ -205,7 +203,7 @@ group0 = APC_group;
 group0_name = "short-list-1-14-apc";
 
 group1 = APC_KRAS_group;
-group1_name = "short-list-1-14-apc-kras";
+group1_name = "short-list-apc-kras";
 
 % % single imzml
 % 
@@ -219,16 +217,14 @@ f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0
 %
 
 % WT_group =          [ "SA1-1-100-wt-15", "SA1-2-100-wt-15", "SA2-1-100-wt-15", "SA2-2-100-wt-15" ];
-% APC_group =         [ "SA1-1-100-apc-2","SA1-1-100-apc-8", "SA1-2-100-apc-2","SA1-2-100-apc-8", "SA2-1-100-apc-2","SA2-1-100-apc-8", "SA2-2-100-apc-2","SA2-2-100-apc-8" ];
-% APC_KRAS_group =    [ "SA1-1-100-apc-kras-3","SA1-1-100-apc-kras-13", "SA1-2-100-apc-kras-3","SA1-2-100-apc-kras-13", "SA2-1-100-apc-kras-3","SA2-1-100-apc-kras-13", "SA2-2-100-apc-kras-3","SA2-2-100-apc-kras-13" ];
-APC_group =         [ "SA1-1-100-apc-8", "SA1-2-100-apc-8", "SA2-1-100-apc-8", "SA2-2-100-apc-8" ];
-APC_KRAS_group =    [ "SA1-1-100-apc-kras-3", "SA1-2-100-apc-kras-3", "SA2-1-100-apc-kras-3", "SA2-2-100-apc-kras-3" ];
+APC_group =         [ "SA1-1-100-apc-2","SA1-1-100-apc-8", "SA1-2-100-apc-2","SA1-2-100-apc-8", "SA2-1-100-apc-2","SA2-1-100-apc-8", "SA2-2-100-apc-2","SA2-2-100-apc-8" ];
+APC_KRAS_group =    [ "SA1-1-100-apc-kras-3","SA1-1-100-apc-kras-13", "SA1-2-100-apc-kras-3","SA1-2-100-apc-kras-13", "SA2-1-100-apc-kras-3","SA2-1-100-apc-kras-13", "SA2-2-100-apc-kras-3","SA2-2-100-apc-kras-13" ];
 
 group0 = APC_group;
-group0_name = "100-3-8-apc";
+group0_name = "100-apc";
 
 group1 = APC_KRAS_group;
-group1_name = "100-3-8-apc-kras";
+group1_name = "100-apc-kras";
 
 % % single imzml
 % 
