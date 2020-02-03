@@ -25,7 +25,7 @@ smaller_peakDetails = peakDetails(peaki2keep,:);
 
 if size(smaller_peakDetails,1)<numPeaks4mva
     
-    disp("!!! There is not enought peaks in the curated list to keep running the analysis.");
+    disp("!!! After the amplitude ratio thresholding, there are not enought peaks to run the MVA.");
     
     mzvalues2keep2 = [];
     

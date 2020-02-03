@@ -6,7 +6,7 @@ for file_index = 1:length(filesToProcess)
         
     csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
     
-    [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, fig_ppmTolerance, outputs_path ] = f_reading_inputs(csv_inputs);
+    [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, fig_ppmTolerance, outputs_path ] = f_reading_inputs(csv_inputs);
     
     spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
     rois_path               = [ char(outputs_path) '\rois\' ];

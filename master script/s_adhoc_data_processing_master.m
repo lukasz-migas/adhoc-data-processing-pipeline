@@ -94,17 +94,17 @@ f_saving_sii_relevant_molecules( filesToProcess, "no mask", mask_on, norm_list, 
 
 file_index = 1; disp(filesToProcess(file_index).name); % Index of which one of the files in filesToProcess would you like to work on?                      
 
-output_mask = "Tumour_7-D_APC_KRAS"; % Name for the new mask.
+output_mask = "apc-kras-100-roi"; % Name for the new mask.
 
 % Details regarding the MVA results that you would like to use to create the mask.
 
 input_mask      = "tissue only"; 
 numComponents   = NaN;   
-mva_type        = "nntsne";
-norm_type       = "zscore";
-vector_set      = [ 11 13 ]; % IDs of the clusters that will be added to create the mask.
+mva_type        = "tsne";
+norm_type       = "pqn median";
+vector_set      = [ 3 13 ]; % IDs of the clusters that will be added to create the mask.
 
-regionsNum2keep = 1;
+regionsNum2keep = 0;
 regionsNum2fill = 0;
 
 %%%
@@ -113,11 +113,12 @@ f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, numCompon
 
 %% Saving masks for each one of the MVA results
 
-mva_list = "nntsne"; % example
+mva_list = "tsne"; % example
 numComponents_list = NaN; % example
-molecules_list = string([]); % example
+norm_list = "pqn median";
+mva_specifics = "Shorter Beatson metabolomics & CRUK list"; % "all" for all lists, or the name of a short list of molecules
 
-f_saving_mva_rois_ca( extensive_filesToProcess, main_mask_list, dataset_name, mva_list, numComponents_list, norm_list, molecules_list )
+f_saving_mva_rois_ca( extensive_filesToProcess, main_mask_list, dataset_name, mva_list, numComponents_list, norm_list, mva_specifics )
  
 %% Treating all datasets together (note: you need to update the samples_scheme_info function below so that it has the image grid you would like to look at)
 
@@ -191,34 +192,45 @@ f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_lis
 
 % neg DESI small intestine
 
-WT_group =          [ "SA1-2-WT","SA2-2-WT" ];
-KRAS_group =        [ "SA1-1-KRAS","SA1-2-KRAS","SA2-1-KRAS","SA2-2-KRAS" ];
-APC_group =         [ "SA1-1-APC","SA1-2-APC","SA2-2-APC" ];
-APC_KRAS_group =    [ "SA1-1-APC-KRAS","SA1-2-APC-KRAS","SA2-1-APC-KRAS","SA2-2-APC-KRAS" ];
+% WT_group =          [ "SA1-1-short-list-wt-9", "SA1-2-short-list-wt-9", "SA2-1-short-list-wt-9", "SA2-2-short-list-wt-9" ];
+APC_group =         [ "SA1-1-short-list-apc-1","SA1-1-short-list-apc-13", "SA1-2-short-list-apc-1","SA1-2-short-list-apc-13", "SA2-1-short-list-apc-1","SA2-1-short-list-apc-13", "SA2-2-short-list-apc-1","SA2-2-short-list-apc-13" ];
+APC_KRAS_group =    [ "SA1-1-short-list-apc-kras-8","SA1-1-short-list-apc-kras-14", "SA1-2-short-list-apc-kras-8","SA1-2-short-list-apc-kras-14", "SA2-1-short-list-apc-kras-8","SA2-1-short-list-apc-kras-14", "SA2-2-short-list-apc-kras-8","SA2-2-short-list-apc-kras-14" ];
 
-% neg MALDI colon
+group0 = APC_group;
+group0_name = "short-list-apc";
 
-WT_group =          [ "CB1-1-WT", "CB1-2-WT", "CB2-1-WT", "CB2-2-WT" ];
-KRAS_group =        [ "CB1-1-KRAS", "CB1-2-KRAS", "CB2-1-KRAS", "CB2-2-KRAS" ];
-APC_group =         [ "CB1-1-APC", "CB1-2-APC", "CB2-1-APC", "CB2-2-APC" ];
-APC_KRAS_group =    [ "CB1-1-APC-KRAS", "CB1-2-APC-KRAS", "CB2-1-APC-KRAS", "CB2-2-APC-KRAS" ];
-
-
-group0 = WT_group;
-group0_name = "colon WT";
-
-group1 = [ KRAS_group, APC_group, APC_KRAS_group ];
-group1_name = "colon not WT";
+group1 = APC_KRAS_group;
+group1_name = "short-list-apc-kras";
 
 % % single imzml
-% 
-% mask_on = 0; % 1 or 0 depending on either the sii are to be masked with the main mask or not.
 % 
 % f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, [], [], [] )
 
 % combined imzmls
 
-f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, [], group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
+mask_on = 1; % 1 or 0 depending on either the sii are to be masked with the main mask or not.
+f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
+
+%
+
+% WT_group =          [ "SA1-1-100-wt-15", "SA1-2-100-wt-15", "SA2-1-100-wt-15", "SA2-2-100-wt-15" ];
+APC_group =         [ "SA1-1-100-apc-2","SA1-1-100-apc-8", "SA1-2-100-apc-2","SA1-2-100-apc-8", "SA2-1-100-apc-2","SA2-1-100-apc-8", "SA2-2-100-apc-2","SA2-2-100-apc-8" ];
+APC_KRAS_group =    [ "SA1-1-100-apc-kras-3","SA1-1-100-apc-kras-13", "SA1-2-100-apc-kras-3","SA1-2-100-apc-kras-13", "SA2-1-100-apc-kras-3","SA2-1-100-apc-kras-13", "SA2-2-100-apc-kras-3","SA2-2-100-apc-kras-13" ];
+
+group0 = APC_group;
+group0_name = "100-apc";
+
+group1 = APC_KRAS_group;
+group1_name = "100-apc-kras";
+
+% % single imzml
+% 
+% f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, [], [], [] )
+
+% combined imzmls
+
+mask_on = 1; % 1 or 0 depending on either the sii are to be masked with the main mask or not.
+f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
 
 %% T-test
 
