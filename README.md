@@ -1,4 +1,5 @@
-#adhoc data processing pipeline
+# adhoc data processing pipeline
+
 Semi-automated data processing pipeline developped by Teresa
 
 ## File structure
