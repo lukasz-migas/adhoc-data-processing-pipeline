@@ -3,21 +3,31 @@
 Semi-automated data processing pipeline developped by Teresa
 
 ## File structure
- * databases mat files
-   - complete_hmdb_info_strings.mat
- * documentation
-   - workflow_outline.pptx
- * master script
-   - Ontologies
-      + imagingMS.obo
-      + pato.obo
-      + psi-ms.obo
-      + uo.obo
-   - s_adhoc_data_processing_master.m
- * molecule-lists
-   - matrix-coating
-      + 30k_B_ratio th1.xlsx
-      + 30k_B_ratio th3.xlsx
+
+Bellow is detailed the file structure of the repository, with basic descripttion
+of the content of each folder / file.
+One should notice in particular the folder `documentation` which contains
+`workflow_outline.pptx`, a flowchart style description of the workflow;
+master script which contains `s_adhoc_data_processing_master.m`, the script to
+follow in order to run the pipeline and which articulates all the other
+functions together; the folder `required-files` contains the excel documents
+`inputs_file.xlsx` where the master script reads the parameters to use for the
+pipeline and `molecules_classes_specification.xlsx`
+ * `databases mat files`
+   - `complete_hmdb_info_strings.mat`
+ * `documentation`
+   - `workflow_outline.pptx`
+ * `master script`
+   - `Ontologies`
+      + `imagingMS.obo`
+      + `pato.obo`
+      + `psi-ms.obo`
+      + `uo.obo`
+   - `s_adhoc_data_processing_master.m`
+ * `molecule-lists`
+   - `matrix-coating`
+      + `30k_B_ratio th1.xlsx`
+      + `30k_B_ratio th3.xlsx`
       + 30k_B_ratio th10.xlsx
       + 30k_S&B_ratio th1.xlsx
       + 30k_S&B_ratio th3.xlsx
