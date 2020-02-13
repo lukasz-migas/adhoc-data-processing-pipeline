@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preprocessingWorkflow version="1.0">
+   <preprocessingMethod class="InterpolationRebinZeroFilling">
+      <parameter description="Min Spectral Channel" value="0.000000"/>
+      <parameter description="Max Spectral Channel" value="3000.000000"/>
+      <parameter description="Bin Size" value="0.002000"/>
+   </preprocessingMethod>
+</preprocessingWorkflow>
