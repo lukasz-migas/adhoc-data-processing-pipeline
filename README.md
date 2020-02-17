@@ -241,9 +241,12 @@ pipeline and `molecules_classes_specification.xlsx`
  * `f_saving_sii_relevant_molecules_ca.m`
  * `f_saving_sii_sample_info.m`
  * `f_saving_sii_sample_info_ca.m`
- * `f_saving_spectra_details.m`
-       __Inputs__: 
-       __Outputs__:
+ * `f_saving_spectra_details.m`..
+ 
+       ... __Inputs__: ..
+       
+       ... __Outputs__: 
+
  * `f_saving_t_tests.m`
  * `f_tic_norm.m`
  * `f_tsne.m`
