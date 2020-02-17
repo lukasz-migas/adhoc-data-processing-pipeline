@@ -187,66 +187,183 @@ pipeline and `molecules_classes_specification.xlsx`
    - `molecules_classes_specification.xlsx`
  * `toolboxes` you can put additional libraries to use in here
    - `umap 1.3.3` the UMAP library for UMAP dimension reduction
- * `f_assembling_assignments.m`
- * `f_beatson_sample_scheme_info.m`
- * `f_classes4sup_class.m`
- * `f_data_4_sup_class_ca.m`
- * `f_datacube_mzvalues_ampl_ratio_highest_peaks.m`
- * `f_datacube_mzvalues_ampl_ratio_highest_peaks_percentile.m`
- * `f_datacube_mzvalues_classes.m`
- * `f_datacube_mzvalues_highest_peaks.m`
- * `f_datacube_mzvalues_highest_peaks_percentile.m`
- * `f_datacube_mzvalues_lists.m`
- * `f_datacube_mzvalues_percentile.m`
- * `f_kmeans.m`
- * `f_mask_creation.m`
- * `f_matrix_coating_studies_scheme_info.m`
- * `f_molecules_list_mat.m`
- * `f_msi_autoscaling_norm.m`
- * `f_mva_barplots.m`
- * `f_mva_output_collage.m`
- * `f_norm_datacube.m`
- * `f_pdac_samples_scheme_info.m`
- * `f_peakdetails4datacube.m`
- * `f_reading_inputs.m`
- * `f_RMS_norm.m`
- * `f_running_mva.m`
- * `f_running_mva_auxiliar.m`
- * `f_running_mva_ca.m`
- * `f_saving_curated_hmdb_info.m`
- * `f_saving_curated_top_loadings_info.m`
- * `f_saving_data_cube.m`
- * `f_saving_datacube_peaks_details.m`
- * `f_saving_datacube_peaks_details_ca.m`
- * `f_saving_hmdb_assignments.m`
- * `f_saving_hmdb_assignments_ca.m`
- * `f_saving_mva_auxiliar.m`
- * `f_saving_mva_auxiliar_ca.m`
- * `f_saving_mva_outputs.m`
- * `f_saving_mva_outputs_barplot_summary_ca.m`
- * `f_saving_mva_outputs_ca.m`
- * `f_saving_mva_rois_ca.m`
- * `f_saving_peaks_details.m`
- * `f_saving_peaks_details_ca.m`
- * `f_saving_relevant_lists_assignments.m`
- * `f_saving_relevant_lists_assignments_ca.m`
- * `f_saving_roc_analysis.m`
- * `f_saving_sii_ca.m`
- * `f_saving_sii_files.m`
- * `f_saving_sii_files_ca.m`
- * `f_saving_sii_ratio_files_ca.m`
- * `f_saving_sii_ratio_relevant_molecules_ca.m`
- * `f_saving_sii_ratio_sample_info_ca.m`
- * `f_saving_sii_relevant_molecules.m`
- * `f_saving_sii_relevant_molecules_ca.m`
- * `f_saving_sii_sample_info.m`
- * `f_saving_sii_sample_info_ca.m`
- * `f_saving_spectra_details.m`  
+ * `f_assembling_assignments.m`  
    __Inputs__:  
    __Outputs__:
-
- * `f_saving_t_tests.m`
- * `f_tic_norm.m`
- * `f_tsne.m`
- * `f_unique_extensive_filesToProcess.m`
- * `f_zscore_norm.m`
+ * `f_beatson_sample_scheme_info.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_classes4sup_class.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_data_4_sup_class_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_datacube_mzvalues_ampl_ratio_highest_peaks.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_datacube_mzvalues_ampl_ratio_highest_peaks_percentile.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_datacube_mzvalues_classes.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_datacube_mzvalues_highest_peaks.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_datacube_mzvalues_highest_peaks_percentile.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_datacube_mzvalues_lists.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_datacube_mzvalues_percentile.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_kmeans.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_mask_creation.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_matrix_coating_studies_scheme_info.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_molecules_list_mat.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_msi_autoscaling_norm.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_mva_barplots.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_mva_output_collage.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_norm_datacube.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_pdac_samples_scheme_info.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_peakdetails4datacube.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_reading_inputs.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_RMS_norm.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_running_mva.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_running_mva_auxiliar.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_running_mva_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_curated_hmdb_info.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_curated_top_loadings_info.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_data_cube.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_datacube_peaks_details.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_datacube_peaks_details_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_hmdb_assignments.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_hmdb_assignments_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_mva_auxiliar.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_mva_auxiliar_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_mva_outputs.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_mva_outputs_barplot_summary_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_mva_outputs_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_mva_rois_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_peaks_details.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_peaks_details_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_relevant_lists_assignments.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_relevant_lists_assignments_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_roc_analysis.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_sii_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_sii_files.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_sii_files_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_sii_ratio_files_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_sii_ratio_relevant_molecules_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_sii_ratio_sample_info_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_sii_relevant_molecules.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_sii_relevant_molecules_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_sii_sample_info.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_sii_sample_info_ca.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_saving_spectra_details.m`  
+   __Inputs__:  
+   __Outputs__:  
+ * `f_saving_t_tests.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_tic_norm.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_tsne.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_unique_extensive_filesToProcess.m`  
+   __Inputs__:  
+   __Outputs__:
+ * `f_zscore_norm.m`  
+   __Inputs__:  
+   __Outputs__:
