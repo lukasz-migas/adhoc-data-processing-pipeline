@@ -23,7 +23,9 @@ pipeline and `molecules_classes_specification.xlsx`
       + `pato.obo`
       + `psi-ms.obo`
       + `uo.obo`
-   - `s_adhoc_data_processing_master.m` this is the master script which you need to run. You need to modify the first inputs so that your dataset is processed. In particular, think about filling the fields `data_folders`, `dataset_name_portion`, `norm_list`, and `preprocessing_file` accordingly.
+   - `s_adhoc_data_processing_master.m` this is the master script which you need to run. You need to modify the first inputs so that your dataset is processed. In particular, think about filling the fields `data_folders`, `dataset_name_portion`, `norm_list`, and `preprocessing_file` accordingly.  
+   __Inputs__:  
+   __Outputs__:
  * `molecule-lists`
    - `matrix-coating`
       + `30k_B_ratio th1.xlsx`
@@ -170,18 +172,42 @@ pipeline and `molecules_classes_specification.xlsx`
    - `U13C_glucose_cambridge.xlsx`
    - `U13C_Glutamine.xlsx`
  * `other functions`
-   - `crukNormalise.m`
-   - `f_full_colourscheme.m`
-   - `f_makeAdductMassList.m`
-   - `f_stringToFormula.m`
-   - `kmeans_elbow.m`
-   - `makePCAcolormap_tm.m`
-   - `makePCAcolorscheme.m`
-   - `nnTsneFull.m`
-   - `reverseTsneNeuralNetwork.m`
-   - `scaleColorMap.m`
-   - `twilight.m`
-   - `viridis.m`
+   - `crukNormalise.m`  
+   __Inputs__:  
+   __Outputs__:
+   - `f_full_colourscheme.m`  
+   __Inputs__:  
+   __Outputs__:
+   - `f_makeAdductMassList.m`  
+   __Inputs__:  
+   __Outputs__:
+   - `f_stringToFormula.m`  
+   __Inputs__:  
+   __Outputs__:
+   - `kmeans_elbow.m`  
+   __Inputs__:  
+   __Outputs__:
+   - `makePCAcolormap_tm.m`  
+   __Inputs__:  
+   __Outputs__:
+   - `makePCAcolorscheme.m`  
+   __Inputs__:  
+   __Outputs__:
+   - `nnTsneFull.m`  
+   __Inputs__:  
+   __Outputs__:
+   - `reverseTsneNeuralNetwork.m`  
+   __Inputs__:  
+   __Outputs__:
+   - `scaleColorMap.m`  
+   __Inputs__:  
+   __Outputs__:
+   - `twilight.m`  
+   __Inputs__:  
+   __Outputs__:
+   - `viridis.m`  
+   __Inputs__:  
+   __Outputs__:
  * `required-files`
    - `inputs_file.xlsx` an example of inputs file as the one you should put in your data folder.
    - `molecules_classes_specification.xlsx`
