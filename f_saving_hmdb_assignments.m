@@ -2,7 +2,7 @@ function f_saving_hmdb_assignments( filesToProcess, mask_list )
 
 % Loading hmdb database info
 
-load('X:\2019_Scripts for Data Processing\complete_hmdb_info_strings.mat')
+load('X:\2020_Scripts for Data Processing\Git Repository\databases-mat-files\complete_hmdb_info_strings.mat')
 
 for file_index = 1:length(filesToProcess)
     
