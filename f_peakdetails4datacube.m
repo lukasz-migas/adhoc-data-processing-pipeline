@@ -30,6 +30,7 @@ end
 
 % Select the mz values of peaks that survive the 'amplitude test' - Teresa Jan 2019.
 
+
 if ~isempty(amplratio4mva_array)
     
     y = totalSpectrum_intensities;
@@ -71,6 +72,11 @@ if ~isempty(amplratio4mva_array)
         mzvalues2keep5 = [];
     end
     
+else
+    
+    mzvalues2keep4 = [];
+    mzvalues2keep5 = [];
+    
 end
 
 % Select the mz values of peaks that belong to a particular HMDB kingdom, super-class, class and/or sub-class.
@@ -92,7 +98,9 @@ if isfile(molecules_classes_specification_path)
     mzvalues2keep6 = double(unique(hmdb_sample_info(logical(indexes2keep),4)));
     
 else
+    
     mzvalues2keep6 = [];
+
 end
 
 % ! % PeakDetails indexes
