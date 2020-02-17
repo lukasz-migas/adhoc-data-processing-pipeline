@@ -2,11 +2,11 @@ function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs
 
 switch dataset_name
     
-    case "negative DESI intracolonic tumours"
+    case "negative DESI small intestine 2019-06"
         
         data_folders = { 'X:\Beatson\Intracolonic tumour study\Neg DESI Data\Xevo V3 Sprayer\' };
         
-        dataset_name = '*slide9*';
+        dataset_name = '*20190605*';
         
         filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
         
@@ -28,19 +28,49 @@ switch dataset_name
             
             extensive_filesToProcess(delta+(1:8),:) = filesToProcess(1,:);
             smaller_masks_list = [
-                "IT9-C-APC";
-                "IT9-G-APC";
-                "IT9-A-APC-KRAS";
-                "IT9-D-APC-KRAS";
+                "SI-B2-4-WT-1"; "SI-B2-4-KRAS-1"; "SI-B2-4-APC-1"; "SI-B2-4-APC-KRAS-1"; 
+                "SI-B2-4-WT-2"; "SI-B2-4-APC-2"; "SI-B2-4-APC-KRAS-2";
+                "SI-B2-4-WT-3";
                 ];
             
         end
         
+        %
+                
+        dataset_name = '*20190610*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "tissue only";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            delta = size(extensive_filesToProcess,1);
+            
+            extensive_filesToProcess(delta+(1:8),:) = filesToProcess(1,:);
+            smaller_masks_list = [ 
+                smaller_masks_list; 
+                "SI-B1-17-WT-1"; "SI-B1-17-KRAS-1"; "SI-B1-17-APC-1"; "SI-B1-17-APC-KRAS-1";
+                "SI-B1-17-KRAS-2"; "SI-B1-17-APC-2"; "SI-B1-17-APC-KRAS-2";
+                "SI-B1-17-KRAS-3";
+                ];
+                        
+        end
+                
+        %
+        
         outputs_xy_pairs = [
-            1 1; 
-            1 2; 
-            2 1; 
-            2 2;
+            1 1; 2 1; 3 1; 4 1; 1 2; 3 2; 4 2; 1 3; 1 4; 2 4; 3 4; 4 4; 2 2; 3 3; 4 3; 2 3; 
             ];
     
     case "negative DESI small intestine 2019-06"
