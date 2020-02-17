@@ -24,8 +24,9 @@ pipeline and `molecules_classes_specification.xlsx`
       + `psi-ms.obo`
       + `uo.obo`
    - `s_adhoc_data_processing_master.m` this is the master script which you need to run. You need to modify the first inputs so that your dataset is processed. In particular, think about filling the fields `data_folders`, `dataset_name_portion`, `norm_list`, and `preprocessing_file` accordingly.  
-   __Inputs__:  
-   __Outputs__:
+     This is not a function properly speaking but you still have to set some "parameters" by changing bits of the code here and there and after running the script some outputs are written in indicated folders.
+     __Inputs__: line 29 list of the folders containing the data to analyse along with the input files; line 33 if only a subset of the contained data files has to be analysed, give here a substring which is only contained in the names of the files to analyse; line 39 list of the types of normalisations to operate (possible values: ); line46 file describing the preprocessing to operate
+     __Outputs__:
  * `molecule-lists`
    - `matrix-coating`
       + `30k_B_ratio th1.xlsx`
@@ -376,8 +377,13 @@ pipeline and `molecules_classes_specification.xlsx`
    __Inputs__:  
    __Outputs__:
  * `f_saving_spectra_details.m`  
-   __Inputs__:  
-   __Outputs__:  
+   - __Inputs__:
+     + `filesToProcess` is the list of all the files to be processed, represented by their full name and location;
+     + `preprocessing_file` is the location and name of the file describing the preprocessing to use;
+     + `mask_list` is the list of masks to use;  
+   - __Outputs__: all outputs are located in the output folder indicated in the `inputs_file`;
+     + `rois` folder
+     + `spectra details` folder
  * `f_saving_t_tests.m`  
    __Inputs__:  
    __Outputs__:
