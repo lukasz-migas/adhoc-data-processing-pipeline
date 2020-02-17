@@ -23,7 +23,7 @@ pipeline and `molecules_classes_specification.xlsx`
       + `pato.obo`
       + `psi-ms.obo`
       + `uo.obo`
-   - `s_adhoc_data_processing_master.m`
+   - `s_adhoc_data_processing_master.m` this is the master script which you need to run. You need to modify the first inputs so that your dataset is processed. In particular, think about filling the fields `data_folders`, `dataset_name_portion`, `norm_list`, and `preprocessing_file` accordingly.
  * `molecule-lists`
    - `matrix-coating`
       + `30k_B_ratio th1.xlsx`
@@ -183,10 +183,10 @@ pipeline and `molecules_classes_specification.xlsx`
    - `twilight.m`
    - `viridis.m`
  * `required-files`
-   - `inputs_file.xlsx`
+   - `inputs_file.xlsx` an example of inputs file as the one you should put in your data folder.
    - `molecules_classes_specification.xlsx`
- * `toolboxes`
-   - `umap 1.3.3`
+ * `toolboxes` you can put additional libraries to use in here
+   - `umap 1.3.3` the UMAP library for UMAP dimension reduction
  * `f_assembling_assignments.m`
  * `f_beatson_sample_scheme_info.m`
  * `f_classes4sup_class.m`
@@ -242,6 +242,8 @@ pipeline and `molecules_classes_specification.xlsx`
  * `f_saving_sii_sample_info.m`
  * `f_saving_sii_sample_info_ca.m`
  * `f_saving_spectra_details.m`
+       __Inputs__: 
+       __Outputs__:
  * `f_saving_t_tests.m`
  * `f_tic_norm.m`
  * `f_tsne.m`

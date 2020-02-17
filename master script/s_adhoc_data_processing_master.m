@@ -10,7 +10,7 @@ addpath(genpath('X:\SpectralAnalysis\')) % SpectralAnalysis
 
 % Please save a copy of this script in your personal T drive folder or computer and change your copy according to your study.
 
-% Please note that the folder containing the data needs to includeL:
+% Please note that the folder containing the data needs to included:
 
 % .. the .ibd file
 % .. the .imzML file
