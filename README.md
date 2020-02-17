@@ -278,8 +278,26 @@ pipeline and `molecules_classes_specification.xlsx`
    __Inputs__:  
    __Outputs__:
  * `f_reading_inputs.m`  
-   __Inputs__:  
-   __Outputs__:
+   - __Inputs__:
+     + `csv_inputs`: the absolute address of the csv giving inputs for the master script
+   - __Outputs__:
+     + `modality`: 
+     + `polarity`: 
+     + `adducts_list`: 
+     + `mva_list`: 
+     + `amplratio4mva_array`: 
+     + `numPeaks4mva_array`: 
+     + `perc4mva_array`: 
+     + `numComponents_array`: 
+     + `numLoadings_array`: 
+     + `mva_molecules_lists_csv_list`: 
+     + `mva_molecules_lists_label_list`: 
+     + `mva_max_ppm`: 
+     + `pa_molecules_lists_csv_list`: 
+     + `pa_molecules_lists_label_list`: 
+     + `pa_max_ppm`: 
+     + `fig_ppm`: 
+     + `outputs_path`: 
  * `f_RMS_norm.m`  
    __Inputs__:  
    __Outputs__:
@@ -332,8 +350,11 @@ pipeline and `molecules_classes_specification.xlsx`
    __Inputs__:  
    __Outputs__:
  * `f_saving_peaks_details.m`  
-   __Inputs__:  
-   __Outputs__:
+   - __Inputs__:
+     + `filesToProcess`: is the list of all the files to be processed, represented by their full name and location;
+     + `mask_list`: is the list of masks to use;
+   - __Outputs__:
+     + `peakDetails` a peakDetails matrix saved per dataset and per mask, in the output folder specified in the inputs_file, subfolder spectra details subfolder, in the subfolder of the relevent dataset, in the subfolder of the relevent mask
  * `f_saving_peaks_details_ca.m`  
    __Inputs__:  
    __Outputs__:
@@ -382,8 +403,8 @@ pipeline and `molecules_classes_specification.xlsx`
      + `preprocessing_file` is the location and name of the file describing the preprocessing to use;
      + `mask_list` is the list of masks to use;  
    - __Outputs__: all outputs are located in the output folder indicated in the `inputs_file`;
-     + `rois` folder
-     + `spectra details` folder
+     + `rois` folder contains a subfolder per file to process, each containing a subfolder per mask type, each containing an roi file
+     + `spectra details` folder: one folder per file to process, each containing one folder per mask type, each of which contains the number of pixels; the values on the m/z axis for the total spectrum; the matrix of intensities of the total spectrum.
  * `f_saving_t_tests.m`  
    __Inputs__:  
    __Outputs__:
