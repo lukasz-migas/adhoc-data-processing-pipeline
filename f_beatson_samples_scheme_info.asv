@@ -32,13 +32,12 @@ switch dataset_name
             smaller_masks_list = [ "IT9-C-APC"; "IT9-G-APC"; "IT9-A-APC-KRAS"; "IT9-D-APC-KRAS" ];
             
             % Tumour
-                        
-            extensive_filesToProcess(delta+(5:8),:) = filesToProcess(1,:);
-            smaller_masks_list = [ smaller_masks_list; "IT9-C-APC-tumour"; "IT9-G-APC-tumour"; "IT9-A-APC-KRAS-tumour"; "IT9-D-APC-KRAS-tumour" ];
-                        
-            extensive_filesToProcess(delta+(9:12),:) = filesToProcess(1,:);
-            smaller_masks_list = [ smaller_masks_list; "IT9-C-APC-normal"; "IT9-G-APC-normal"; "IT9-A-APC-KRAS-normal"; "IT9-D-APC-KRAS-normal" ];
-
+            
+            delta = size(extensive_filesToProcess,1);
+            
+            extensive_filesToProcess(delta+(1:4),:) = filesToProcess(1,:);
+            smaller_masks_list = [ smaller_masks_list; "IT9-C-APC"; "IT9-G-APC"; "IT9-A-APC-KRAS-tumour"; "IT9-D-APC-KRAS-tumour" ];
+            
             % Small intestine datasets
             
             data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
@@ -106,8 +105,6 @@ switch dataset_name
             smaller_masks_list = [ smaller_masks_list; "CB2-1-WT not Epit"; "CB2-1-KRAS not Epit"; "CB2-1-APC not Epit"; "CB2-1-APC-KRAS not Epit" ];
             
         end        
-        
-        outputs_xy_pairs = [];
         
     case "negative DESI small intestine SA 1-2 epit and not epit"
         

@@ -1,7 +1,68 @@
 
-function classes = f_classes4sup_class(study)
+function classes = f_classes_4_sup_class(study)
 
-if strcmpi("negative DESI small intestine",study)
+if strcmpi("negative DESI pre-tumour & tumour models",study)
+    
+    classes = [
+        "APC"
+        "APC"
+        "APC-KRAS"
+        "APC-KRAS"
+        "APC-tumour"
+        "APC-tumour"
+        "APC-KRAS-tumour"
+        "APC-KRAS-tumour"
+        "APC-normal"
+        "APC-normal"
+        "APC-KRAS-normal"
+        "APC-KRAS-normal"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "KRAS"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "KRAS"
+        "WT-epit"
+        "KRAS-epit"
+        "APC-epit"
+        "APC-KRAS-epit"
+        "WT-notepit"
+        "KRAS-notepit"
+        "APC-notepit"
+        "APC-KRAS notepit"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT"
+        "KRAS"
+        "APC"
+        "APC-KRAS"
+        "WT-epit"
+        "KRAS-epit"
+        "APC-epit"
+        "APC-KRAS-epit"
+        "WT-notepit"
+        "KRAS-notepit"
+        "APC-notepit"
+        "APC-KRAS-notepit"
+        ];
+    
+elseif strcmpi("negative DESI small intestine",study)
     
     classes = [
         "KRAS"
