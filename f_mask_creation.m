@@ -1,4 +1,4 @@
-function f_mask_creation( filesToProcess, input_mask, dataset_name, mva_type, numComponents, norm_type, vector_set, regionsNumE, regionsNumI, output_mask )
+function f_mask_creation( filesToProcess, input_mask, dataset_name, mva_type, mva_reference, numComponents, norm_type, vector_set, regionsNumE, regionsNumI, output_mask )
 
 % Creation of masks using the previously run mva results.
 
@@ -11,7 +11,7 @@ csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
 [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
 
 spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
-mva_path                = [ char(outputs_path) '\mva\' ];
+mva_path                = [ char(outputs_path) '\mva ' char(mva_reference) '\' ];
 rois_path               = [ char(outputs_path) '\rois\' ];
 
 mkdir(rois_path)

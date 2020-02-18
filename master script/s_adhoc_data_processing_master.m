@@ -98,6 +98,7 @@ output_mask = "apc-kras-100-roi"; % Name for the new mask.
 
 % Details regarding the MVA results that you would like to use to create the mask.
 
+mva_reference   = "100 highest peaks";
 input_mask      = "tissue only"; 
 numComponents   = NaN;   
 mva_type        = "tsne";
@@ -109,7 +110,7 @@ regionsNum2fill = 0;
 
 %%%
 
-f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, numComponents, norm_type, vector_set, regionsNum2keep, regionsNum2fill, output_mask )
+f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, mva_reference, numComponents, norm_type, vector_set, regionsNum2keep, regionsNum2fill, output_mask )
 
 %% Saving masks for each one of the MVA results
 

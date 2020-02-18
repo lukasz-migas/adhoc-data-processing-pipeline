@@ -9,7 +9,7 @@ for main_mask = main_mask_list
     % defined by the user (it can be a reference to a particular piece of
     % tissue or a set of tissues).
     
-    for file_index = [13 16 34] % 1:length(filesToProcess)
+    for file_index = 1:length(filesToProcess)
         
         csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
         
