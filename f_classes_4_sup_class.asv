@@ -56,10 +56,10 @@ if strcmpi("negative DESI pre-tumour & tumour models",study)
         "KRAS-epit"
         "APC-epit"
         "APC-KRAS-epit"
-        "WT-not-epit"
-        "KRAS-not-epit"
-        "APC-not-epit"
-        "APC-KRAS-not-epit"
+        "WT-notepit"
+        "KRAS-notepit"
+        "APC-notepit"
+        "APC-KRAS-notepit"
         ];
     
 elseif strcmpi("negative DESI small intestine",study)
