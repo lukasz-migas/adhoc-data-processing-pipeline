@@ -281,13 +281,13 @@ pipeline and `molecules_classes_specification.xlsx`
    - __Inputs__:
      + `csv_inputs`: the absolute address of the csv giving inputs for the master script
    - __Outputs__:
-     + `modality`: 
-     + `polarity`: 
+     + `modality`: `str` instrument used for aquisition (DESI, MALDI, REIMS, or SIMS)
+     + `polarity`: `str` polarity of aquisition, (positive of negative)
      + `adducts_list`: 
      + `mva_list`: 
-     + `amplratio4mva_array`: 
-     + `numPeaks4mva_array`: 
-     + `perc4mva_array`: 
+     + `amplratio4mva_array`: `num OR NULL` signal to noise ratio threshold for peak picking
+     + `numPeaks4mva_array`: `num OR NULL` number of peaks to keep (by order of decreasing intensity)
+     + `perc4mva_array`: `num OR NULL` percentage of peaks to keep (by order of decreasing intensity)
      + `numComponents_array`: 
      + `numLoadings_array`: 
      + `mva_molecules_lists_csv_list`: 
@@ -297,7 +297,7 @@ pipeline and `molecules_classes_specification.xlsx`
      + `pa_molecules_lists_label_list`: 
      + `pa_max_ppm`: 
      + `fig_ppm`: 
-     + `outputs_path`: 
+     + `outputs_path`: `str` the path to the folder where to write the output
  * `f_RMS_norm.m`  
    __Inputs__:  
    __Outputs__:
@@ -312,7 +312,10 @@ pipeline and `molecules_classes_specification.xlsx`
    __Outputs__:
  * `f_saving_curated_hmdb_info.m`  
    __Inputs__:  
+     + `hmdb_sample_info`: table of strings with the peak matching information for all peaks
+     + `relevant_lists_sample_info`: table of strings with the peak matching information for peaks in the lists of interest
    __Outputs__:
+     + `new_hmdb_sample_info`
  * `f_saving_curated_top_loadings_info.m`  
    __Inputs__:  
    __Outputs__:
@@ -420,3 +423,130 @@ pipeline and `molecules_classes_specification.xlsx`
  * `f_zscore_norm.m`  
    __Inputs__:  
    __Outputs__:
+
+## Output structure
+
+After running the master script, the output folder you have indicated will contain the information you asked for, organised in nested folders.
+* `mva N highest peaks + A ampls ratio` where `N` and `A` are integers
+  - `dataset1`
+    + `mask1`
+      * `mva1`
+        - `normalisation1`
+        - ...
+        - `normalisationO`
+      * ...
+      * `mvaV`
+    + ...
+    + `maskM`
+  - ...
+  - `datasetD`
+* `mva molecules_list` where `molecules_list`
+  - `dataset1`
+    + `mask1`
+      * `mva1`
+        - `normalisation1`
+        - ...
+        - `normalisationO`
+      * ...
+      * `mvaV`
+    + ...
+    + `maskM`
+  - ...
+  - `datasetD`
+* `mva percentile P peaks` where `P` is an integer
+  - `dataset1`
+    + `mask1`
+      * `mva1`
+        - `normalisation1`
+        - ...
+        - `normalisationO`
+      * ...
+      * `mvaV`
+    + ...
+    + `maskM`
+  - ...
+  - `datasetD`
+* `peak assignments`
+  - `dataset1`
+    + `mask1`
+      * `database1_assignment.txt` csv file with the following columns
+        - `molecule`: name of the matched molecule
+        - `theo mz`: theoretical mass to charge ratio of the ion assuming all atoms are present under their most stable isotopic form
+        - `adduct`: adduct for of the ion
+        - `meas mz`: measured mass to charge ratio (location of the peak)
+        - `abs ppm`: absolute (unsigned) measurement error in particule per million (assuming the assignment is right)
+        - `total counts`: total intensity of this peak accross the dataset
+        - `database`: database where the molecule was referenced
+        - `ppm`: signed measurement error in particule per million (assuming the assignment is right)
+        - `modality`: instrument used for the experiment
+        - `polarity`: polarity of the analyser used for the experiment
+        - `mean counts`: mean count of the peak accross the dataset
+        - `monoisotopic mass`: theoretical mass of the molecule assuming all atoms are present under their most stable isotopic form
+      * `database1_sample_info.mat`
+      * ...
+      * ...
+      * `databaseD_assignment.txt`
+      * `databaseD_sample_info.mat`
+    + ...
+    + `maskM`
+  - ...
+  - `datasetD`
+* `roc`
+  - `mask1`
+    + `normalisation1`
+      * `roc analysis group1 vs group2.txt`: a csv file containing the following columns for each peak
+        -`AUC`: area under the roc curve, is meant to be an indicator of the quality of the classifier (WARNING: has been criticised during the past few years)
+        -`meas mz`: measured mass to charge ratio of the considered peak
+        -`molecule`: name of the matched molecule
+        -`mono mz`: theoretical mass to charge ratio of the matched ion
+        -`adduct`: adduct form of the ion
+        -`ppm`: measurement error in ppm, assuming the match is right
+        -`database (by mono mz)`: databases where the ion appears
+      * ...
+      * `roc analysis groupG-1 vs groupG.txt`
+    + ...
+    + `normalisationO`
+  - ...
+  - `maskM`
+* `rois`
+  - `dataset1`
+  - ...
+  - `datasetD`
+* `single ion images`
+  - `dataset1`
+    + `mask1`
+      * `normalisation1`
+        - `list1`
+          + `mz1_name1Adduct1.png`: png representing the single ion image next to the neighbourhood of the peak in the spectral domain
+          + `mz1_name1Adduct1.fig`
+          + ...
+          + ...
+          + `mzZ_nameZAdductZ.png`
+          + `mzZ_nameZAdductZ.fig`
+          + `boxplots_mz1_name1Adduct1.png`: figure representing the intensity distribution of this ion depending on the dataset
+        - ...
+        - `listL`
+      * ...
+      * `normalisationO`
+    + ...
+    + `maskM`
+  - ...
+  - `datasetD`
+* `spectra details`
+  - `dataset1`
+    + `mask1`
+      * `Ontologies`
+        - `something.obo`:
+      * `datacube.mat`
+      * `datacubeonly_peakDetails.mat`
+      * `height.mat`
+      * `peakDetails.mat`
+      * `pixels_num.mat`
+      * `totalSpectrum_intensities.mat`
+      * `totalSpectrum_mzvalues.mat`
+      * `width.mat`
+    + ...
+    + `maskM`
+  - ...
+  - `datasetD`
+* `ttest`
