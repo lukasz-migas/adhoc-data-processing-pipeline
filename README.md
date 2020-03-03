@@ -357,7 +357,22 @@ pipeline and `molecules_classes_specification.xlsx`
      + `filesToProcess`: is the list of all the files to be processed, represented by their full name and location;
      + `mask_list`: is the list of masks to use;
    - __Outputs__:
-     + `peakDetails` a peakDetails matrix saved per dataset and per mask, in the output folder specified in the inputs_file, subfolder spectra details subfolder, in the subfolder of the relevent dataset, in the subfolder of the relevent mask
+   - __files generated__: 
+     + `output_folder`
+       * `spectra_details`
+         - `file_to_process_1`
+           + `mask_1`
+             * `peakDetails.mat`
+           + ...
+           + `mask_M`
+             * `peakDetails.mat`
+         - ...
+         - `file_to_process_F`
+           + `mask_1`
+             * `peakDetails.mat`
+           + ...
+           + `mask_M`
+             * `peakDetails.mat`
  * `f_saving_peaks_details_ca.m`  
    __Inputs__:  
    __Outputs__:
@@ -405,9 +420,48 @@ pipeline and `molecules_classes_specification.xlsx`
      + `filesToProcess` is the list of all the files to be processed, represented by their full name and location;
      + `preprocessing_file` is the location and name of the file describing the preprocessing to use;
      + `mask_list` is the list of masks to use;  
-   - __Outputs__: all outputs are located in the output folder indicated in the `inputs_file`;
-     + `rois` folder contains a subfolder per file to process, each containing a subfolder per mask type, each containing an roi file
-     + `spectra details` folder: one folder per file to process, each containing one folder per mask type, each of which contains the number of pixels; the values on the m/z axis for the total spectrum; the matrix of intensities of the total spectrum.
+   - __Outputs__:
+   - __files generated__: all generated files are located in the output folder indicated in the `inputs_file`;
+     + `rois`  
+       * `file_to_process_1`
+         - `maks_1`
+           + `roi_file_1`
+           + ...
+           + `roi_file_R`
+         - ...
+         - `mask_M`
+       * ...
+       * `file_to_process_N`
+         - `maks_1`
+           + `roi_file_1`
+           + ...
+           + `roi_file_R`
+         - ...
+         - `mask_M`
+     + `spectra details`: 
+       * `file_to_process_1`
+         - `maks_1`
+           + `pixels_num.mat` number of pixels
+           + `totalSpectrum_intensities.mat` the intensities of the total spectrum
+           + `totalSpectrum_mzvalues.mat` the bins of the mass axis in the total spectrum 
+         - ...
+         - `mask_M`
+           + `pixels_num.mat`
+           + `totalSpectrum_intensities.mat`
+           + `totalSpectrum_mzvalues.mat` 
+       * ...
+       * `file_to_process_N`
+         - `maks_1`
+           + `pixels_num.mat`
+           + `totalSpectrum_intensities.mat`
+           + `totalSpectrum_mzvalues.mat` 
+         
+         - ...
+         - `mask_M`
+           + `pixels_num.mat`
+           + `totalSpectrum_intensities.mat`
+           + `totalSpectrum_mzvalues.mat` 
+         
  * `f_saving_t_tests.m`  
    __Inputs__:  
    __Outputs__:
