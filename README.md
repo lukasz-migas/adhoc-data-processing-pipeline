@@ -2,97 +2,117 @@
 
 Semi-automated data processing pipeline developped by Teresa.
 This documentation is organised as follows:
-* The inputs file
-* The master script
-* Generated files structure
-* File structure
+* The inputs file  
+  Describes how this workflow receives its inputs and how to to prepare your own inputs
+* The master script  
+  Describes how to run this workflow after you prepared your input
+* Generated files structure  
+  describes the output you will obtain from running this workflow
+* File structure  
+  describes the content of this repository that was not approached earlier. This section is of interest if you want ot modify the workflow yourself
+* TODO  
+  description of the upcoming modfications for this workflow with variable priority
+
+Please, notice that this repository containsa folder called `documentation`, containing the file `workflow_outlide.pptx`.
+This file is a powerpoint presentation, describing this workflow under the form of a flowchart.
+It is probably the most convenient approach to get a first idea of how this script works before getting in depth.
 
 ## The inputs file
 
 To use this script, you will need to create an inputs file, based on the same model as the one located in this repository at
 * `required-files`
   - `inputs_file.xlsx`
+
 and adapt the relevant fields.
+
 You can see bellow a tree representation of this excel file along with details on how to fill this table and adapt it to yours needs, with your own molecule lists and MVAs.
 
-* General Information
-  - Study
-  - File Name
-  - Unique sample ID
-  - Modality
-  - Polarity
-  - Instrument
-  - Operator
-  - Data path
-  - Outputs path
-* Multivariate analyses
-  - Peaks set
-    + Ratio of Amplitudes Threshold
-      * yes or no
-      * ratio (1 - 100)
-    + Highest Intensity
-      * Yes or no?
-      * Number
-      * Percentile (1 - 100)
-    + List of interesting molecules
-    + ...
-      * ...
-    + Tolerance
-      * Maximum ppm error
-  - PCA
-    + Yes or no ?
-    + pcs number
-  - NMF
-    + Yes or no ?
-    + factors number
-  - k-means
-    + Yes or no ?
-    + clusters number
-  - NN t-sne
-    + Yes or no ?
-    + clusters number
-  - t-sne
-    + Yes or no ?
-    + clusters number
-* Peak Assignments
-  - List of molecules
-  - Adducts
-    + Tolerance
-      * Maximum ppm error
-      * plotting ppm error
-    + Positive
-      * H
-        -
-      * Na
-        -
-      * K
-        -
-      * -OH
-        -
-      * H3O
-        -
-      * HNH4
-        -
+* `General Information`
+  - `Study`
+  - `File Name`
+  - `Unique sample ID`
+  - `Modality`
+  - `Polarity`
+  - `Instrument`
+  - `Operator`
+  - `Data path`
+  - `Outputs path`
+* `Multivariate analyses`
+  - `Peaks set`
+    + `Ratio of Amplitudes Threshold`
+      * `yes or no`
+      * `ratio (1 - 100)`
+    + `Highest Intensity`
+      * `Yes or no?`
+      * `Number`
+      * `Percentile (1 - 100)`
+    + `List of interesting molecules`
+    + `...`
+      * `...`
+    + `Tolerance`
+      * `Maximum ppm error`
+  - `PCA`
+    + `Yes or no ?`
+    + `pcs number`
+  - `NMF`
+    + `Yes or no ?`
+    + `factors number`
+  - `k-means`
+    + `Yes or no ?`
+    + `clusters number`
+  - `NN t-sne`
+    + `Yes or no ?`
+    + `clusters number`
+  - `t-sne`
+    + `Yes or no ?`
+    + `clusters number`
+* `Peak Assignments`
+  - `List of molecules`
+  - `Adducts`
+    + `Tolerance`
+      * `Maximum ppm error`
+      * `plotting ppm error`
+    + `Positive`
+      * `H`
+        - yes or no
+      * `Na`
+        - yes or no
+      * `K`
+        - yes or no
+      * `-OH`
+        - yes or no
+      * `H3O`
+        - yes or no
+      * `HNH4`
+        - yes or no
     + Negative
-      * -H3O
-        -
-      * -H
-        -
-      * OH
-        -
-      * Cl
-        -
+      * `-H3O`
+        - yes or no
+      * `-H`
+        - yes or no
+      * `OH`
+        - yes or no
+      * `Cl`
+        - yes or no
 
 ## The master script
 
-this is the master script which you need to run. You need to modify the first inputs so that your dataset is processed. In particular, think about filling the fields `data_folders`, `dataset_name_portion`, `norm_list`, and `preprocessing_file` accordingly.  
-     This is not a function properly speaking but you still have to set some "parameters" by changing bits of the code here and there and after running the script some outputs are written in indicated folders.
-     + __Inputs__: line 29 list of the folders containing the data to analyse along with the input files; line 33 if only a subset of the contained data files has to be analysed, give here a substring which is only contained in the names of the files to analyse; line 39 list of the types of normalisations to operate (possible values: ); line46 file describing the preprocessing to operate
-     + __Outputs__:
+Once you properly filled the `inputs_file` file, you need to run the master script located in the repository at
+
+* `master script`
+  - `s_adhoc_data_processing_master.m`
+
+To do so properly, you need to modify some lines of the script so it locates your data and knows where to write its outputs.
+
+__List of inputs __Modifications to bring to the script:__
+
+
+By running the script, a series of files, organised in folders, is generated in the output folder specified in your `inputs_file` excel file.
+The next section describes those generated files.
 
 ## Generated files structure
 
-After running the master script, the output folder you have indicated will contain the information you asked for, organised in nested folders.
+After running the master script, the output folder you have indicated will contain the information you asked for, organised in nested folders:
 * `mva N highest peaks + A ampls ratio` where `N` and `A` are integers
   - `dataset1`
     + `mask1`
@@ -217,7 +237,7 @@ After running the master script, the output folder you have indicated will conta
   - `datasetD`
 * `ttest`
 
-## File structure
+## Files structure
 
 Bellow is detailed the file structure of the repository, with basic descripttion
 of the content of each folder / file.
@@ -704,3 +724,5 @@ pipeline and `molecules_classes_specification.xlsx`
  * `f_zscore_norm.m`  
    __Inputs__:  
    __Outputs__:
+   
+## TODO
