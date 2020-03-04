@@ -16,7 +16,7 @@ for file_index = 1:length(filesToProcess)
     % get the directory for the output folder of peak assignments and
     % create the associated directory
     peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];    mkdir(peak_assignments_path)
-    % for each mask
+    % for e
     for mask_type = mask_list
         
         % Loading dataset peak details

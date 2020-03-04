@@ -1,6 +1,221 @@
 # adhoc data processing pipeline
 
-Semi-automated data processing pipeline developped by Teresa
+Semi-automated data processing pipeline developped by Teresa.
+This documentation is organised as follows:
+* The inputs file
+* The master script
+* Generated files structure
+* File structure
+
+## The inputs file
+
+To use this script, you will need to create an inputs file, based on the same model as the one located in this repository at
+* `required-files`
+  - `inputs_file.xlsx`
+and adapt the relevant fields.
+You can see bellow a tree representation of this excel file along with details on how to fill this table and adapt it to yours needs, with your own molecule lists and MVAs.
+
+* General Information
+  - Study
+  - File Name
+  - Unique sample ID
+  - Modality
+  - Polarity
+  - Instrument
+  - Operator
+  - Data path
+  - Outputs path
+* Multivariate analyses
+  - Peaks set
+    + Ratio of Amplitudes Threshold
+      * yes or no
+      * ratio (1 - 100)
+    + Highest Intensity
+      * Yes or no?
+      * Number
+      * Percentile (1 - 100)
+    + List of interesting molecules
+    + ...
+      * ...
+    + Tolerance
+      * Maximum ppm error
+  - PCA
+    + Yes or no ?
+    + pcs number
+  - NMF
+    + Yes or no ?
+    + factors number
+  - k-means
+    + Yes or no ?
+    + clusters number
+  - NN t-sne
+    + Yes or no ?
+    + clusters number
+  - t-sne
+    + Yes or no ?
+    + clusters number
+* Peak Assignments
+  - List of molecules
+  - Adducts
+    + Tolerance
+      * Maximum ppm error
+      * plotting ppm error
+    + Positive
+      * H
+        -
+      * Na
+        -
+      * K
+        -
+      * -OH
+        -
+      * H3O
+        -
+      * HNH4
+        -
+    + Negative
+      * -H3O
+        -
+      * -H
+        -
+      * OH
+        -
+      * Cl
+        -
+
+## The master script
+
+this is the master script which you need to run. You need to modify the first inputs so that your dataset is processed. In particular, think about filling the fields `data_folders`, `dataset_name_portion`, `norm_list`, and `preprocessing_file` accordingly.  
+     This is not a function properly speaking but you still have to set some "parameters" by changing bits of the code here and there and after running the script some outputs are written in indicated folders.
+     + __Inputs__: line 29 list of the folders containing the data to analyse along with the input files; line 33 if only a subset of the contained data files has to be analysed, give here a substring which is only contained in the names of the files to analyse; line 39 list of the types of normalisations to operate (possible values: ); line46 file describing the preprocessing to operate
+     + __Outputs__:
+
+## Generated files structure
+
+After running the master script, the output folder you have indicated will contain the information you asked for, organised in nested folders.
+* `mva N highest peaks + A ampls ratio` where `N` and `A` are integers
+  - `dataset1`
+    + `mask1`
+      * `mva1`
+        - `normalisation1`
+        - ...
+        - `normalisationO`
+      * ...
+      * `mvaV`
+    + ...
+    + `maskM`
+  - ...
+  - `datasetD`
+* `mva molecules_list` where `molecules_list`
+  - `dataset1`
+    + `mask1`
+      * `mva1`
+        - `normalisation1`
+        - ...
+        - `normalisationO`
+      * ...
+      * `mvaV`
+    + ...
+    + `maskM`
+  - ...
+  - `datasetD`
+* `mva percentile P peaks` where `P` is an integer
+  - `dataset1`
+    + `mask1`
+      * `mva1`
+        - `normalisation1`
+        - ...
+        - `normalisationO`
+      * ...
+      * `mvaV`
+    + ...
+    + `maskM`
+  - ...
+  - `datasetD`
+* `peak assignments`
+  - `dataset1`
+    + `mask1`
+      * `database1_assignment.txt` csv file with the following columns
+        - `molecule`: name of the matched molecule
+        - `theo mz`: theoretical mass to charge ratio of the ion assuming all atoms are present under their most stable isotopic form
+        - `adduct`: adduct for of the ion
+        - `meas mz`: measured mass to charge ratio (location of the peak)
+        - `abs ppm`: absolute (unsigned) measurement error in particule per million (assuming the assignment is right)
+        - `total counts`: total intensity of this peak accross the dataset
+        - `database`: database where the molecule was referenced
+        - `ppm`: signed measurement error in particule per million (assuming the assignment is right)
+        - `modality`: instrument used for the experiment
+        - `polarity`: polarity of the analyser used for the experiment
+        - `mean counts`: mean count of the peak accross the dataset
+        - `monoisotopic mass`: theoretical mass of the molecule assuming all atoms are present under their most stable isotopic form
+      * `database1_sample_info.mat`
+      * ...
+      * ...
+      * `databaseD_assignment.txt`
+      * `databaseD_sample_info.mat`
+    + ...
+    + `maskM`
+  - ...
+  - `datasetD`
+* `roc`
+  - `mask1`
+    + `normalisation1`
+      * `roc analysis group1 vs group2.txt`: a csv file containing the following columns for each peak
+        -`AUC`: area under the roc curve, is meant to be an indicator of the quality of the classifier (WARNING: has been criticised during the past few years)
+        -`meas mz`: measured mass to charge ratio of the considered peak
+        -`molecule`: name of the matched molecule
+        -`mono mz`: theoretical mass to charge ratio of the matched ion
+        -`adduct`: adduct form of the ion
+        -`ppm`: measurement error in ppm, assuming the match is right
+        -`database (by mono mz)`: databases where the ion appears
+      * ...
+      * `roc analysis groupG-1 vs groupG.txt`
+    + ...
+    + `normalisationO`
+  - ...
+  - `maskM`
+* `rois`
+  - `dataset1`
+  - ...
+  - `datasetD`
+* `single ion images`
+  - `dataset1`
+    + `mask1`
+      * `normalisation1`
+        - `list1`
+          + `mz1_name1Adduct1.png`: png representing the single ion image next to the neighbourhood of the peak in the spectral domain
+          + `mz1_name1Adduct1.fig`
+          + ...
+          + ...
+          + `mzZ_nameZAdductZ.png`
+          + `mzZ_nameZAdductZ.fig`
+          + `boxplots_mz1_name1Adduct1.png`: figure representing the intensity distribution of this ion depending on the dataset
+        - ...
+        - `listL`
+      * ...
+      * `normalisationO`
+    + ...
+    + `maskM`
+  - ...
+  - `datasetD`
+* `spectra details`
+  - `dataset1`
+    + `mask1`
+      * `Ontologies`
+        - `something.obo`:
+      * `datacube.mat`
+      * `datacubeonly_peakDetails.mat`
+      * `height.mat`
+      * `peakDetails.mat`
+      * `pixels_num.mat`
+      * `totalSpectrum_intensities.mat`
+      * `totalSpectrum_mzvalues.mat`
+      * `width.mat`
+    + ...
+    + `maskM`
+  - ...
+  - `datasetD`
+* `ttest`
 
 ## File structure
 
@@ -23,10 +238,8 @@ pipeline and `molecules_classes_specification.xlsx`
       + `pato.obo`
       + `psi-ms.obo`
       + `uo.obo`
-   - `s_adhoc_data_processing_master.m` this is the master script which you need to run. You need to modify the first inputs so that your dataset is processed. In particular, think about filling the fields `data_folders`, `dataset_name_portion`, `norm_list`, and `preprocessing_file` accordingly.  
-     This is not a function properly speaking but you still have to set some "parameters" by changing bits of the code here and there and after running the script some outputs are written in indicated folders.
-     __Inputs__: line 29 list of the folders containing the data to analyse along with the input files; line 33 if only a subset of the contained data files has to be analysed, give here a substring which is only contained in the names of the files to analyse; line 39 list of the types of normalisations to operate (possible values: ); line46 file describing the preprocessing to operate
-     __Outputs__:
+   - `s_adhoc_data_processing_master.m`
+   
  * `molecule-lists`
    - `matrix-coating`
       + `30k_B_ratio th1.xlsx`
@@ -180,8 +393,11 @@ pipeline and `molecules_classes_specification.xlsx`
    __Inputs__:  
    __Outputs__:
    - `f_makeAdductMassList.m`  
-   __Inputs__:  
-   __Outputs__:
+     + __Inputs__:
+      * `adducts` the types of adducts one is interested in (and rules for matching), as found in the `inputs_file`
+      * `databaseMasses` the masses of interest found in the specified databases in the `inputs_file`
+      * `polarity` the polarity of the ions considered
+     + __Outputs__:
    - `f_stringToFormula.m`  
    __Inputs__:  
    __Outputs__:
@@ -257,8 +473,13 @@ pipeline and `molecules_classes_specification.xlsx`
    __Inputs__:  
    __Outputs__:
  * `f_molecules_list_mat.m`  
-   __Inputs__:  
-   __Outputs__:
+   - __Inputs__:
+     + `csv_file_path_list` path to a csv file containing the mz value and name of molecules of interest
+     + `labels_path_list` path to a csv file containing the label of molecules of interest
+   - __Outputs__:
+     + `mzvalues` the mz values
+     + `names` the names
+     + `labels` the labels
  * `f_msi_autoscaling_norm.m`  
    __Inputs__:  
    __Outputs__:
@@ -377,8 +598,14 @@ pipeline and `molecules_classes_specification.xlsx`
    __Inputs__:  
    __Outputs__:
  * `f_saving_relevant_lists_assignments.m`  
-   __Inputs__:  
-   __Outputs__:
+   - __Inputs__:
+     + `filesToProcess`
+     + `mask_list`
+   - __Outputs__:
+   - __files generated__:
+     + `output_folder`
+       * `spectra_details`
+       * `peak assignments`
  * `f_saving_relevant_lists_assignments_ca.m`  
    __Inputs__:  
    __Outputs__:
@@ -477,130 +704,3 @@ pipeline and `molecules_classes_specification.xlsx`
  * `f_zscore_norm.m`  
    __Inputs__:  
    __Outputs__:
-
-## Output structure
-
-After running the master script, the output folder you have indicated will contain the information you asked for, organised in nested folders.
-* `mva N highest peaks + A ampls ratio` where `N` and `A` are integers
-  - `dataset1`
-    + `mask1`
-      * `mva1`
-        - `normalisation1`
-        - ...
-        - `normalisationO`
-      * ...
-      * `mvaV`
-    + ...
-    + `maskM`
-  - ...
-  - `datasetD`
-* `mva molecules_list` where `molecules_list`
-  - `dataset1`
-    + `mask1`
-      * `mva1`
-        - `normalisation1`
-        - ...
-        - `normalisationO`
-      * ...
-      * `mvaV`
-    + ...
-    + `maskM`
-  - ...
-  - `datasetD`
-* `mva percentile P peaks` where `P` is an integer
-  - `dataset1`
-    + `mask1`
-      * `mva1`
-        - `normalisation1`
-        - ...
-        - `normalisationO`
-      * ...
-      * `mvaV`
-    + ...
-    + `maskM`
-  - ...
-  - `datasetD`
-* `peak assignments`
-  - `dataset1`
-    + `mask1`
-      * `database1_assignment.txt` csv file with the following columns
-        - `molecule`: name of the matched molecule
-        - `theo mz`: theoretical mass to charge ratio of the ion assuming all atoms are present under their most stable isotopic form
-        - `adduct`: adduct for of the ion
-        - `meas mz`: measured mass to charge ratio (location of the peak)
-        - `abs ppm`: absolute (unsigned) measurement error in particule per million (assuming the assignment is right)
-        - `total counts`: total intensity of this peak accross the dataset
-        - `database`: database where the molecule was referenced
-        - `ppm`: signed measurement error in particule per million (assuming the assignment is right)
-        - `modality`: instrument used for the experiment
-        - `polarity`: polarity of the analyser used for the experiment
-        - `mean counts`: mean count of the peak accross the dataset
-        - `monoisotopic mass`: theoretical mass of the molecule assuming all atoms are present under their most stable isotopic form
-      * `database1_sample_info.mat`
-      * ...
-      * ...
-      * `databaseD_assignment.txt`
-      * `databaseD_sample_info.mat`
-    + ...
-    + `maskM`
-  - ...
-  - `datasetD`
-* `roc`
-  - `mask1`
-    + `normalisation1`
-      * `roc analysis group1 vs group2.txt`: a csv file containing the following columns for each peak
-        -`AUC`: area under the roc curve, is meant to be an indicator of the quality of the classifier (WARNING: has been criticised during the past few years)
-        -`meas mz`: measured mass to charge ratio of the considered peak
-        -`molecule`: name of the matched molecule
-        -`mono mz`: theoretical mass to charge ratio of the matched ion
-        -`adduct`: adduct form of the ion
-        -`ppm`: measurement error in ppm, assuming the match is right
-        -`database (by mono mz)`: databases where the ion appears
-      * ...
-      * `roc analysis groupG-1 vs groupG.txt`
-    + ...
-    + `normalisationO`
-  - ...
-  - `maskM`
-* `rois`
-  - `dataset1`
-  - ...
-  - `datasetD`
-* `single ion images`
-  - `dataset1`
-    + `mask1`
-      * `normalisation1`
-        - `list1`
-          + `mz1_name1Adduct1.png`: png representing the single ion image next to the neighbourhood of the peak in the spectral domain
-          + `mz1_name1Adduct1.fig`
-          + ...
-          + ...
-          + `mzZ_nameZAdductZ.png`
-          + `mzZ_nameZAdductZ.fig`
-          + `boxplots_mz1_name1Adduct1.png`: figure representing the intensity distribution of this ion depending on the dataset
-        - ...
-        - `listL`
-      * ...
-      * `normalisationO`
-    + ...
-    + `maskM`
-  - ...
-  - `datasetD`
-* `spectra details`
-  - `dataset1`
-    + `mask1`
-      * `Ontologies`
-        - `something.obo`:
-      * `datacube.mat`
-      * `datacubeonly_peakDetails.mat`
-      * `height.mat`
-      * `peakDetails.mat`
-      * `pixels_num.mat`
-      * `totalSpectrum_intensities.mat`
-      * `totalSpectrum_mzvalues.mat`
-      * `width.mat`
-    + ...
-    + `maskM`
-  - ...
-  - `datasetD`
-* `ttest`
