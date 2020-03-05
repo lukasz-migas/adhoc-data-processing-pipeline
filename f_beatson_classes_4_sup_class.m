@@ -1,5 +1,5 @@
 
-function classes = f_classes_4_sup_class(study)
+function classes = f_beatson_classes_4_sup_class(study)
 
 if strcmpi("negative DESI pre-tumour & tumour models",study)
     

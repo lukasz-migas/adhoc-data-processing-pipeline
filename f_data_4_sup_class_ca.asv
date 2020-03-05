@@ -8,7 +8,7 @@ switch project_id
         
     case "icr"
         
-        classes = f_icr_classes_4_sup_class(dataset_name);
+        classes = f_icr_classes_4_sup_class(study)
         
 end
 
@@ -94,7 +94,7 @@ for main_mask = main_mask_list
         
     elseif strcmpi(txt_or_mat,"mat")
         
-        save('data_table.mat','data_table')
+        save('data_table','data_table')
         
     end
     

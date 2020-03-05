@@ -27,10 +27,10 @@ addpath(genpath('X:\SpectralAnalysis\')) % SpectralAnalysis
 % to process below.
 
 data_folders = { ...
-    'X:\Crick\OrbiSIMS-2019-11-21\'
+    ''
     };
 
-dataset_name_portion = '*1*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
+dataset_name_portion = '*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
 
 filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion '.imzML']) ]; end % Files and adducts information gathering
 
@@ -39,11 +39,12 @@ filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToP
 norm_list = [
     "no norm"
     "pqn median"
+    "RMS"
     ]';
 
 % Pre-processing (location of spectralAnalysis preprocessing file)
 
-preprocessing_file = 'X:\Crick\OrbiSIMS-2019-11-21\preprocessingWorkflow_rebin0_001.sap';
+preprocessing_file = 'X:\ICR Breast PDX\preprocessingWorkflow.sap';
 
 %% Treating each dataset individually to create the tissue only ROI
 
@@ -123,9 +124,9 @@ f_saving_mva_rois_ca( extensive_filesToProcess, main_mask_list, dataset_name, mv
  
 %% Treating all datasets together (note: you need to update the samples_scheme_info function below so that it has the image grid you would like to look at)
 
-dataset_name = "positive AP MALDI tumour models"; background = 0; check_datacubes_size = 1;
+dataset_name = "maldi neg 1458 1282"; background = 0; check_datacubes_size = 1;
 
-[ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info_rory( dataset_name, background, check_datacubes_size );
+[ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_icr_samples_scheme_info( dataset_name, background, check_datacubes_size );
 
 % Pre-processing data and saving spectral details (total spectrum and peakDetails structs) with background
 
@@ -165,15 +166,15 @@ f_saving_sii_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, o
 
 %% Multivariate analysis (running and saving outputs)
 
-mva_molecules_list = [ "Citric acid cycle", "Glycolysis", "Shorter Beatson metabolomics & CRUK list", "Immunometabolites" ]; % string([]); % 
-mva_classes_list = string([]); % "all"; % string([]); %
+mva_classes_list = string([]);
+
+mva_molecules_list = [ "CRUK metabolites", "Immunometabolites", "Structural Lipids", "Fatty acid metabolism" ];
 
 f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Running MVAs
 
 f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Saving MVAs outputs
 
-mva_molecules_list = string([]); % "Shorter Beatson metabolomics & CRUK list"; %  
-mva_classes_list = string([]); % "all"; % 
+mva_molecules_list = string([]);
 
 f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Running MVAs
 
@@ -257,6 +258,8 @@ f_saving_t_tests( extensive_filesToProcess, main_mask_list, group0, group0_name,
 
 %% Saving data for supervised classification in Python
 
-f_data_4_sup_class_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name )
+project_id = "icr";
+
+f_data_4_sup_class_ca( filesToProcess, main_mask_list, smaller_masks_list, project_id, dataset_name, "mat" )
 
 

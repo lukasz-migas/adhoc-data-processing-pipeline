@@ -29,19 +29,19 @@ switch dataset_name
             
             clear extensive_filesToProcess
             
-            extensive_filesToProcess(1,:) = filesToProcess(2,:);
+            extensive_filesToProcess(1,:) = filesToProcess(1,:);
             smaller_masks_list = [ smaller_masks_list; "IT-B-APC" ];
                                  
             extensive_filesToProcess(2,:) = filesToProcess(4,:);
             smaller_masks_list = [ smaller_masks_list; "IT-C-APC" ];
             
-            extensive_filesToProcess(3,:) = filesToProcess(1,:);
+            extensive_filesToProcess(3,:) = filesToProcess(2,:);
             smaller_masks_list = [ smaller_masks_list; "IT-G-APC" ];
             
             extensive_filesToProcess(4,:) = filesToProcess(3,:);
             smaller_masks_list = [ smaller_masks_list; "IT-A-APC-KRAS" ];
             
-            extensive_filesToProcess(5,:) = filesToProcess(2,:);
+            extensive_filesToProcess(5,:) = filesToProcess(1,:);
             smaller_masks_list = [ smaller_masks_list; "IT-D-APC-KRAS" ];
             
         end        
