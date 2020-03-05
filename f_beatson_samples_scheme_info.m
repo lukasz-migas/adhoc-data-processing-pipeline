@@ -2,6 +2,52 @@ function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs
 
 switch dataset_name
     
+    case "positive AP MALDI tumour models"
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            % Intracolonic dataset
+            
+            data_folders = { 'X:\Beatson\Intracolonic tumour study\plasma-AP-MALDI MSI\2020_01_28 - intracolonic sicrit imaging\data\' };
+            
+            dataset_name = '*';
+            
+            filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+            
+            delta = 0;
+            smaller_masks_list = [];
+            
+            clear extensive_filesToProcess
+            
+            extensive_filesToProcess(1,:) = filesToProcess(2,:);
+            smaller_masks_list = [ smaller_masks_list; "IT-B-APC" ];
+                                 
+            extensive_filesToProcess(2,:) = filesToProcess(4,:);
+            smaller_masks_list = [ smaller_masks_list; "IT-C-APC" ];
+            
+            extensive_filesToProcess(3,:) = filesToProcess(1,:);
+            smaller_masks_list = [ smaller_masks_list; "IT-G-APC" ];
+            
+            extensive_filesToProcess(4,:) = filesToProcess(3,:);
+            smaller_masks_list = [ smaller_masks_list; "IT-A-APC-KRAS" ];
+            
+            extensive_filesToProcess(5,:) = filesToProcess(2,:);
+            smaller_masks_list = [ smaller_masks_list; "IT-D-APC-KRAS" ];
+            
+        end        
+        
+        outputs_xy_pairs = [1 1; 1 2; 1 3; 2 1; 2 2 ];
+    
     case "negative DESI pre-tumour & tumour models"
         
         if background == 1
