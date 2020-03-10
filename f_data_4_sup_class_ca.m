@@ -94,7 +94,7 @@ for main_mask = main_mask_list
         
     elseif strcmpi(txt_or_mat,"mat")
         
-        save('data_table.mat','data_table')
+        save('data_table.mat','data_table','-v7.3')
         
     end
     

@@ -28,8 +28,16 @@ for main_mask = main_mask_list
     
     if isnan(ppmTolerance); ppmTolerance = pa_max_ppm; end
     
-    if ~isempty(mva_molecules_list0)
+    if isempty(mva_molecules_list0)
+        mva_mzvalues_vector = [];
+    elseif isstring(mva_molecules_list0)
         mva_molecules_list = mva_molecules_list0;
+        mva_mzvalues_vector = [];
+        numPeaks4mva_array = [];
+        perc4mva_array = [];
+    elseif isvector(mva_molecules_list0)
+        mva_mzvalues_vector = mva_molecules_list0;
+        mva_molecules_list = [];
         numPeaks4mva_array = [];
         perc4mva_array = [];
     end
@@ -136,6 +144,16 @@ for main_mask = main_mask_list
             end
             
             % Different peak lists
+            
+            % Vector of mz values
+            
+            if ~isempty(mva_mzvalues_vector)
+                
+                mva_path = [ char(outputs_path) '\mva ' char(num2str(length(mva_mzvalues_vector))) ' adhoc mz values\' ];
+                
+                f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
+                
+            end
             
             % Lists
             

@@ -4,7 +4,14 @@ function norm_data = f_norm_datacube( datacube, norm_type )
 
 % mz selection
 
-data = datacube.data(logical(sum(datacube.data,2)>0),logical(sum(datacube.data,1)>0));
+data0 = datacube.data(logical(sum(datacube.data,2)>0),:);
+data = data0(:,logical(sum(datacube.data,1)>0));
+
+% figure; 
+% subplot(2,4,1); stem(sum(datacube.data,2)); 
+% subplot(2,4,2); stem(sum(datacube.data(logical(sum(datacube.data,2)>0),:),2));
+% subplot(2,4,3); stem(sum(datacube.data(:,logical(sum(datacube.data,1)>0)),2));
+% subplot(2,4,4); stem(sum(data,2));
 
 % Multiple normalisation metrics
 
@@ -75,5 +82,11 @@ end
 
 if norm_data0==0; disp('!!! Unknown normalisation metric. Please specify a different one.'); for i=1; break; end; end
     
-norm_data = NaN*ones(size(datacube.data,1),size(datacube.data,2));
-norm_data(logical(sum(datacube.data,2)>0),logical(sum(datacube.data,1)>0)) = norm_data0;
+norm_data = [];
+norm_data(logical(sum(datacube.data,2)>0),:) = norm_data0;
+norm_data(:,logical(sum(datacube.data,1)>0)) = norm_data;
+
+% subplot(2,4,5);
+% subplot(2,4,6);
+% subplot(2,4,7); stem(sum(norm_data0,2));
+% subplot(2,4,8); stem(sum(norm_data,2));

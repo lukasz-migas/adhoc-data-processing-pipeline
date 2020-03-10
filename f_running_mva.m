@@ -19,8 +19,16 @@ for main_mask = main_mask_list
         
         if isnan(ppmTolerance); ppmTolerance = pa_max_ppm; end
         
-        if ~isempty(mva_molecules_list0)
+        if isempty(mva_molecules_list0)
+            mva_mzvalues_vector = [];
+        elseif isstring(mva_molecules_list0)
             mva_molecules_list = mva_molecules_list0;
+            mva_mzvalues_vector = [];
+            numPeaks4mva_array = [];
+            perc4mva_array = [];
+        elseif isvector(mva_molecules_list0)
+            mva_mzvalues_vector = mva_molecules_list0;
+            mva_molecules_list = [];
             numPeaks4mva_array = [];
             perc4mva_array = [];
         end
@@ -80,6 +88,23 @@ for main_mask = main_mask_list
                 numComponents = numComponents_array(mvai);
                 
                 % Different peak lists
+                
+                % Vector of mz values
+                
+                if ~isempty(mva_mzvalues_vector)
+                    
+                    mva_path = [ char(outputs_path) '\mva ' char(num2str(length(mva_mzvalues_vector))) ' adhoc mz values\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
+                    
+                    datacube_mzvalues_indexes = f_datacube_mzvalues_vector( mva_mzvalues_vector, datacubeonly_peakDetails, totalSpectrum_mzvalues );
+                    
+                    mask4mva = logical(mask.*(sum(norm_data(:,datacube_mzvalues_indexes),2)>0));
+                    data4mva = norm_data(mask4mva,datacube_mzvalues_indexes);
+                    
+                    % Creating a new folder, running and saving MVA results
+                    
+                    f_running_mva_auxiliar( mva_type, mva_path, filesToProcess(file_index).name(1,1:end-6), main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
+                    
+                end
                 
                 % Lists
                 
