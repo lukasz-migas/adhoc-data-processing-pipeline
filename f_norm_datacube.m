@@ -4,8 +4,7 @@ function norm_data = f_norm_datacube( datacube, norm_type )
 
 % mz selection
 
-data0 = datacube.data(logical(sum(datacube.data,2)>0),:);
-data = data0(:,logical(sum(datacube.data,1)>0));
+data = datacube.data(logical(sum(datacube.data,2)>0),:);
 
 % figure; 
 % subplot(2,4,1); stem(sum(datacube.data,2)); 
@@ -82,9 +81,8 @@ end
 
 if norm_data0==0; disp('!!! Unknown normalisation metric. Please specify a different one.'); for i=1; break; end; end
     
-norm_data = [];
+norm_data = 0*datacube.data;
 norm_data(logical(sum(datacube.data,2)>0),:) = norm_data0;
-norm_data(:,logical(sum(datacube.data,1)>0)) = norm_data;
 
 % subplot(2,4,5);
 % subplot(2,4,6);

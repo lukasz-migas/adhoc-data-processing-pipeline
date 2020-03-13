@@ -220,13 +220,13 @@ f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0
 
 %%
 
-norm_list = "no norm";
-
 group0 = [ "G-APC-normal", "B-APC-normal", "D-APC-KRAS-normal", "A-APC-KRAS-normal", "C-APC-normal"];
+group1 = [ "G-APC-tumour", "B-APC-tumour", "D-APC-KRAS-tumour", "A-APC-KRAS-tumour", "C-APC-tumour" ];
+
 group0_name = "normal";
 
-group1 = [ "G-APC-tumour", "B-APC-tumour", "D-APC-KRAS-tumour", "A-APC-KRAS-tumour", "C-APC-tumour" ];
-group1_name = "tumour";
+group1 = group01;
+group1_name = "tumur";
 
 % % single imzml
 % 
