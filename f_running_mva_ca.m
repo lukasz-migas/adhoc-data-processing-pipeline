@@ -1,4 +1,4 @@
-function f_running_mva_ca( filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, , mva_classes_list0 )
+function f_running_mva_ca( filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_molecules_list0, mva_classes_list0 )
 
 for main_mask = main_mask_list
     
@@ -30,7 +30,7 @@ for main_mask = main_mask_list
     if isnan(ppmTolerance); ppmTolerance = pa_max_ppm; end
     
     if isempty(mva_molecules_list0)
-        mva_mzvalues_vector = [];        
+        mva_mzvalues_vector = [];
     elseif isstring(mva_molecules_list0)
         mva_molecules_list = mva_molecules_list0;
         mva_mzvalues_vector = [];
@@ -98,7 +98,7 @@ for main_mask = main_mask_list
         
         load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(smaller_masks_list(file_index)) filesep 'roi'])
         smaller_masks_cell{file_index} = logical(reshape(roi.pixelSelection',[],1));
-                
+        
     end
     
     %%
@@ -111,7 +111,7 @@ for main_mask = main_mask_list
         for file_index = 1:length(datacube_cell)
             
             if (file_index==1) || (~strcmpi(filesToProcess(file_index-1).name(1,1:end-6),filesToProcess(file_index).name(1,1:end-6)))
-                                
+                
                 % normalisation
                 
                 norm_data = f_norm_datacube( datacube_cell{file_index}, norm_type );
@@ -178,7 +178,7 @@ for main_mask = main_mask_list
                 % Determining the indexes of the mzvalues that are of interest from the datacube
                 
                 datacube_mzvalues_indexes = f_datacube_mzvalues_highest_peaks( numPeaks4mva, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues );
-                                
+                
                 mask4mva = logical(assembled_mask.*(sum(assembled_norm_data(:,datacube_mzvalues_indexes),2)>0));
                 data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
                 
@@ -197,7 +197,7 @@ for main_mask = main_mask_list
                 % Determining the indexes of the mzvalues that are of interest from the datacube
                 
                 datacube_mzvalues_indexes = f_datacube_mzvalues_highest_peaks_percentile( perc4mva, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues );
-                                
+                
                 mask4mva = logical(assembled_mask.*(sum(assembled_norm_data(:,datacube_mzvalues_indexes),2)>0));
                 data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
                 
