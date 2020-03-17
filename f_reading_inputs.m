@@ -28,8 +28,11 @@ function [ ...
 inputs_info_reshaped = string(reshape(inputs_info',[],1));
 inputs_info_reshaped(ismissing(inputs_info_reshaped)) = [];
 
+% General informations about the dataset
 gen_info = 0;
+% informations about the multivariate analysis to perform
 mva_info = 0;
+
 peak_assign_info = 0;
 adducts_info = 0;
 
@@ -62,6 +65,7 @@ logical_list_path = 0;
 pa_molecules_lists_csv_list(1,1)    = strcat(metabolite_lists_path,"4_Reference_List.xlsx");
 pa_molecules_lists_label_list(1,1)  = "reference";
 
+% going through all the input
 for i = 1:length(inputs_info_reshaped)
     
     if peak_assign_info
@@ -84,8 +88,11 @@ for i = 1:length(inputs_info_reshaped)
         end
     end
     
+    % depending on which input info we are currently looking at
     switch inputs_info_reshaped(i)
+        % if it is general information
         case "General Information"
+            % assign get_info to 1
             gen_info = 1;
         case "Multivariate Analyses"
             mva_info = 1;
