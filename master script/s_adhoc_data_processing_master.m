@@ -27,7 +27,7 @@ addpath(genpath('X:\SpectralAnalysis\')) % SpectralAnalysis
 % to process below.
 
 data_folders = { ...
-    ''
+    'X:\Alex\Data study\CassetteDosed\'
     };
 
 dataset_name_portion = '*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
@@ -38,13 +38,13 @@ filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToP
 
 norm_list = [
     "no norm"
-    "pqn median"
-    "RMS"
+    %"pqn median"
+    %"RMS"
     ]';
 
 % Pre-processing (location of spectralAnalysis preprocessing file)
 
-preprocessing_file = 'X:\ICR Breast PDX\preprocessingWorkflow.sap';
+preprocessing_file = 'X:\Alex\Data study\CassetteDosed\preprocessingWorkflow.sap';
 
 %% Treating each dataset individually to create the tissue only ROI
 
@@ -70,7 +70,7 @@ f_saving_datacube_peaks_details( filesToProcess, "no mask" )
 
 f_saving_data_cube( filesToProcess, "no mask" )
 
-%% !!! Multivariate analysis
+% !!! Multivariate analysis
 
 % running
 
