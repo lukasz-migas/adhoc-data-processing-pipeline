@@ -27,7 +27,8 @@ addpath(genpath('X:\SpectralAnalysis\')) % SpectralAnalysis
 % to process below.
 
 data_folders = { ...
-    'X:\Alex\Data study\CassetteDosed\'
+    'X:\Alex\Data study\CassetteDosed\neg\'
+    'X:\Alex\Data study\CassetteDosed\pos\'
     };
 
 dataset_name_portion = '*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.

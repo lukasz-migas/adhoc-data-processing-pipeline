@@ -216,7 +216,9 @@ for i = 1:length(inputs_info_reshaped)
             list_path = strcat( metabolite_lists_path, "8_Coenzymes.xlsx" );
         case "Small intestine DESI neg APC-KRAS vs WT"
             list_path = strcat( metabolite_lists_path, "Small intestine DESI neg APC-KRAS vs WT.xlsx" ); 
-
+        case "dossed-cassette-dugs-incomplete"
+            list_path = strcat( metabolite_lists_path, "dossed-cassette-dugs-incomplete.xlsx" ); 
+            
         case "maximum ppm error"
             if peak_assign_info == 0
                 mva_max_ppm = double(inputs_info_reshaped(i+1));
