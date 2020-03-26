@@ -104,18 +104,7 @@ for i = 1:length(inputs_info_reshaped)
             adducts_info = 1;
         case "Modality"
             if peak_assign_info == 0
-                if strcmpi(inputs_info_reshaped(i+1),"desi")
-                    modality = "desi";
-                elseif strcmpi(inputs_info_reshaped(i+1),"maldi") || strcmpi(inputs_info_reshaped(i+1),"ap-tm-maldi")
-                    modality = "maldi";
-                elseif strcmpi(inputs_info_reshaped(i+1),"reims")
-                    modality = "reims";
-                elseif strcmpi(inputs_info_reshaped(i+1),"sims")
-                    modality = "sims";
-                else
-                    disp("Unknow modality! Please specify either MALDI or DESI in the inputs file.")
-                    break
-                end
+                modality = inputs_info_reshaped(i+1);
             end
         case "Polarity"
             if peak_assign_info == 0
