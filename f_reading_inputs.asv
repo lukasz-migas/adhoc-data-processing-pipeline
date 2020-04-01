@@ -123,8 +123,10 @@ for i = 1:length(inputs_info_reshaped)
             outputs_path = char(inputs_info_reshaped(i+1));
         case "Highest Intensity"
             if strcmpi(inputs_info_reshaped(i+2),"yes")
+                
                 aux_vector = str2num(char(inputs_info_reshaped(i+4))); % Number
                 numPeaks4mva_array = [ numPeaks4mva_array, aux_vector ];
+                
                 aux_vector = str2num(char(inputs_info_reshaped(i+6))); % Percentile
                 perc4mva_array = [ perc4mva_array, aux_vector ];
                 if isempty(numPeaks4mva_array) && isempty(perc4mva_array); disp("Undefined number and percentile of highest intensity peaks!"); end
