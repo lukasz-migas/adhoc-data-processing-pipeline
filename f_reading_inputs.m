@@ -208,6 +208,8 @@ for i = 1:length(inputs_info_reshaped)
             list_path = strcat( metabolite_lists_path, "amino_acids.xlsx" );
         case "Proteinogenic Amino Acids"
             list_path = strcat( metabolite_lists_path, "proteinogenic_aminoacids.xlsx" );
+        case "SLC7a5 u13C Glutamine"
+            list_path = strcat( metabolite_lists_path, "U13C-glutamine_slc7a5.xlsx" );
             
         case "maximum ppm error"
             if peak_assign_info == 0
