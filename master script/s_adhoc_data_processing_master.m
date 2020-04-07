@@ -1,11 +1,6 @@
 
 %% Data processing - 06 Nov 2019 - Teresa Murta
 
-%% Adding functions folder (currently on the X drive) to the path
-
-addpath(genpath('X:\2019_Scripts for Data Processing\adhoc-data-processing-pipeline\')) % Teresa's functions
-addpath(genpath('X:\SpectralAnalysis\')) % SpectralAnalysis
-
 %% Initialisation
 
 % Please save a copy of this script in your personal T drive folder or computer and change your copy according to your study.
@@ -27,13 +22,16 @@ addpath(genpath('X:\SpectralAnalysis\')) % SpectralAnalysis
 % to process below.
 
 data_folders = { ...
-    'X:\Alex\Data study\CassetteDosed\neg\'
-    'X:\Alex\Data study\CassetteDosed\pos\'
+    'X:\Beatson\AZ C13 labelled data\20190912_CRUK_Beatson_glu13_SI_neg_30um\20190912_CRUK_Beatson_glu13_SI_neg_30um\'
+    'X:\Beatson\SLC7a5 study\AZ data\80um data\'
     };
 
-dataset_name_portion = '*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
+dataset_name_portion = { ... % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
+    '*test*'
+    '*'
+    }; 
 
-filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion '.imzML']) ]; end % Files and adducts information gathering
+filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion{i} '.imzML']) ]; end % Files and adducts information gathering
 
 % Normalisation
 
