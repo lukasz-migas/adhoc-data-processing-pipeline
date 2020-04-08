@@ -81,7 +81,7 @@ end
 
 % Select the mz values of peaks that belong to a particular HMDB kingdom, super-class, class and/or sub-class.
 
-if isfile(molecules_classes_specification_path)
+if ~isempty(molecules_classes_specification_path) % isfile(molecules_classes_specification_path)
     
     [ ~, ~, classes_info ] = xlsread(molecules_classes_specification_path);
     
