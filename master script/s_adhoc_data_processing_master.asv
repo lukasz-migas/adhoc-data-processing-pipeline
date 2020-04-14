@@ -1,10 +1,7 @@
 
-%% Data processing - 06 Nov 2019 - Teresa Murta
+%% Data processing - 09 April 2020 - Teresa Murta
 
-%% Adding functions folder (currently on the X drive) to the path
 
-addpath(genpath('X:\2019_Scripts for Data Processing\adhoc-data-processing-pipeline\')) % Teresa's functions
-addpath(genpath('X:\SpectralAnalysis\')) % SpectralAnalysis
 
 %% Initialisation
 
@@ -16,26 +13,24 @@ addpath(genpath('X:\SpectralAnalysis\')) % SpectralAnalysis
 % .. the .imzML file
 % .. the inputs_file.xlsx
 
-% Each data file included in particular folder will be analysed according
-% to the instructions defined in the inputs file. If you, for example, have 
-% data from 2 polarities, you will need to have a folder with the data of
-% each polarity. You will have two folders and two input files. Note that 
-% you will need two different input files because you will want to request
-% different adducts, for example.
+% Each file saved in the folder swill be analysed according to the instructions defined in the inputs file. 
+% Data from 2 polarities have to be saved in 2 different folders, one folder for each polarity.
 
-% Please list the paths to all of the folders containing data you will like
-% to process below.
+% Please list the paths to all of the folders containing data you will like to process.
 
 data_folders = { ...
-    'X:\Alex\Data study\CassetteDosed\neg\'
-    'X:\Alex\Data study\CassetteDosed\pos\'
+    'X:\Beatson\AZ C13 labelled data\20190912_CRUK_Beatson_glu13_SI_neg_30um\20190912_CRUK_Beatson_glu13_SI_neg_30um\'
+    'X:\Beatson\SLC7a5 study\AZ data\80um data\'
     };
 
-dataset_name_portion = '*'; % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
+dataset_name_portion = { ... % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
+    '*test*'
+    '*'
+    }; 
 
-filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion '.imzML']) ]; end % Files and adducts information gathering
+filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion{i} '.imzML']) ]; end % Files and adducts information gathering
 
-% Normalisation
+% Normalisations
 
 norm_list = [
     "no norm"
@@ -43,7 +38,7 @@ norm_list = [
     %"RMS"
     ]';
 
-% Pre-processing (location of spectralAnalysis preprocessing file)
+% Pre-processing file path (location of spectralAnalysis preprocessing file)
 
 preprocessing_file = 'X:\Alex\Data study\CassetteDosed\preprocessingWorkflow.sap';
 
@@ -73,7 +68,7 @@ f_saving_datacube_peaks_details( filesToProcess, mask )
 
 f_saving_data_cube( filesToProcess, mask )
 
-% !!! Multivariate analysis
+%% !!! Multivariate analysis
 
 % running
 
@@ -88,13 +83,13 @@ f_saving_mva_outputs( filesToProcess, mask, mask_on, norm_list, string([]), stri
 %% Saving single ion images
 
 mask_on = 0; % 1 or 0 depending on either the sii are to be masked with the main mask or not.
-sii_peak_list = "Shorter Beatson metabolomics & CRUK list"; % "all" for all lists, or the name of a short list of molecules
+sii_peak_list = "Shorter Beatson metabolomics & CRUK list"; % Use "all" for all lists, or the names of the individual lists.
 
 f_saving_sii_relevant_molecules( filesToProcess, "no mask", mask_on, norm_list, sii_peak_list );
 
-%% Manual mask creation (e.g.: tissue only and sample specific)
+%% Manual mask creation (e.g.: tissue only, sample A)
 
-%%% Please change the variable bellow.
+% Please change the variable bellow.
 
 file_index = 2; disp(filesToProcess(file_index).name); % Index of which one of the files in filesToProcess would you like to work on?                      
 
@@ -125,17 +120,20 @@ mva_specifics = "Shorter Beatson metabolomics & CRUK list"; % "all" for all list
 
 f_saving_mva_rois_ca( extensive_filesToProcess, main_mask_list, dataset_name, mva_list, numComponents_list, norm_list, mva_specifics )
  
-%% Treating all datasets together (note: you need to update the samples_scheme_info function below so that it has the image grid you would like to look at)
+%% Treating all datasets together 
+
+% Please note that you need to update the samples_scheme_info function.
 
 dataset_name = "negative DESI small intestine"; background = 0; check_datacubes_size = 1;
 
-[ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size );
+[ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = ...
+    f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size );
 
 % Pre-processing data and saving spectral details (total spectrum and peakDetails structs) with background
 
 filesToProcess = f_unique_extensive_filesToProcess(extensive_filesToProcess); % This function collects all files that need to have a common axis.
 
-%%
+%% Treating all datasets together
 
 % Pre-processing data and saving total spectra
 

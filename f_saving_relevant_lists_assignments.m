@@ -41,8 +41,7 @@ for file_index = 1:length(filesToProcess)
             [~, index] = min(abs(totalSpectrum_mzvalues-peakDetails(mzi,2)));
             peak_mz_indexes(mzi) = index;
         end
-        
-        
+                
         sample_peaks_intensities = totalSpectrum_intensities(peak_mz_indexes); % this was incorrect - it should be based on the spectra of the dataset because that is what matches the pixel_num
         
         %%% Loading information from lists of relevant molecules

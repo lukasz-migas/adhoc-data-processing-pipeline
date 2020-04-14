@@ -1,6 +1,8 @@
-function f_saving_mva_outputs_ca( filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list0, mva_classes_list0 )
+function f_saving_pca_nmf_scatter_plots_ca( filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list0, mva_classes_list0 )
 
 for main_mask = main_mask_list
+    
+    %%
     
     % Creating the cells that will comprise the information regarding the
     % single ion images, the main mask, and the smaller mask.
@@ -53,29 +55,17 @@ for main_mask = main_mask_list
     
     rois_path               = [ char(outputs_path) '\rois\' ];
     spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
-    peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];
     
     for file_index = 1:length(filesToProcess)
+                        
+        % Loading imzml width and height
         
-        % Loading information about the peaks, the mz values saved as a
-        % dacube cube and the matching of the dataset with a set of lists
-        % of relevant molecules
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\width' ])
+        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\height' ])
         
-        if file_index == 1
-            
-            load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\peakDetails' ])
-            load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
-            load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
-            load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacubeonly_peakDetails' ])
-            
-        end
-        
-        % Loading datacubes
-        
-        load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacube' ])
-        
-        datacube_cell{file_index} = datacube;
-        
+        datacube_cell{file_index}.width = width;
+        datacube_cell{file_index}.height = height;
+                        
         % Loading main mask information
         
         if ~strcmpi(main_mask,"no mask")
@@ -91,32 +81,8 @@ for main_mask = main_mask_list
         smaller_masks_cell{file_index} = logical(reshape(roi.pixelSelection',[],1));
         
     end
-    
-    % Mean spectrum for figures
-    
-    filesToProcess0 = f_unique_extensive_filesToProcess(filesToProcess);
-    
-    y = 0;
-    pixels_num0 = 0;
-    
-    for file_index = 1:length(filesToProcess0)
         
-        % Loading spectral information
-        
-        if ( file_index == 1 ); load([ spectra_details_path filesToProcess0(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_mzvalues' ]); end
-        
-        load([ spectra_details_path filesToProcess0(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_intensities' ])
-        load([ spectra_details_path filesToProcess0(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'pixels_num' ])
-        
-        y = y + totalSpectrum_intensities;
-        pixels_num0 = pixels_num0 + pixels_num;
-        
-    end
-    
-    meanSpectrum_intensities = y./pixels_num0;
-    meanSpectrum_mzvalues = totalSpectrum_mzvalues;
-    
-    %
+    %%
     
     mvai = 0;
     for mva_type = mva_list
@@ -125,24 +91,7 @@ for main_mask = main_mask_list
         for norm_type = norm_list
             
             numComponents = numComponents_array(mvai);
-            numLoadings = numLoadings_array(mvai);
-            
-            norm_data_cell = {};
-            
-            for file_index = 1:length(datacube_cell)
-                
-                if (file_index==1) || (~strcmpi(filesToProcess(file_index-1).name(1,1:end-6),filesToProcess(file_index).name(1,1:end-6)))
-                    
-                    % normalisation
-                    
-                    norm_data = f_norm_datacube( datacube_cell{file_index}, norm_type );
-                    
-                end
-                
-                norm_data_cell{file_index} = norm_data;
-                
-            end
-            
+                        
             % Different peak lists
             
             % Vector of mz values
@@ -151,8 +100,8 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(length(mva_mzvalues_vector))) ' adhoc mz values\' ];
                 
-                f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
-                
+                ...
+    
             end
             
             % Lists
@@ -161,7 +110,7 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ];
                 
-                f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
+                ...
                 
             end
             

@@ -1,59 +1,59 @@
 function f_saving_mva_outputs_ca( filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list0, mva_classes_list0 )
 
+% Creating the cells that will comprise the information regarding the
+% single ion images, the main mask, and the smaller mask.
+% Main mask - Mask used at the preprocessing step (usually tissue only).
+% Small mask - Mask used to plot the results in the shape of a grid
+% defined by the user (it can be a reference to a particular piece of
+% tissue or a set of tissues).
+
+datacube_cell = {};
+main_mask_cell = {};
+smaller_masks_cell = {};
+
+% Loading peak details information
+
+csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
+
+[ ~, ~, ~, ...
+    mva_list, ...
+    amplratio4mva_array, numPeaks4mva_array, perc4mva_array, ...
+    numComponents_array, numLoadings_array, ...
+    ~, ...
+    mva_molecules_list, ppmTolerance, ...
+    ~, ~, ...
+    pa_max_ppm, fig_ppmTolerance, outputs_path ] = f_reading_inputs(csv_inputs);
+
+if isnan(ppmTolerance); ppmTolerance = pa_max_ppm; end
+
+if isempty(mva_molecules_list0)
+    mva_mzvalues_vector = [];
+elseif isstring(mva_molecules_list0)
+    mva_molecules_list = mva_molecules_list0;
+    mva_mzvalues_vector = [];
+    numPeaks4mva_array = [];
+    perc4mva_array = [];
+elseif isvector(mva_molecules_list0)
+    mva_mzvalues_vector = mva_molecules_list0;
+    mva_molecules_list = [];
+    numPeaks4mva_array = [];
+    perc4mva_array = [];
+end
+
+mva_classes_list = mva_classes_list0;
+
+if ~isempty(mva_classes_list0)
+    numPeaks4mva_array = [];
+    perc4mva_array = [];
+end
+
+% Defining all paths needed
+
+rois_path               = [ char(outputs_path) '\rois\' ];
+spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
+peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];
+
 for main_mask = main_mask_list
-    
-    % Creating the cells that will comprise the information regarding the
-    % single ion images, the main mask, and the smaller mask.
-    % Main mask - Mask used at the preprocessing step (usually tissue only).
-    % Small mask - Mask used to plot the results in the shape of a grid
-    % defined by the user (it can be a reference to a particular piece of
-    % tissue or a set of tissues).
-    
-    datacube_cell = {};
-    main_mask_cell = {};
-    smaller_masks_cell = {};
-    
-    % Loading peak details information
-    
-    csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
-    
-    [ ~, ~, ~, ...
-        mva_list, ...
-        amplratio4mva_array, numPeaks4mva_array, perc4mva_array, ...
-        numComponents_array, numLoadings_array, ...
-        ~, ...
-        mva_molecules_list, ppmTolerance, ...
-        ~, ~, ...
-        pa_max_ppm, fig_ppmTolerance, outputs_path ] = f_reading_inputs(csv_inputs);
-    
-    if isnan(ppmTolerance); ppmTolerance = pa_max_ppm; end
-    
-    if isempty(mva_molecules_list0)
-        mva_mzvalues_vector = [];
-    elseif isstring(mva_molecules_list0)
-        mva_molecules_list = mva_molecules_list0;
-        mva_mzvalues_vector = [];
-        numPeaks4mva_array = [];
-        perc4mva_array = [];
-    elseif isvector(mva_molecules_list0)
-        mva_mzvalues_vector = mva_molecules_list0;
-        mva_molecules_list = [];
-        numPeaks4mva_array = [];
-        perc4mva_array = [];
-    end
-    
-    mva_classes_list = mva_classes_list0;
-    
-    if ~isempty(mva_classes_list0)
-        numPeaks4mva_array = [];
-        perc4mva_array = [];
-    end
-    
-    % Defining all paths needed
-    
-    rois_path               = [ char(outputs_path) '\rois\' ];
-    spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
-    peak_assignments_path   = [ char(outputs_path) '\peak assignments\' ];
     
     for file_index = 1:length(filesToProcess)
         
@@ -116,7 +116,7 @@ for main_mask = main_mask_list
     meanSpectrum_intensities = y./pixels_num0;
     meanSpectrum_mzvalues = totalSpectrum_mzvalues;
     
-    %
+    %%
     
     mvai = 0;
     for mva_type = mva_list
