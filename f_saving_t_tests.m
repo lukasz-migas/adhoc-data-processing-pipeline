@@ -14,7 +14,7 @@ rois_path               = [ char(outputs_path) '\rois\' ];
 for main_mask = main_mask_list
     
     for norm_type = norm_list
-        
+        %%
         data4roc = [];
         pixels_per_model = [];
         small_mask_1 = 0;
@@ -72,7 +72,7 @@ for main_mask = main_mask_list
                     load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(all_folders_names(aux_i)) filesep 'roi' ])
                     
                     model_mask = reshape(roi.pixelSelection',[],1);
-                    pixels_per_model0(:,1) = pixels_per_model0(:,1) + small_mask_1*model_mask;
+                    pixels_per_model0(:,1) = pixels_per_model0(:,1) + small_mask_1*model_mask.*~pixels_per_model0(:,1);
                     
                 end
                 
@@ -97,7 +97,7 @@ for main_mask = main_mask_list
                     load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(all_folders_names(aux_i)) filesep 'roi' ])
                     
                     model_mask = reshape(roi.pixelSelection',[],1);
-                    pixels_per_model0(:,2) = pixels_per_model0(:,2) + small_mask_2*model_mask;
+                    pixels_per_model0(:,2) = pixels_per_model0(:,2) + small_mask_2*model_mask.*~pixels_per_model0(:,2);
                     
                 end
                 
@@ -111,10 +111,10 @@ for main_mask = main_mask_list
             
         end
         
-        % removing pixels belonging to more then 1 region
-        
-        pixels_per_model( pixels_per_model(:,1) > length(all_folders_names_i1), 1) = 0; 
-        pixels_per_model( pixels_per_model(:,2) > length(all_folders_names_i2), 2) = 0;
+%         % removing pixels belonging to more then 1 region
+%         
+%         pixels_per_model( pixels_per_model(:,1) > length(all_folders_names_i1), 1) = 0; 
+%         pixels_per_model( pixels_per_model(:,2) > length(all_folders_names_i2), 2) = 0;
         
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
@@ -125,7 +125,7 @@ for main_mask = main_mask_list
             ];
         
         new_hmdb_sample_info = f_saving_curated_hmdb_info( extended_hmdb_sample_info, relevant_lists_sample_info );
-        
+        %%
         %%% Statistical test curves
         
         ttest_analysis_table = [  "p value (ttest2, mean)", "p value (ranksum, mean)", roi_mean_col_names_1, roi_mean_col_names_2, "p value (ttest2, median)", "p value (ranksum, median)", roi_median_col_names_1, roi_median_col_names_2, "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)" ];
