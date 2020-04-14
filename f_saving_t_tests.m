@@ -105,9 +105,16 @@ for main_mask = main_mask_list
             
             pixels_per_model = [ pixels_per_model; pixels_per_model0 ];
             
-            disp(sum(pixels_per_model,1))
+            pixels_num = sum(pixels_per_model0,1);
+            disp(join(['Sum of Pixels Number in group' group0_name ': ' num2str(pixels_num(1))]))
+            disp(join(['Sum of Pixels Number in group' group1_name ': ' num2str(pixels_num(2))]))
             
         end
+        
+        % removing pixels belonging to more then 1 region
+        
+        pixels_per_model( pixels_per_model(:,1) > length(all_folders_names_i1), 1) = 0; 
+        pixels_per_model( pixels_per_model(:,2) > length(all_folders_names_i2), 2) = 0;
         
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
