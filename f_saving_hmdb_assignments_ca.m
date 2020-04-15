@@ -90,7 +90,7 @@ for file_index = 1:length(filesToProcess)
                         g_index = g_index + 1;
                         
                         hmdb_sample_info(g_index,1) = hmdb_names(matchesR(j));
-                        hmdb_sample_info(g_index,2) = num2str(adductMasses(matchesR(j), matchesC(j)),10);
+                        hmdb_sample_info(g_index,2) = num2str(adductMasses(matchesR(j), matchesC(j)),'%1.12f');
                         
                         if strcmp(polarity, 'positive')
                             
@@ -110,7 +110,7 @@ for file_index = 1:length(filesToProcess)
                             
                         end
                         
-                        hmdb_sample_info(g_index,4)     = sample_peaks_mzvalues(i);
+                        hmdb_sample_info(g_index,4)     = num2str(sample_peaks_mzvalues(i),'%1.12f');
                         hmdb_sample_info(g_index,5)     = ppmError(matchesR(j), matchesC(j));
                         hmdb_sample_info(g_index,7)     = 'hmdb';
                         
@@ -118,7 +118,7 @@ for file_index = 1:length(filesToProcess)
                         hmdb_sample_info(g_index,9)     = modality;
                         hmdb_sample_info(g_index,10)    = polarity;
                         
-                        hmdb_sample_info(g_index,12)    = molecules_hmdb_info_strings(matchesR(j),3); % monoisotopic mass
+                        hmdb_sample_info(g_index,12)    = num2str(molecules_hmdb_info_strings(matchesR(j),3),'%1.12f'); % monoisotopic mass
                         
                         if ~ismissing(hmdb_other(matchesR(j),1))
                             hmdb_sample_info(g_index,13) = hmdb_other(matchesR(j),1);

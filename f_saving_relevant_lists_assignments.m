@@ -82,7 +82,7 @@ for file_index = 1:length(filesToProcess)
                     g_index = g_index + 1;
                     
                     relevant_lists_sample_info(g_index,1) = relevant_lists_names(matchesR(j));
-                    relevant_lists_sample_info(g_index,2) = adductMasses(matchesR(j), matchesC(j));
+                    relevant_lists_sample_info(g_index,2) = num2str(adductMasses(matchesR(j), matchesC(j)),'%1.12f');
                     
                     if strcmp(polarity, 'positive')
                         
@@ -102,7 +102,7 @@ for file_index = 1:length(filesToProcess)
                         
                     end
                     
-                    relevant_lists_sample_info(g_index,4)   = sample_peaks_mzvalues(i);
+                    relevant_lists_sample_info(g_index,4)   = num2str(sample_peaks_mzvalues(i),'%1.12f');
                     relevant_lists_sample_info(g_index,5)   = ppmError(matchesR(j), matchesC(j));
                     relevant_lists_sample_info(g_index,6)   = sample_peaks_intensities(i);
                     relevant_lists_sample_info(g_index,7)   = relevant_lists_listnames(matchesR(j));
@@ -114,7 +114,7 @@ for file_index = 1:length(filesToProcess)
                     
                     relevant_lists_sample_info(g_index,12)  = num2str(relevant_lists_mzvalues(matchesR(j)),'%1.12f'); % monoisotopic mass
                     
-                    relevant_lists_sample_info_aux(g_index,1) = sample_peaks_mzvalues(i);
+                    relevant_lists_sample_info_aux(g_index,1) = num2str(sample_peaks_mzvalues(i),'%1.12f');
                     
                 end
             end

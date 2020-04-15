@@ -71,7 +71,7 @@ for file_index = 1:length(filesToProcess)
                     g_index = g_index + 1;
                     
                     hmdb_sample_info(g_index,1) = hmdb_names(matchesR(j));
-                    hmdb_sample_info(g_index,2) = num2str(adductMasses(matchesR(j), matchesC(j)),'%1.12f');
+                    hmdb_sample_info(g_index,2) = num2str(adductMasses(matchesR(j), matchesC(j)),10);
                                         
                     if strcmp(polarity, 'positive')
                         
