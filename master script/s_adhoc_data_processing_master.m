@@ -120,7 +120,7 @@ f_saving_mva_rois_ca( extensive_filesToProcess, main_mask_list, dataset_name, mv
 
 % Please note that you need to update the samples_scheme_info function.
 
-dataset_name = "negative DESI small intestine"; background = 0; check_datacubes_size = 1;
+dataset_name = "negative MALDI colon"; background = 0; check_datacubes_size = 1;
 
 [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = ...
     f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size );
@@ -254,5 +254,55 @@ f_saving_t_tests( extensive_filesToProcess, main_mask_list, group0, group0_name,
 project_id = "icr";
 
 f_data_4_sup_class_ca( filesToProcess, main_mask_list, smaller_masks_list, project_id, dataset_name, "mat" )
+
+%% Plot 2D and 3D PCs plots
+
+% RGB codes for the colours of the masks defined in smaller_masks_list
+
+norm_list = [ "no norm", "pqn median", "zscore" ];
+
+mva_list = [ "pca" ]; % only runnng for pca at the moment
+numComponents_array = [ 16 ]; % needs to match the size of mva_list
+
+% % small intestine neg desi
+% 
+% smaller_masks_colours = [
+%     1 .8 0 % yellow - KRAS
+%     1 0.3 0.3 % red - APC
+%     .2 .2 .8 % blue - APC-KRAS
+%     0 0 0 % black - WT
+%     1 .8 0
+%     1 0.3 0.3
+%     .2 .2 .8
+%     1 .8 0
+%     .2 .2 .8
+%     0 0 0
+%     1 .8 0
+%     1 .3 .3
+%     .2 .2 .8
+%     ];
+
+% small intestine neg desi
+
+smaller_masks_colours = [
+    0 0 0 % black - WT
+    1 .8 0 % yellow - KRAS
+    1 0.3 0.3 % red - APC
+    .2 .2 .8 % blue - APC-KRAS
+    0 0 0 % black - WT
+    1 .8 0 % yellow - KRAS
+    1 0.3 0.3 % red - APC
+    .2 .2 .8 % blue - APC-KRAS
+    0 0 0 % black - WT
+    1 .8 0 % yellow - KRAS
+    1 0.3 0.3 % red - APC
+    .2 .2 .8 % blue - APC-KRAS
+    0 0 0 % black - WT
+    1 .8 0 % yellow - KRAS
+    1 0.3 0.3 % red - APC
+    .2 .2 .8 % blue - APC-KRAS
+    ];
+
+f_saving_pca_nmf_scatter_plots_ca( extensive_filesToProcess, mva_list, numComponents_array, main_mask_list, smaller_masks_list, smaller_masks_colours, dataset_name, norm_list, string([]), string([]) )
 
 

@@ -52,6 +52,11 @@ for file_index = 1:length(filesToProcess)
         [ ~, unique_lists_indexes ] = unique(molecules_lists_label_list);
         
         [ relevant_lists_mzvalues, relevant_lists_names, relevant_lists_listnames ] = f_molecules_list_mat(molecules_lists_csv_list(unique_lists_indexes), molecules_lists_label_list(unique_lists_indexes));
+
+        disp(' ')
+        disp('!!! Lists of molecules read for assigments:')
+        disp(' ')
+        disp(relevant_lists_names)
         
         %%% Matching
         

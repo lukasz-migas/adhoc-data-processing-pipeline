@@ -1,8 +1,6 @@
-function f_saving_pca_nmf_scatter_plots_ca( filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list0, mva_classes_list0 )
+function f_saving_pca_nmf_scatter_plots_ca( filesToProcess, mva_list, numComponents_array, main_mask_list, smaller_masks_list, smaller_masks_colours, dataset_name, norm_list, mva_molecules_list0, mva_classes_list0 )
 
 for main_mask = main_mask_list
-    
-    %%
     
     % Creating the cells that will comprise the information regarding the
     % single ion images, the main mask, and the smaller mask.
@@ -20,13 +18,13 @@ for main_mask = main_mask_list
     csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
     
     [ ~, ~, ~, ...
-        mva_list, ...
+        ~, ...
         amplratio4mva_array, numPeaks4mva_array, perc4mva_array, ...
-        numComponents_array, numLoadings_array, ...
+        ~, ~, ...
         ~, ...
         mva_molecules_list, ppmTolerance, ...
         ~, ~, ...
-        pa_max_ppm, fig_ppmTolerance, outputs_path ] = f_reading_inputs(csv_inputs);
+        pa_max_ppm, ~, outputs_path ] = f_reading_inputs(csv_inputs);
     
     if isnan(ppmTolerance); ppmTolerance = pa_max_ppm; end
     
@@ -57,7 +55,7 @@ for main_mask = main_mask_list
     spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
     
     for file_index = 1:length(filesToProcess)
-                        
+        
         % Loading imzml width and height
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\width' ])
@@ -65,7 +63,7 @@ for main_mask = main_mask_list
         
         datacube_cell{file_index}.width = width;
         datacube_cell{file_index}.height = height;
-                        
+        
         % Loading main mask information
         
         if ~strcmpi(main_mask,"no mask")
@@ -81,8 +79,8 @@ for main_mask = main_mask_list
         smaller_masks_cell{file_index} = logical(reshape(roi.pixelSelection',[],1));
         
     end
-        
-    %%
+    
+    %
     
     mvai = 0;
     for mva_type = mva_list
@@ -91,7 +89,7 @@ for main_mask = main_mask_list
         for norm_type = norm_list
             
             numComponents = numComponents_array(mvai);
-                        
+            
             % Different peak lists
             
             % Vector of mz values
@@ -100,8 +98,8 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(length(mva_mzvalues_vector))) ' adhoc mz values\' ];
                 
-                ...
-    
+                f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
+                
             end
             
             % Lists
@@ -110,7 +108,7 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ];
                 
-                ...
+                f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
                 
             end
             
@@ -122,7 +120,7 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks\' ];
                 
-                f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
+                f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
                 
             end
             
@@ -132,7 +130,7 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks\' ];
                 
-                f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
+                f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
                 
             end
             
@@ -146,7 +144,7 @@ for main_mask = main_mask_list
                     
                     mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
                     
-                    f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
+                    f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
                     
                 end
                 
@@ -156,7 +154,7 @@ for main_mask = main_mask_list
                     
                     mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
                     
-                    f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
+                    f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
                     
                 end
                 
@@ -182,7 +180,7 @@ for main_mask = main_mask_list
                         
                         mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ];
                         
-                        f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
+                        f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
                         
                     end
                     
@@ -196,7 +194,7 @@ for main_mask = main_mask_list
                     
                     mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     
-                    f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
+                    f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
                     
                 end
                 

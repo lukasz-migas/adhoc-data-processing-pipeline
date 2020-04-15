@@ -65,10 +65,6 @@ logical_list_path = 0;
 pa_molecules_lists_csv_list(1,1)    = strcat(metabolite_lists_path,"4_Reference_List.xlsx");
 pa_molecules_lists_label_list(1,1)  = "reference";
 
-disp(' ')
-disp('!!! Lists of molecules read for assigments:')
-disp(' ')
-
 % going through all the input
 for i = 1:length(inputs_info_reshaped)
     
@@ -287,9 +283,6 @@ for i = 1:length(inputs_info_reshaped)
             mva_molecules_lists_csv_list    = [ mva_molecules_lists_csv_list, list_path ];
             mva_molecules_lists_label_list  = [ mva_molecules_lists_label_list, inputs_info_reshaped(i) ];
         elseif peak_assign_info == 1
-            char_metabolite_lists_path = char(metabolite_lists_path);
-            char_list_path = char(list_path);
-            disp(char_list_path(size(char_metabolite_lists_path,2)+1:end))
             pa_molecules_lists_csv_list    = [ pa_molecules_lists_csv_list, list_path ];
             pa_molecules_lists_label_list  = [ pa_molecules_lists_label_list, inputs_info_reshaped(i) ];
         end
