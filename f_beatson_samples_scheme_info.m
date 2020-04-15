@@ -1272,6 +1272,37 @@ switch dataset_name
             (45:49)'    repmat(2,5,1);
             ];
         
+    case "13C Glutamine APC and APC-KRAS"
+        
+        data_folders = { 'X:\Beatson\SLC7a5 study\NPL data\negative DESI ibds and imzMLs\Xevo V3 Sprayer\' };
+        
+        dataset_name = '*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            extensive_filesToProcess(1:8,:) = filesToProcess(1,:);
+            smaller_masks_list = [ "WT_503a"; "WT_503c"; "WT_503e"; "WT_503f"; "MT_473c"; "MT_483c"; "MT_483d"; "MT_493d" ];
+            
+        end
+        
+        %
+        
+        outputs_xy_pairs = [ 1 1; 1 2; 1 3; 1 4; 2 1; 2 2; 2 3; 2 4 ];
+        
     case "SLC7a5 negative DESI"
         
         data_folders = { 'X:\Beatson\SLC7a5 study\NPL data\negative DESI ibds and imzMLs\' };
