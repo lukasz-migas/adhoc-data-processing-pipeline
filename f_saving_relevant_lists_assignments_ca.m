@@ -16,42 +16,24 @@ for file_index = 1:length(filesToProcess)
     
     for mask_type = mask_list
         
-        % Peak details (common for all files to be combined)
+        % Loading dataset peak details
         
         if file_index == 1
             
             load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\peakDetails.mat'])
-            
             sample_peaks_mzvalues = peakDetails(:,2);
             
         end
         
-        % Total spectrum information and pixel numbers
+        % Loading total spectrum information and pixel numbers
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_intensities.mat'])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_mzvalues.mat'])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\pixels_num.mat'])
         
-        % Total spectrum indexes for all picked peaks
-        
-        % (when it was realised that the 6th element of peakDetails is not
-        % the index of the centre of mass of the peak 4 Sept 2019)
-        
-        if file_index == 1
-            
-            peak_mz_indexes = [];
-            for mzi = 1:size(peakDetails,1)
-                [~, index] = min(abs(totalSpectrum_mzvalues-peakDetails(mzi,2)));
-                peak_mz_indexes(mzi) = index;
-            end
-            
-        end
-        
-        % Total spectrum intensities for all picked peaks
-        
-        % This is done imzml file by imzml file because the ultimate goal is to compute
-        % the mean spectrum (using the pixels_num variable also saved file by file.
-        % This was originally incorrect! 6 Nov 2019
+        % Finding the total spectrum indexes for all peaks found in it
+                                    
+        [~, peak_mz_indexes] = ismembertol(peakDetails(:,2),totalSpectrum_mzvalues,min(diff(totalSpectrum_mzvalues)));
         
         sample_peaks_intensities = totalSpectrum_intensities(peak_mz_indexes);
         
@@ -59,7 +41,7 @@ for file_index = 1:length(filesToProcess)
         
         if file_index == 1
             
-            %%% Loading information from lists of relevant molecules
+            % Loading which molecules lists are of interest
             
             molecules_lists_csv_list = [ mva_molecules_lists_csv_list, pa_molecules_lists_csv_list ];
             molecules_lists_label_list = [ mva_molecules_lists_label_list, pa_molecules_lists_label_list ];
@@ -69,18 +51,18 @@ for file_index = 1:length(filesToProcess)
             [ relevant_lists_mzvalues, relevant_lists_names, relevant_lists_listnames ] = f_molecules_list_mat(molecules_lists_csv_list(unique_lists_indexes), molecules_lists_label_list(unique_lists_indexes));
             
             disp(' ')
-            disp('!!! Lists of molecules read for assigments:')
+            disp('! Molecules lists being assigned:')
             disp(' ')
-            disp(relevant_lists_names)
-            
-            %%% Matching
+            disp([ repmat('. ',size(char(unique(relevant_lists_listnames)),1),1) char(unique(relevant_lists_listnames)) ])
+            disp(' ')
+                    
+            % Assignments
             
             tic
             
             [ adductMasses ] = f_makeAdductMassList( adducts, relevant_lists_mzvalues, polarity); % creates matrix of possible adduct masses
             
             relevant_lists_sample_info = string([]);
-            relevant_lists_sample_info_aux = [];
             g_index = 0;
             i_vector = [];
             
@@ -127,9 +109,7 @@ for file_index = 1:length(filesToProcess)
                         relevant_lists_sample_info(g_index,10)  = polarity;
                         
                         relevant_lists_sample_info(g_index,12)  = num2str(relevant_lists_mzvalues(matchesR(j)),'%1.12f'); % monoisotopic mass
-                        
-                        relevant_lists_sample_info_aux(g_index,1) = num2str(sample_peaks_mzvalues(i),'%1.12f');
-                        
+                                              
                         i_vector(g_index,1) = i;
                                                 
                     end
@@ -147,7 +127,6 @@ for file_index = 1:length(filesToProcess)
         cd([ peak_assignments_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\' ])
         
         save('relevant_lists_sample_info','relevant_lists_sample_info','-v7.3')
-        save('relevant_lists_sample_info_aux','relevant_lists_sample_info_aux','-v7.3')
         
         table = [
             "molecule" "theo mz" "adduct" "meas mz" "abs ppm" "total counts" "database" "ppm" "modality" "polarity" "mean counts" "monoisotopic mass"

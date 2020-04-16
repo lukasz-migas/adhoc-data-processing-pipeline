@@ -15,42 +15,24 @@ for file_index = 1:length(filesToProcess)
     
     for mask_type = mask_list
         
-        % Peak details (common for all files to be combined)
+        % Loading peak details (common for all files to be combined)
         
         if file_index == 1
             
             load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\peakDetails.mat'])
-            
             sample_peaks_mzvalues = peakDetails(:,2);
             
         end
         
-        % Total spectrum information and pixel numbers
+        % Loading total spectrum information and pixel numbers
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_intensities.mat'])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_mzvalues.mat'])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\pixels_num.mat'])
         
-        % Total spectrum indexes for all picked peaks
-        
-        % (when it was realised that the 6th element of peakDetails is not
-        % the index of the centre of mass of the peak 4 Sept 2019)
-        
-        if file_index == 1
-            
-            peak_mz_indexes = [];
-            for mzi = 1:size(peakDetails,1)
-                [~, index] = min(abs(totalSpectrum_mzvalues-peakDetails(mzi,2)));
-                peak_mz_indexes(mzi) = index;
-            end
-            
-        end
-        
-        % Total spectrum intensities for all picked peaks
-        
-        % This is done imzml file by imzml file because the ultimate goal is to compute
-        % the mean spectrum (using the pixels_num variable also saved file by file.
-        % This was originally incorrect! 6 Nov 2019
+        % Finding the total spectrum indexes for all peaks found in it
+                                    
+        [~, peak_mz_indexes] = ismembertol(peakDetails(:,2),totalSpectrum_mzvalues,min(diff(totalSpectrum_mzvalues)));
         
         sample_peaks_intensities = totalSpectrum_intensities(peak_mz_indexes);
         
@@ -118,7 +100,7 @@ for file_index = 1:length(filesToProcess)
                         hmdb_sample_info(g_index,9)     = modality;
                         hmdb_sample_info(g_index,10)    = polarity;
                         
-                        hmdb_sample_info(g_index,12)    = num2str(molecules_hmdb_info_strings(matchesR(j),3),'%1.12f'); % monoisotopic mass
+                        hmdb_sample_info(g_index,12)    = molecules_hmdb_info_strings(matchesR(j),3); % monoisotopic mass
                         
                         if ~ismissing(hmdb_other(matchesR(j),1))
                             hmdb_sample_info(g_index,13) = hmdb_other(matchesR(j),1);

@@ -21,24 +21,17 @@ for file_index = 1:length(filesToProcess)
        
         sample_peaks_mzvalues = peakDetails(:,2);
 
-        % Total spectrum information and pixel numbers
+        % Loading total spectrum information and pixel numbers
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_intensities.mat'])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_mzvalues.mat'])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\pixels_num.mat'])
         
-        % Total spectrum indexes for all picked peaks
+        % Finding the total spectrum indexes for all peaks found in it
+                                    
+        [~, peak_mz_indexes] = ismembertol(peakDetails(:,2),totalSpectrum_mzvalues,min(diff(totalSpectrum_mzvalues)));
         
-        % (when it was realised that the 6th element of peakDetails is not
-        % the index of the centre of mass of the peak 4 Sept 2019)
-                    
-        peak_mz_indexes = [];
-        for mzi = 1:size(peakDetails,1)
-            [~, index] = min(abs(totalSpectrum_mzvalues-peakDetails(mzi,2)));
-            peak_mz_indexes(mzi) = index;
-        end
-        
-        sample_peaks_intensities = totalSpectrum_intensities(peak_mz_indexes); % this was incorrect - it should be based on the spectra of the dataset because that is what matches the pixel_num
+        sample_peaks_intensities = totalSpectrum_intensities(peak_mz_indexes);
         
         %
         
@@ -49,7 +42,7 @@ for file_index = 1:length(filesToProcess)
         hmdb_mzvalues = double(molecules_hmdb_info_strings(:,3));
         hmdb_other = molecules_hmdb_info_strings(:,[ 2 4:8 ]);
                 
-        %%% Matching
+        %%% Assignments
         
         tic
         
@@ -101,7 +94,7 @@ for file_index = 1:length(filesToProcess)
                     hmdb_sample_info(g_index,10)    = polarity;
                     hmdb_sample_info(g_index,11)    = sample_peaks_intensities(i)./pixels_num;
                     
-                    hmdb_sample_info(g_index,12)    = num2str(molecules_hmdb_info_strings(matchesR(j),3),'%1.12f'); % monoisotopic mass
+                    hmdb_sample_info(g_index,12)    = molecules_hmdb_info_strings(matchesR(j),3); % monoisotopic mass
 
                     
                     if ~ismissing(hmdb_other(matchesR(j),1))
