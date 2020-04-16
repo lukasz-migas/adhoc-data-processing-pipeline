@@ -1,4 +1,4 @@
-function datacube_mzvalues_indexes = f_datacube_mzvalues_classes( classes_info, classi, hmdb_sample_info, datacubeonly_peakDetails, totalSpectrum_mzvalues )
+function datacube_mzvalues_indexes = f_datacube_mzvalues_classes( classes_info, classi, hmdb_sample_info, datacubeonly_peakDetails )
 
 % Select the mz values of peaks that belong to a particular kingdom,
 % super-class, class and/or sub-class.
@@ -10,9 +10,4 @@ end
 
 mzvalues2keep = double(unique(hmdb_sample_info(logical(indexes2keep),4)));
 
-datacube_mzvalues_indexes = 0;
-for mzi = mzvalues2keep'
-    datacube_mzvalues_indexes = datacube_mzvalues_indexes + logical(abs(datacubeonly_peakDetails(:,2)-mzi)<min(diff(totalSpectrum_mzvalues)));
-end
-
-datacube_mzvalues_indexes = logical(datacube_mzvalues_indexes);
+[~, datacube_mzvalues_indexes] = ismembertol(mzvalues2keep,datacubeonly_peakDetails(:,2),1e-12);
