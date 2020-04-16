@@ -105,8 +105,6 @@ end
 
 % ! % PeakDetails indexes
 
-mzvalues2keep = unique([mzvalues2keep1;mzvalues2keep2;mzvalues2keep3;mzvalues2keep4;mzvalues2keep5;mzvalues2keep6]);
-
-[~, peak_details_index] = ismembertol(mzvalues2keep,peakDetails(:,2),1e-12);
+[~, peak_details_index] = ismembertol(mzvalues2keep,peakDetails(:,2),power(1));
 
 datacubeonly_peakDetails = peakDetails(peak_details_index,:);
