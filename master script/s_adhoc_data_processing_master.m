@@ -23,16 +23,10 @@ addpath(genpath('')) % Spectral Analysis path
 data_folders = { ...
     };
 
-dataset_name_portion = { ... % Any string that matches the name of the files to be analised. If all need be analised, please use '*'.
+dataset_name_portion = { ... % Any string that matches the name of the files to be analised. If all need to be analised, please use '*'.
     }; 
 
 filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion{i} '.imzML']) ]; end % Files and adducts information gathering
-
-% Normalisations
-
-norm_list = [
-    "no norm"
-    ]';
 
 % Pre-processing file path (location of spectralAnalysis preprocessing file)
 
