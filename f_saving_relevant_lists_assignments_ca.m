@@ -33,9 +33,9 @@ for file_index = 1:length(filesToProcess)
         
         % Finding the total spectrum indexes for all peaks found in it
                                     
-        [~, peak_mz_indexes] = ismembertol(peakDetails(:,2),totalSpectrum_mzvalues,min(diff(totalSpectrum_mzvalues)));
+        [~, peak_mz_indexes] = ismembertol(peakDetails(:,2),totalSpectrum_mzvalues,1e-7);
         
-        sample_peaks_intensities = totalSpectrum_intensities(peak_mz_indexes);
+        sample_peaks_intensities = totalSpectrum_intensities(peak_mz_indexes)';
         
         %
         
