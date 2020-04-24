@@ -29,7 +29,11 @@ switch mva_type
         
     case 'kmeans'
         
-        cd([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(input_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\' char(dataset_name) '\'])        
+        if isnan(numComponents)
+            cd([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(input_mask) '\' char(mva_type) '\' char(norm_type) '\' char(dataset_name) '\'])
+        else
+            cd([ mva_path filesToProcess(file_index).name(1,1:end-6) '\' char(input_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\' char(dataset_name) '\'])
+        end
         
 end
 
