@@ -87,7 +87,7 @@ switch dataset_name
 
             % Small intestine datasets
             
-            data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+            data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
             
             dataset_name = '*SA*';
             
@@ -157,7 +157,7 @@ switch dataset_name
         
     case "negative DESI small intestine SA 1-2 epit and not epit"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*SA1-2*';
         
@@ -229,7 +229,7 @@ switch dataset_name
         
     case "negative DESI small intestine 2019-06"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\Second Round Samples\Synapt\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\Second Round Samples\Synapt\' };
         
         dataset_name = '*20190605*';
         
@@ -300,7 +300,7 @@ switch dataset_name
         
     case "negative DESI SI B2 7 2019 09 04"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\Second Round Samples\Xevo\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\Second Round Samples\Xevo\' };
         
         dataset_name = '*20190904*';
         
@@ -341,7 +341,7 @@ switch dataset_name
         
     case "negative DESI small intestine all ok"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*S*';
         
@@ -374,7 +374,7 @@ switch dataset_name
         
         %
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\Second Round Samples\Synapt\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\Second Round Samples\Synapt\' };
         
         dataset_name = '*20190605*';
         
@@ -472,7 +472,7 @@ switch dataset_name
         
         %
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\Second Round Samples\Xevo\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\Second Round Samples\Xevo\' };
         
         dataset_name = '*20190904*';
         
@@ -688,7 +688,7 @@ switch dataset_name
         
     case "negative DESI 2018 sm & 2019 ic (sa 1 2 epit)"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*S*';
         
@@ -779,7 +779,7 @@ switch dataset_name
         
     case "negative DESI 2018 sm & 2019 ic"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*S*';
         
@@ -861,7 +861,7 @@ switch dataset_name
         
     case "negative DESI SI 2018 03 & 2019 07"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*S*';
         
@@ -894,7 +894,7 @@ switch dataset_name
         
         %
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\Second Round Samples\Synapt\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\Second Round Samples\Synapt\' };
         
         dataset_name = '*2019_07*';
         
@@ -946,7 +946,7 @@ switch dataset_name
         
     case "negative DESI 2018 03 & 2019 06 & 07"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*S*';
         
@@ -979,7 +979,7 @@ switch dataset_name
         
         %
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\Second Round Samples\Synapt\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\Second Round Samples\Synapt\' };
         
         dataset_name = '*';
         
@@ -1124,7 +1124,7 @@ switch dataset_name
         
     case "negative DESI SI Second Batch Slides 4 and 17"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\Second Round Samples\Synapt\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\Second Round Samples\Synapt\' };
         
         dataset_name = '*';
         
@@ -1368,7 +1368,7 @@ switch dataset_name
         
     case "negative DESI colon"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*C*';
         
@@ -1413,7 +1413,7 @@ switch dataset_name
         
     case "negative DESI colon epit musc"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*CB2-1*';
         
@@ -1454,7 +1454,7 @@ switch dataset_name
         
     case "negative DESI colon epit only"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*CB2-1*';
         
@@ -1487,7 +1487,7 @@ switch dataset_name
         
     case "negative DESI small intestine epit musc"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*SA1-2*';
         
@@ -1528,7 +1528,7 @@ switch dataset_name
         
     case "negative DESI colon CB 2-1 epit and not epit"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*CB2-1*';
         
@@ -1565,7 +1565,7 @@ switch dataset_name
         
     case "negative DESI small intestine SA 1-2 epit and not epit"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*SA1-2*';
         
@@ -1602,7 +1602,7 @@ switch dataset_name
         
     case "negative DESI small intestine epit only"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*SA1-2*';
         
@@ -1635,7 +1635,7 @@ switch dataset_name
         
     case "negative DESI small intestine all"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*S*';
         
@@ -1689,7 +1689,7 @@ switch dataset_name
         
     case "negative DESI small intestine"
         
-        data_folders = { 'X:\Beatson\negative DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative DESI ibds and imzMLs\' };
         
         dataset_name = '*S*';
         

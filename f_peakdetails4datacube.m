@@ -107,6 +107,8 @@ end
 
 mzvalues2keep = unique([mzvalues2keep1;mzvalues2keep2;mzvalues2keep3;mzvalues2keep4;mzvalues2keep5;mzvalues2keep6]);
 
-[~, peak_details_index] = ismembertol(mzvalues2keep,peakDetails(:,2),1e-12);
+[~, peak_details_index] = ismembertol(mzvalues2keep,peakDetails(:,2),1e-10);
 
-datacubeonly_peakDetails = peakDetails(peak_details_index,:);
+datacubeonly_peakDetails = peakDetails(unique(peak_details_index),:);
+
+if sum(diff(datacubeonly_peakDetails(:,2))==0)>1; disp('!!! There is an issue with datacubeonly_peakDetails.'); end

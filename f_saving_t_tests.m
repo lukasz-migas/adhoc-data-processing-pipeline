@@ -164,26 +164,26 @@ for main_mask = main_mask_list
                 [ ~, p_ttest2_median, ~, ~ ] = ttest2( median_d1(~isnan(median_d1)), median_d2(~isnan(median_d2)), 'Alpha', 0.05, 'Vartype', 'unequal' );
                 if sum(isnan(median_d1))~=length(median_d1); [ p_ranksum_median, ~, ~ ] = ranksum( median_d1(~isnan(median_d1)), median_d2(~isnan(median_d2)), 'Alpha', 0.05 ); else; p_ranksum_median = NaN; end
                 
-                indexes2add = (abs(datacube.spectralChannels(mzi)-double(new_hmdb_sample_info(:,3))) < min(diff(totalSpectrum_mzvalues)));
+                indexes2add = (abs(datacube.spectralChannels(mzi)-double(new_hmdb_sample_info(:,3))) < 1e-10);
                 
                 if sum(indexes2add) >= 1
                     
-                    aux_row = string(repmat([ p_ttest2_mean, p_ranksum_mean, mean_d1, mean_d2, p_ttest2_median, p_ranksum_median, median_d1, median_d2, datacube.spectralChannels(mzi) ], sum(indexes2add), 1));
+                    aux_row = string(repmat([ p_ttest2_mean, p_ranksum_mean, mean_d1, mean_d2, p_ttest2_median, p_ranksum_median, median_d1, median_d2 ], sum(indexes2add), 1));
                     aux_row(ismissing(aux_row)) = "NaN";
                     
                     ttest_analysis_table = [
                         ttest_analysis_table
-                        [ aux_row, new_hmdb_sample_info(indexes2add,[1:2 4:end]) ]
+                        [ aux_row, new_hmdb_sample_info(indexes2add,[3 1:2 4:end]) ]
                         ];
                     
                 else
                     
-                    aux_row = string(repmat([ p_ttest2_mean, p_ranksum_mean, mean_d1, mean_d2, p_ttest2_median, p_ranksum_median, median_d1, median_d2, datacube.spectralChannels(mzi) ], 1, 1));
+                    aux_row = string(repmat([ p_ttest2_mean, p_ranksum_mean, mean_d1, mean_d2, p_ttest2_median, p_ranksum_median, median_d1, median_d2 ], 1, 1));
                     aux_row(ismissing(aux_row)) = "NaN";
                     
                     ttest_analysis_table = [
                         ttest_analysis_table
-                        [ aux_row, repmat("not assigned", 1, size(new_hmdb_sample_info(indexes2add,[1:2 4:end]),2)) ]
+                        [ aux_row, repmat("not assigned", 1, size(new_hmdb_sample_info(indexes2add,[3 1:2 4:end]),2)) ]
                         ];
                     
                 end

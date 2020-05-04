@@ -15,7 +15,7 @@ addpath(genpath('')) % Spectral Analysis path
 % .. the .imzML file
 % .. the inputs_file.xlsx
 
-% Each file saved in the folder swill be analysed according to the instructions defined in the inputs file. 
+% Each file saved in the folder swill be analysed according to the instructions defined in the inputs file.
 % Data from 2 polarities have to be saved in 2 different folders, one folder for each polarity.
 
 % Please list the paths to all of the folders containing data you will like to process.
@@ -24,7 +24,7 @@ data_folders = { ...
     };
 
 dataset_name_portion = { ... % Any string that matches the name of the files to be analised. If all need to be analised, please use '*'.
-    }; 
+    };
 
 filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion{i} '.imzML']) ]; end % Files and adducts information gathering
 
@@ -40,7 +40,7 @@ mask = "tissue only";
 
 f_saving_spectra_details( filesToProcess, preprocessing_file, mask )
 
-% Peak picking and saving peak details 
+% Peak picking and saving peak details
 
 f_saving_peaks_details( filesToProcess, mask )
 
@@ -81,15 +81,15 @@ f_saving_sii_relevant_molecules( filesToProcess, "no mask", mask_on, norm_list, 
 
 % Please change the variable bellow.
 
-file_index = 2; disp(filesToProcess(file_index).name); % Index of which one of the files in filesToProcess would you like to work on?                      
+file_index = 2; disp(filesToProcess(file_index).name); % Index of which one of the files in filesToProcess would you like to work on?
 
 output_mask = "tissue only"; % Name for the new mask.
 
 % Details regarding the MVA results that you would like to use to create the mask.
 
 mva_reference   = "100 highest peaks";
-input_mask      = "no mask"; 
-numComponents   = 4;   
+input_mask      = "no mask";
+numComponents   = 4;
 mva_type        = "kmeans";
 norm_type       = "no norm";
 vector_set      = [ 1 ]; % IDs of the clusters that will be added to create the mask.
@@ -106,15 +106,17 @@ f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, mva_refer
 mva_list = "tsne"; % example
 numComponents_list = NaN; % example
 norm_list = "pqn median";
-mva_specifics = "Shorter Beatson metabolomics & CRUK list"; % "all" for all lists, or the name of a short list of molecules
 
-f_saving_mva_rois_ca( extensive_filesToProcess, main_mask_list, dataset_name, mva_list, numComponents_list, norm_list, mva_specifics )
- 
-%% Treating all datasets together 
+for mva_specifics = [ "Fatty Acyls", "Glycerolipids", "Glycerophospholipids" ] % "all" for all lists, or the name of a short list of molecules
+    % key metabolites, fatty acyls, glycerolipids, glycerophospholipids, and top 100 peaks    
+    f_saving_mva_rois_ca( extensive_filesToProcess, main_mask_list, dataset_name, mva_list, numComponents_list, norm_list, mva_specifics )    
+end
+
+%% Treating all datasets together
 
 % Please note that you need to update the samples_scheme_info function.
 
-dataset_name = "negative MALDI colon"; background = 0; check_datacubes_size = 1;
+dataset_name = "negative DESI small intestine"; background = 0; check_datacubes_size = 1;
 
 [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = ...
     f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size );
@@ -201,7 +203,7 @@ group1 = APC_KRAS_group;
 group1_name = "short-list-1-14-apc-kras";
 
 % % single imzml
-% 
+%
 % f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, [], [], [] )
 
 % combined imzmls
@@ -220,7 +222,7 @@ group1 = [ "G-APC-tumour", "B-APC-tumour", "D-APC-KRAS-tumour", "A-APC-KRAS-tumo
 group1_name = "tumour";
 
 % % single imzml
-% 
+%
 % f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, [], [], [] )
 
 % combined imzmls
@@ -259,7 +261,7 @@ mva_list = [ "pca" ]; % only runnng for pca at the moment
 numComponents_array = [ 16 ]; % needs to match the size of mva_list
 
 % % small intestine neg desi
-% 
+%
 % smaller_masks_colours = [
 %     1 .8 0 % yellow - KRAS
 %     1 0.3 0.3 % red - APC
