@@ -178,12 +178,12 @@ for main_mask = main_mask_list
                     
                 else
                     
-                    aux_row = string(repmat([ p_ttest2_mean, p_ranksum_mean, mean_d1, mean_d2, p_ttest2_median, p_ranksum_median, median_d1, median_d2 ], 1, 1));
+                    aux_row = string(repmat([ p_ttest2_mean, p_ranksum_mean, mean_d1, mean_d2, p_ttest2_median, p_ranksum_median, median_d1, median_d2, datacube.spectralChannels(mzi)], 1, 1));
                     aux_row(ismissing(aux_row)) = "NaN";
                     
                     ttest_analysis_table = [
                         ttest_analysis_table
-                        [ aux_row, repmat("not assigned", 1, size(new_hmdb_sample_info(indexes2add,[3 1:2 4:end]),2)) ]
+                        [ aux_row, repmat("not assigned", 1, size(new_hmdb_sample_info(indexes2add,[1:2 4:end]),2)) ]
                         ];
                     
                 end
