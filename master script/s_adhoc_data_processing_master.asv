@@ -20,11 +20,16 @@ addpath(genpath('')) % Spectral Analysis path
 
 % Please list the paths to all of the folders containing data you will like to process.
 
-data_folders = { ...
-    };
+data_folders = { 'X:\2019_DESI Spray Head Comparison\Prior studies\Kidney Comparison\20190806_kidney_vary_pixel\' };
 
-dataset_name_portion = { ... % Any string that matches the name of the files to be analised. If all need to be analised, please use '*'.
-    };
+dataset_name = {'*desi_neg_kidney_200um*', '*desi_neg_kidney_100um*', '*desi_neg_kidney_50um*', '*desi_neg_kidney_25um*', '*desi_neg_kidney_5um*', };
+
+filesToProcess = [];
+for i = 1:length(data_folders)
+    for ii = 1:length(dataset_name)
+        filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name{ii} '.imzML']) ];
+    end
+end
 
 filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion{i} '.imzML']) ]; end % Files and adducts information gathering
 

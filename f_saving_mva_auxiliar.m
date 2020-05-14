@@ -146,7 +146,7 @@ if sum(datacube_mzvalues_indexes) > 0
                     axis off; axis image; set(gca, 'fontsize', 12);
                     title({'t-sne space colours'})
                     
-                    subplot(1,2,1)
+                    subplot(1,2,2)
                     scatter3(rgbData(:,1),rgbData(:,2),rgbData(:,3),1,rgbData);
                     title({'t-sne space colours'})
                     
