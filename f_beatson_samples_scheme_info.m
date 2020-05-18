@@ -1948,7 +1948,7 @@ switch dataset_name
         
     case "negative MALDI small intestine"
         
-        data_folders = { 'X:\Beatson\negative MALDI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative MALDI ibds and imzMLs\' };
         
         dataset_name = '*S*';
         
@@ -2161,7 +2161,7 @@ switch dataset_name
         
     case "positive MALDI colon"
         
-        data_folders = { 'X:\Beatson\positive MALDI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\positive MALDI ibds and imzMLs\' };
         
         dataset_name = '*';
         
