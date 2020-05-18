@@ -1,4 +1,4 @@
-function f_saving_pca_nmf_scatter_plots_ca( filesToProcess, mva_list, numComponents_array, main_mask_list, smaller_masks_list, smaller_masks_colours, dataset_name, norm_list, mva_molecules_list0, mva_classes_list0 )
+function f_saving_pca_nmf_scatter_plots_ca( filesToProcess, mva_list, numComponents_array, component_x, component_y, component_z, main_mask_list, smaller_masks_list, smaller_masks_colours, dataset_name, norm_list, mva_molecules_list0, mva_classes_list0 )
 
 for main_mask = main_mask_list
     
@@ -98,7 +98,7 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(length(mva_mzvalues_vector))) ' adhoc mz values\' ];
                 
-                f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
+                f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours, component_x, component_y, component_z )
                 
             end
             
@@ -108,7 +108,7 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ];
                 
-                f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
+                f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours, component_x, component_y, component_z )
                 
             end
             
@@ -120,7 +120,7 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks\' ];
                 
-                f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
+                f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours, component_x, component_y, component_z )
                 
             end
             
@@ -130,7 +130,7 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks\' ];
                 
-                f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
+                f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours, component_x, component_y, component_z )
                 
             end
             
@@ -144,7 +144,7 @@ for main_mask = main_mask_list
                     
                     mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
                     
-                    f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
+                    f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours, component_x, component_y, component_z )
                     
                 end
                 
@@ -154,7 +154,7 @@ for main_mask = main_mask_list
                     
                     mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
                     
-                    f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
+                    f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours, component_x, component_y, component_z )
                     
                 end
                 
@@ -180,7 +180,7 @@ for main_mask = main_mask_list
                         
                         mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ];
                         
-                        f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
+                        f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours, component_x, component_y, component_z )
                         
                     end
                     
@@ -194,7 +194,7 @@ for main_mask = main_mask_list
                     
                     mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     
-                    f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
+                    f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours, component_x, component_y, component_z )
                     
                 end
                 
