@@ -1,4 +1,4 @@
-function datacube_mzvalues_indexes = f_datacube_mzvalues_ampl_ratio_highest_peaks( amplratio4mva, numPeaks4mva, peakDetails, datacubeonly_peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities )
+function datacube_mzvalues_indexes = f_datacube_mzvalues_ampl_ratio_highest_peaks( amplratio4mva, numPeaks4mva, peakDetails, datacubeonly_peakDetails, totalSpectrum_intensities )
 
 % Select the mz values of peaks that survive the 'amplitude test' - Teresa Jan 2019.
 
@@ -44,9 +44,4 @@ end
 
 mzvalues2keep = unique(mzvalues2keep2);
 
-datacube_mzvalues_indexes = 0;
-for mzi = mzvalues2keep'
-    datacube_mzvalues_indexes = datacube_mzvalues_indexes + logical(abs(datacubeonly_peakDetails(:,2)-mzi)<min(diff(totalSpectrum_mzvalues)));
-end
-
-datacube_mzvalues_indexes = logical(datacube_mzvalues_indexes);
+[~, datacube_mzvalues_indexes] = ismembertol(mzvalues2keep,datacubeonly_peakDetails(:,2),1e-12);

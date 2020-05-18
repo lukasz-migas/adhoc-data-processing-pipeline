@@ -15,7 +15,6 @@ for file_index = 1:length(filesToProcess)
         
         load([ peak_assignments_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\hmdb_sample_info.mat' ])
         load([ peak_assignments_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\relevant_lists_sample_info.mat' ])
-        load([ peak_assignments_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\relevant_lists_sample_info_aux.mat' ])
         
         % Loading tissue only peak details (peak details are equal across all combined datasets)
         

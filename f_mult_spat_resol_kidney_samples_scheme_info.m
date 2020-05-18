@@ -1,168 +1,8 @@
-function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size )
+function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_mult_spat_resol_kidney_samples_scheme_info( dataset_name, background, check_datacubes_size )
 
 switch dataset_name
-        case "PI3K SI-initial look"
-        
-        if background == 1
-            
-            % with background
-            
-            main_mask_list = "no mask";
-            
-        else
-            
-            % tissue only
-            
-            main_mask_list = "tissue only";
-            
-            % Datasets
-            
-            data_folders = { 'X:\Beatson\PI3K study (drug swiss)\Data\DESI Neg\imzml\' };
-            
-            dataset_name = '*SI*';
-            
-            filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
-            
-            delta = 0;
-            smaller_masks_list = [];
-            
-            clear extensive_filesToProcess
-            
-            extensive_filesToProcess(1:7,:) = filesToProcess(1,:);
-            smaller_masks_list = [ "RHS212c"; "RHS212e"; "RHS223a"; "RHS223c"; "RHS213a"; "RHS224e"; "RHS213e"; ];
-            
-            extensive_filesToProcess(8:13,:) = filesToProcess(2,:);
-            smaller_masks_list = [ smaller_masks_list; "RHS212d"; "RHS212f"; "RHS222a"; "RHS213g"; "RHS214a"; "RHS213f";];
-            
-        end
-        
-        outputs_xy_pairs = [1 1; 1 2; 1 3; 1 4; 1 5; 1 6; 1 7;
-                            2 1; 2 2; 2 3;      2 5; 2 6; 2 7; ];
-                        
-    case "AZ APC-KRAS-SLC7a5 Colon"
-        
-        if background == 1
-            
-            % with background
-            
-            main_mask_list = "no mask";
-            
-        else
-            
-            % tissue only
-            
-            main_mask_list = "tissue only";
-            
-            % Datasets
-            
-            data_folders = { 'X:\Beatson\SLC7a5 study\AZ data\APC_KRAS vs APC_KRAS_SLC7a5\' };
-            
-            dataset_name = '*colon*';
-            
-            filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
-            
-            delta = 0;
-            smaller_masks_list = [];
-            
-            clear extensive_filesToProcess
-            
-            extensive_filesToProcess(1:5,:) = filesToProcess(1,:);
-            smaller_masks_list = [ "RQAB82e"; "RQAF12a"; "RQAF23e"; "RQAF23f"; "RQAF13d"; ];
-            
-            extensive_filesToProcess(6:10,:) = filesToProcess(1,:);
-            smaller_masks_list = [ smaller_masks_list; "RQA412b"; "RQA412c"; "RQA441e"; "RQA452f"; "RQA472d";];
-            
-        end
-        
-        outputs_xy_pairs = [1 1; 1 2; 1 3; 1 4; 1 5; 
-                            2 1; 2 2; 2 3; 2 4; 2 5; ];
     
-    case "AZ APC-KRAS-SLC7a5 SI"
-        
-        if background == 1
-            
-            % with background
-            
-            main_mask_list = "no mask";
-            
-        else
-            
-            % tissue only
-            
-            main_mask_list = "tissue only";
-            
-            % Datasets
-            
-            data_folders = { 'X:\Beatson\SLC7a5 study\AZ data\APC_KRAS vs APC_KRAS_SLC7a5\' };
-            
-            dataset_name = '*SI*';
-            
-            filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
-            
-            delta = 0;
-            smaller_masks_list = [];
-            
-            clear extensive_filesToProcess
-            
-            extensive_filesToProcess(1:5,:) = filesToProcess(1,:);
-            smaller_masks_list = [ "RQAB82e"; "RQAF12a"; "RQAF23e"; "RQAF23f"; "RQAF13d"; ];
-            
-            extensive_filesToProcess(6:10,:) = filesToProcess(1,:);
-            smaller_masks_list = [ smaller_masks_list; "RQA412b"; "RQA412c"; "RQA441e"; "RQA452f"; "RQA472d";];
-            
-        end
-        
-        outputs_xy_pairs = [1 1; 1 2; 1 3; 1 4; 1 5; 
-                            2 1; 2 2; 2 3; 2 4; 2 5; ];
-                        
-    case "AZ APC-KRAS-SLC7a5 SI & Colon"
-        
-        if background == 1
-            
-            % with background
-            
-            main_mask_list = "no mask";
-            
-        else
-            
-            % tissue only
-            
-            main_mask_list = "tissue only";
-            
-            % Datasets
-            
-            data_folders = { 'X:\Beatson\SLC7a5 study\AZ data\APC_KRAS vs APC_KRAS_SLC7a5\' };
-            
-            dataset_name = '*';
-            
-            filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
-            
-            delta = 0;
-            smaller_masks_list = [];
-            
-            clear extensive_filesToProcess
-            
-            extensive_filesToProcess(1:5,:) = filesToProcess(1,:);
-            smaller_masks_list = [ "RQAB82e"; "RQAF12a"; "RQAF23e"; "RQAF23f"; "RQAF13d"; ];
-            
-            extensive_filesToProcess(6:10,:) = filesToProcess(1,:);
-            smaller_masks_list = [ smaller_masks_list; "RQA412b"; "RQA412c"; "RQA441e"; "RQA452f"; "RQA472d";];
-            
-            extensive_filesToProcess(11:15,:) = filesToProcess(2,:);
-            smaller_masks_list = [ smaller_masks_list; "RQAB82e"; "RQAF12a"; "RQAF23e"; "RQAF23f"; "RQAF13d"; ];
-            
-            extensive_filesToProcess(16:20,:) = filesToProcess(2,:);
-            smaller_masks_list = [ smaller_masks_list; "RQA412b"; "RQA412c"; "RQA441e"; "RQA452f"; "RQA472d";];
- 
-            
-        end
-        
-        outputs_xy_pairs = [1 1; 1 2; 1 3; 1 4; 1 5; 
-                            3 1; 3 2; 3 3; 3 4; 3 5
-                            2 1; 2 2; 2 3; 2 4; 2 5;
-                            4 1; 4 2; 4 3; 4 4; 4 5];
-     
-    case "positive AP MALDI tumour models"
+    case "negative DESI combined"
         
         if background == 1
             
@@ -178,11 +18,16 @@ switch dataset_name
             
             % Intracolonic dataset
             
-            data_folders = { 'X:\Beatson\Intracolonic tumour study\plasma-AP-MALDI MSI\2020_01_28 - intracolonic sicrit imaging\data\' };
+            data_folders = { 'X:\2019_DESI Spray Head Comparison\Prior studies\Kidney Comparison\20190806_kidney_vary_pixel\' };
             
-            dataset_name = '*';
+            dataset_name = {'*desi_neg_kidney_200um*', '*desi_neg_kidney_100um*', '*desi_neg_kidney_50um*', '*desi_neg_kidney_25um*', '*desi_neg_kidney_5um*', };
             
-            filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+            filesToProcess = []; 
+            for i = 1:length(data_folders)
+                for ii = 1:length(dataset_name)
+                    filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name{ii} '.imzML']) ]; 
+                end
+            end
             
             delta = 0;
             smaller_masks_list = [];

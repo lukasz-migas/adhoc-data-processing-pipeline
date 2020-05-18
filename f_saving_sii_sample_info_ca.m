@@ -30,14 +30,8 @@ for file_index = 1:length(filesToProcess)
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'datacubeonly_peakDetails' ])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_mzvalues' ])
         
-        th_mz_diff = min(diff(totalSpectrum_mzvalues));
-                
-        datacube_indexes = [];
-        sample_info_indexes = [];
-        for mzi = mzvalues2plot'
-            datacube_indexes        = [ datacube_indexes;       find(abs(datacubeonly_peakDetails(:,2)-mzi)<th_mz_diff) ];
-            sample_info_indexes     = [ sample_info_indexes;    find(abs(double(sample_info(:,4))-mzi)<th_mz_diff,1,'first') ];
-        end
+        [~, datacube_indexes] = ismembertol(mzvalues2plot,datacubeonly_peakDetails(:,2),1e-12);        
+        [~, sample_info_indexes] = ismembertol(mzvalues2plot,double(sample_info(:,4)),1e-12);
         
         % Loading peaks information
         
