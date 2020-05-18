@@ -41,15 +41,9 @@ for file_index = 1:length(filesToProcess)
         image_width = datacube.width;
         image_height = datacube.height;
         
-        th_mz_diff = min(diff(totalSpectrum_mzvalues));
-                
-        datacube_indexes = [];
-        sample_info_indexes = [];
-        for mzi = mzvalues2plot'
-            datacube_indexes        = [ datacube_indexes;       find(abs(datacubeonly_peakDetails(:,2)-mzi)<th_mz_diff) ];
-            sample_info_indexes     = [ sample_info_indexes;    find(abs(double(sample_info(:,4))-mzi)<th_mz_diff,1,'first') ];
-        end
-                        
+        [~, datacube_indexes] = ismembertol(mzvalues2plot,datacubeonly_peakDetails(:,2),1e-12);        
+        [~, sample_info_indexes] = ismembertol(mzvalues2plot,double(sample_info(:,4)),1e-12);
+        
         peak_details = datacubeonly_peakDetails(datacube_indexes,:);
         
         if size(peak_details,1)~=size(mzvalues2plot,1)

@@ -16,6 +16,4 @@ for csv_file_path = csv_file_path_list
         names       = [ names; string(cell(:,1)) ];
         labels      = [ labels; repmat(labels_path_list(1,i), size(cell,1), 1) ];
     end
-    disp(csv_file_path)
-    disp(names)
 end

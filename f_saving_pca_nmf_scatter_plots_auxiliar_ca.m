@@ -1,4 +1,4 @@
-function f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours )
+function f_saving_pca_nmf_scatter_plots_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, numComponents, datacube_cell, smaller_masks_colours, component_x, component_y, component_z )
 
 if ~isnan(numComponents)
     cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
@@ -71,9 +71,9 @@ if sum(datacube_mzvalues_indexes) > 0
         
         dot_size = [];
         
-        component_x = 1;
-        component_y = 2;
-        component_z = 3;
+%         component_x = 1;
+%         component_y = 2;
+%         component_z = 3;
         
         x = [];
         y = [];

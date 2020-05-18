@@ -105,11 +105,10 @@ end
 
 % ! % PeakDetails indexes
 
-mzvalues2keep = unique([ reshape(mzvalues2keep1,1,[]) reshape(mzvalues2keep2,1,[]) reshape(mzvalues2keep3,1,[]) reshape(mzvalues2keep4,1,[]) reshape(mzvalues2keep5,1,[]) reshape(mzvalues2keep6,1,[]) ] );
+mzvalues2keep = unique([mzvalues2keep1;mzvalues2keep2;mzvalues2keep3;mzvalues2keep4;mzvalues2keep5;mzvalues2keep6]);
 
-peak_details_index = 0;
-for mzi = mzvalues2keep
-    peak_details_index = peak_details_index + logical(abs(peakDetails(:,2)-mzi)<min(diff(totalSpectrum_mzvalues)));
-end
+[~, peak_details_index] = ismembertol(mzvalues2keep,peakDetails(:,2),1e-10);
 
-datacubeonly_peakDetails = peakDetails(logical(peak_details_index),:);
+datacubeonly_peakDetails = peakDetails(unique(peak_details_index),:);
+
+if sum(diff(datacubeonly_peakDetails(:,2))==0)>1; disp('!!! There is an issue with datacubeonly_peakDetails.'); end

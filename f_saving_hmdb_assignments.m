@@ -21,24 +21,17 @@ for file_index = 1:length(filesToProcess)
        
         sample_peaks_mzvalues = peakDetails(:,2);
 
-        % Total spectrum information and pixel numbers
+        % Loading total spectrum information and pixel numbers
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_intensities.mat'])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_mzvalues.mat'])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\pixels_num.mat'])
         
-        % Total spectrum indexes for all picked peaks
+        % Finding the total spectrum indexes for all peaks found in it
+                                    
+        [~, peak_mz_indexes] = ismembertol(peakDetails(:,2),totalSpectrum_mzvalues,1e-7);
         
-        % (when it was realised that the 6th element of peakDetails is not
-        % the index of the centre of mass of the peak 4 Sept 2019)
-                    
-        peak_mz_indexes = [];
-        for mzi = 1:size(peakDetails,1)
-            [~, index] = min(abs(totalSpectrum_mzvalues-peakDetails(mzi,2)));
-            peak_mz_indexes(mzi) = index;
-        end
-        
-        sample_peaks_intensities = totalSpectrum_intensities(peak_mz_indexes); % this was incorrect - it should be based on the spectra of the dataset because that is what matches the pixel_num
+        sample_peaks_intensities = totalSpectrum_intensities(peak_mz_indexes)';
         
         %
         
@@ -49,7 +42,7 @@ for file_index = 1:length(filesToProcess)
         hmdb_mzvalues = double(molecules_hmdb_info_strings(:,3));
         hmdb_other = molecules_hmdb_info_strings(:,[ 2 4:8 ]);
                 
-        %%% Matching
+        %%% Assignments
         
         tic
         
@@ -71,7 +64,7 @@ for file_index = 1:length(filesToProcess)
                     g_index = g_index + 1;
                     
                     hmdb_sample_info(g_index,1) = hmdb_names(matchesR(j));
-                    hmdb_sample_info(g_index,2) = num2str(adductMasses(matchesR(j), matchesC(j)),10);
+                    hmdb_sample_info(g_index,2) = num2str(adductMasses(matchesR(j), matchesC(j)),'%1.12f');
                                         
                     if strcmp(polarity, 'positive')
                         
@@ -91,7 +84,7 @@ for file_index = 1:length(filesToProcess)
                         
                     end
                     
-                    hmdb_sample_info(g_index,4)     = sample_peaks_mzvalues(i);
+                    hmdb_sample_info(g_index,4)     = num2str(sample_peaks_mzvalues(i),'%1.12f');
                     hmdb_sample_info(g_index,5)     = ppmError(matchesR(j), matchesC(j));
                     hmdb_sample_info(g_index,6)     = sample_peaks_intensities(i);
                     hmdb_sample_info(g_index,7)     = 'hmdb';
