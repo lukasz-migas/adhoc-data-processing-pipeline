@@ -346,6 +346,48 @@ switch dataset_name
             
         end
         
+    case "negative DESI intracolonic tumour & normal tissues"
+        
+        data_folders = { 'X:\Beatson\Intracolonic tumour study\Neg DESI Data\Xevo V3 Sprayer\' };
+        
+        dataset_name = '*slide9*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "tissue only";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            % Tumour
+                        
+            extensive_filesToProcess(1:4,:) = filesToProcess(1,:);
+            smaller_masks_list = [ "IT9-C-APC-tumour"; "IT9-G-APC-tumour"; "IT9-A-APC-KRAS-tumour"; "IT9-D-APC-KRAS-tumour" ];
+                        
+            extensive_filesToProcess(5:8,:) = filesToProcess(1,:);
+            smaller_masks_list = [ smaller_masks_list; "IT9-C-APC-normal"; "IT9-G-APC-normal"; "IT9-A-APC-KRAS-normal"; "IT9-D-APC-KRAS-normal" ];
+            
+        end
+        
+        outputs_xy_pairs = [
+            1 1;
+            1 2;
+            2 1;
+            2 2;
+            1 4;
+            1 5;
+            2 4;
+            2 5;
+            ];    
         
     case "negative DESI intracolonic tumours"
         
