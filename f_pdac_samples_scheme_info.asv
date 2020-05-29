@@ -587,19 +587,26 @@ elseif strcmpi(dataset_name,"az neg desi E & F all annotations")
         
         main_mask_list = "tissue only";
         
-        smaller_masks_list = [ "10-E1-annotated-tissue"; "10-E1-annotated-tumor"; "10-E1-annotated-connective-tissue"; "10-E1-annotated-acinar-tissue" ];
-        smaller_masks_list = [ smaller_masks_list; "10-E2-annotated-tissue"; "10-E2-annotated-tumor"; "10-E2-annotated-connective-tissue"; "10-E2-annotated-acinar-tissue" ];
-        smaller_masks_list = [ smaller_masks_list; "10-F1-annotated-tissue"; "10-F1-annotated-tumor"; "10-F1-annotated-connective-tissue"; "10-F1-annotated-acinar-tissue" ];
-        smaller_masks_list = [ smaller_masks_list; "10-F2-annotated-tissue"; "10-F2-annotated-tumor"; "10-F2-annotated-connective-tissue"; "10-F2-annotated-acinar-tissue" ];
-        smaller_masks_list = [ smaller_masks_list; "66-E3-annotated-tissue"; "66-E3-annotated-tumor"; "66-E3-annotated-connective-tissue"; "66-E3-annotated-acinar-tissue" ];
-        smaller_masks_list = [ smaller_masks_list; "66-E4-annotated-tissue"; "66-E4-annotated-tumor"; "66-E4-annotated-connective-tissue"; "66-E4-annotated-acinar-tissue" ];
-        smaller_masks_list = [ smaller_masks_list; "66-F3-annotated-tissue"; "66-F3-annotated-tumor"; "66-F3-annotated-connective-tissue"; "66-F3-annotated-acinar-tissue" ];
-        smaller_masks_list = [ smaller_masks_list; "66-F4-annotated-tissue"; "66-F4-annotated-tumor"; "66-F4-annotated-connective-tissue"; "66-F4-annotated-acinar-tissue" ];
+        smaller_masks_list = [ "10-E1-annotated-tissue"; "10-E1-annotated-tumor", "10-E1-annotated-tumor", "10-E1-annotated-tumor" ];
+        smaller_masks_list = [ smaller_masks_list;  "10-E2-annotated-tissue"; "10-E2-annotated-tumor" ];
+        smaller_masks_list = [ smaller_masks_list; "10-F1-annotated-tissue"; "10-F1-annotated-tumor" ];
+        smaller_masks_list = [ smaller_masks_list; "10-F2-annotated-tissue"; "10-F2-annotated-tumor" ];
+        smaller_masks_list = [ smaller_masks_list; "66-E3-annotated-tissue"; "66-E3-annotated-tumor" ];
+        smaller_masks_list = [ smaller_masks_list; "66-E4-annotated-tissue"; "66-E4-annotated-tumor" ];
+        smaller_masks_list = [ smaller_masks_list; "66-F3-annotated-tissue"; "66-F3-annotated-tumor"    ];
+        smaller_masks_list = [ smaller_masks_list; "66-F4-annotated-tissue"; "66-F4-annotated-tumor"    ];
         
     end
     
     outputs_xy_pairs = [
-       
+        1 1; 1 3; 
+        2 1; 2 3;
+        1 2; 1 4;
+        2 2; 2 4;
+        3 1; 3 3;
+        4 1; 4 3;
+        3 2; 3 4;
+        4 2; 4 4;
         ];
 
     

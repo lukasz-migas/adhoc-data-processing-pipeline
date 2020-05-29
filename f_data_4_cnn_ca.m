@@ -37,9 +37,12 @@ for main_mask = main_mask_list
         small_masks = repmat("background",size(large_masks_logical,1),1);
         for i = 1:size(smaller_masks_list,1)
             clear roi
-            load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(smaller_masks_list(i)) filesep 'roi'])
-            small_masks_logical(:,i) = logical(reshape(roi.pixelSelection',[],1));
-            small_masks(small_masks_logical(:,i),:) = smaller_masks_list(i);
+            roi_file = [ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(smaller_masks_list(i)) filesep 'roi.mat'];
+            if exist(roi_file,'file')==2
+                load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(smaller_masks_list(i)) filesep 'roi'])
+                small_masks_logical(:,i) = logical(reshape(roi.pixelSelection',[],1));
+                small_masks(small_masks_logical(:,i),:) = smaller_masks_list(i);
+            end
         end
                
         % Initialising the data table
