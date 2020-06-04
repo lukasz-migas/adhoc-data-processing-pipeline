@@ -216,6 +216,8 @@ for i = 1:length(inputs_info_reshaped)
             list_path = strcat( metabolite_lists_path, "Intracolonics_new_LC-MS_MN_20200407.xlsx" );
         case "Beatson_only_new_LC-MS"
             list_path = strcat( metabolite_lists_path, "Intracolonics_new_LC-MS_only_new.xlsx" );
+        case "Beatson_U13C Leucine"
+            list_path = strcat( metabolite_lists_path, "Beatson_U13C Leucine.xlsx" );
             
         case "maximum ppm error"
             if peak_assign_info == 0

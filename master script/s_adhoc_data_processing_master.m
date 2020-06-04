@@ -259,6 +259,9 @@ norm_list = [ "no norm", "pqn median", "zscore" ];
 
 mva_list = [ "pca" ]; % only runnng for pca at the moment
 numComponents_array = [ 16 ]; % needs to match the size of mva_list
+component_x = ;
+component_y = ;
+component_z = ;
 
 % % small intestine neg desi
 %

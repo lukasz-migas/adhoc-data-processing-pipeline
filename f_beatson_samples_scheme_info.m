@@ -32,12 +32,12 @@ switch dataset_name
             smaller_masks_list = [ "RHS212c"; "RHS212e"; "RHS223a"; "RHS223c"; "RHS213a"; "RHS224e"; "RHS213e"; ];
             
             extensive_filesToProcess(8:13,:) = filesToProcess(2,:);
-            smaller_masks_list = [ smaller_masks_list; "RHS212d"; "RHS212f"; "RHS222a"; "RHS213g"; "RHS214a"; "RHS213f";];
-            
+            smaller_masks_list = [ smaller_masks_list; "RHS212d"; "RHS212f"; "RHS222a";"RHS212h"; "RHS213g"; "RHS214a";];
+        
         end
         
         outputs_xy_pairs = [1 1; 1 2; 1 3; 1 4; 1 5; 1 6; 1 7;
-                            2 1; 2 2; 2 3;      2 5; 2 6; 2 7; ];
+                            2 1; 2 2; 2 3; 2 4; 2 5; 2 6;    ];
                         
     case "AZ APC-KRAS-SLC7a5 Colon"
         
@@ -1891,7 +1891,7 @@ switch dataset_name
         
     case "negative MALDI colon"
         
-        data_folders = { 'X:\Beatson\negative MALDI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative MALDI ibds and imzMLs\' };
         
         dataset_name = '*C*';
         
@@ -1948,7 +1948,7 @@ switch dataset_name
         
     case "negative MALDI small intestine"
         
-        data_folders = { 'X:\Beatson\negative MALDI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\negative MALDI ibds and imzMLs\' };
         
         dataset_name = '*S*';
         
@@ -1989,7 +1989,7 @@ switch dataset_name
         
     case "positive DESI colon"
         
-        data_folders = { 'X:\Beatson\positive DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\positive DESI ibds and imzMLs\' };
         
         dataset_name = '*20180213*';
         
@@ -2119,7 +2119,7 @@ switch dataset_name
         
     case "positive DESI small intestine"
         
-        data_folders = { 'X:\Beatson\positive DESI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\positive DESI ibds and imzMLs\' };
         
         dataset_name = '*';
         
@@ -2161,7 +2161,7 @@ switch dataset_name
         
     case "positive MALDI colon"
         
-        data_folders = { 'X:\Beatson\positive MALDI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\positive MALDI ibds and imzMLs\' };
         
         dataset_name = '*';
         
@@ -2209,7 +2209,7 @@ switch dataset_name
         
     case "positive MALDI small intestine"
         
-        data_folders = { 'X:\Beatson\positive MALDI ibds and imzMLs\' };
+        data_folders = { 'X:\Beatson\pre-tumour models study\positive MALDI ibds and imzMLs\' };
         
         dataset_name = '*';
         
