@@ -25,6 +25,9 @@ for main_mask = main_mask_list
         
         [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
         
+        disp(filesToProcess(file_index).name)
+        disp(outputs_path)
+        
         % Defining all the paths needed.
         
         spectra_details_path    = [ char(outputs_path) '\spectra details\' ];
@@ -45,12 +48,26 @@ for main_mask = main_mask_list
         % Data
         
         data = datacube.data(mask,:);
-        pixelsi = datacube.pixelIndicies(mask,:);
+        % pixelsi = datacube.pixelIndicies(mask,:);
         
         % small coordinates
         
         image0 = reshape(mask,datacube.width,datacube.height)'; % figure; imagesc(image0)
         image1 = image0(sum(image0,2)>0,sum(image0,1)>0); % figure; imagesc(image1)
+        
+        % Global Coordinates
+        
+        clear g_row_num g_col_num
+        i = 0;
+        for rowi = 1:size(image0,1)
+            for coli = 1:size(image0,2)
+                if image0(rowi,coli)>0
+                    i = i+1;
+                    g_row_num(i,1) = rowi;
+                    g_col_num(i,1) = coli;
+                end
+            end
+        end
         
         clear row_num col_num
         i = 0;
@@ -72,10 +89,10 @@ for main_mask = main_mask_list
         sample_num = repmat(file_index,size(data,1),1);
         
         if file_index==1
-            data_table = [ string(datacube.spectralChannels') "dataset" "roi" "label" "roi_id" "x_coord" "y_coord"];
+            data_table = [ string(datacube.spectralChannels') "dataset" "roi" "label" "roi_id" "g_x_coord" "g_y_coord" "x_coord" "y_coord"];
         end
         
-        data_table = [ data_table; [ data big_label small_mask_name small_label sample_num row_num col_num ] ];
+        data_table = [ data_table; [ data big_label small_mask_name small_label sample_num g_row_num g_col_num row_num col_num ] ];
         
     end
     

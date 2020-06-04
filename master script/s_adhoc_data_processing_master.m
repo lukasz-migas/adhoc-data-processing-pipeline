@@ -1,7 +1,7 @@
 
 %% Data processing - 09 April 2020 - Teresa Murta
 
-addpath(genpath('X:\2020_Scripts for Data Processing\Git Repository (March 2020)\'))
+addpath(genpath('')) % Scripts path
 addpath(genpath('')) % Spectral Analysis path
 
 
