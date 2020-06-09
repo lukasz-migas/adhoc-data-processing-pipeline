@@ -30,16 +30,16 @@ for mask_type = mask_list
         
         peakTolerance = -1; % for integration over the peak width as defined per the gradient method
         toleranceUnit = 'Spectrum Unit';
-        output = 'New Window';
         intensityDataType = 'Double';
         storageType = 'Processed';
-        
+        output = 'New Window';
         reduction = DatacubeReduction(peakTolerance, toleranceUnit, output, intensityDataType, storageType);
         
         addlistener(reduction, 'FastMethods', @(src, canUseFastMethods)disp(['! Using fast Methods?   ' num2str(canUseFastMethods.bool)]));
         
         reduction.setPeakList(datacubeonly_peakDetails(:,2));
         reduction.setPeakDetails(datacubeonly_peakDetails);
+        reduction.setIntegrateOverPeak;
         
         datacube = reduction.process(data);
         datacube = datacube.get(1);
