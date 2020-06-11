@@ -209,7 +209,9 @@ group1_name = "short-list-1-14-apc-kras";
 % combined imzmls
 
 mask_on = 1; % 1 or 0 depending on either the sii are to be masked with the main mask or not.
-f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
+save_sii = 0;  % 1 or 0 depending on either the sii are to be saved.
+
+f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, save_sii, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
 
 %%
 
@@ -228,7 +230,9 @@ group1_name = "tumour";
 % combined imzmls
 
 mask_on = 1; % 1 or 0 depending on either the sii are to be masked with the main mask or not.
-f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
+save_sii = 0;  % 1 or 0 depending on either the sii are to be saved.
+
+f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, save_sii, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
 
 %% T-test
 

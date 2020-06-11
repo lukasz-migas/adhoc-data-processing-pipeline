@@ -1,4 +1,4 @@
-function f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, save_sii, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
+function f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
 
 filesToProcess = f_unique_extensive_filesToProcess(extensive_filesToProcess); % This function collects all files that need to have a common axis.
 
@@ -185,28 +185,28 @@ for main_mask = main_mask_list
         % Saving siis
         
         if save_sii == 1
+        
+        disp(['! Started saving ' num2str(size(sii_sample_info,1)) ' SIIs...'])
+        
+        if size(sii_sample_info,1)>1
             
-            disp(['! Started saving ' num2str(size(sii_sample_info,1)) ' SIIs...'])
-            
-            if size(sii_sample_info,1)>1
+            if isempty(dataset_name)
                 
-                if isempty(dataset_name)
-                    
-                    f_saving_sii_sample_info( filesToProcess, main_mask, norm_type, sii_sample_info, mask_on )
-                    
-                else
-                    
-                    f_saving_sii_sample_info_ca( extensive_filesToProcess, main_mask, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_type, sii_sample_info )
-                    
-                end
+                f_saving_sii_sample_info( filesToProcess, main_mask, norm_type, sii_sample_info, mask_on )
+                
+            else
+                
+                f_saving_sii_sample_info_ca( extensive_filesToProcess, main_mask, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_type, sii_sample_info )
                 
             end
             
-            disp('! Finished saving SIIs...')
-            
+        end
+        
+        disp('! Finished saving SIIs...')
+        
         else
-            
-            disp('! SIIs were not saved (as per request).')
+           
+            disp('! SIIs were not aved.')
             
         end
         
