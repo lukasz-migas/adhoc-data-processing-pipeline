@@ -50,7 +50,7 @@ switch dataset_name
             "c-apc-2-B2"; "c-apc-3-B3"; "c-apc-4-B4";
             "c-kras-2-C2"; "c-kras-3-C3"; "c-kras-4-C4"; 
             "c-apc-kras-2-D2"; "c-apc-kras-3-D3"; "c-apc-kras-4-D4"; 
-            "c-apc-kras-slc7a5-2-E2"; "c-apc-kras-slc7a5-3-E4"; "c-apc-kras-slc7a5-3-E4"
+            "c-apc-kras-slc7a5-2-E2"; "c-apc-kras-slc7a5-3-E3"; "c-apc-kras-slc7a5-4-E4"
             ];   
         
         outputs_xy_pairs = [
