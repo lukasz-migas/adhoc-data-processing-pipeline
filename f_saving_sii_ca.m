@@ -71,7 +71,7 @@ for main_mask = main_mask_list
         
         sample_info = [];
         
-        for listi = reshape(lists,1,[])
+        for listi = reshape(sii_peak_list,1,[])
             
             hmdb_mzvalues = double(hmdb_sample_info(:,measmz_col));
             
