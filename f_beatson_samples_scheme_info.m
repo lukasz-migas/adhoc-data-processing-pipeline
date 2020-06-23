@@ -18,61 +18,95 @@ switch dataset_name
         
         extensive_filesToProcess(1:8,:) = filesToProcess(1,:);
         smaller_masks_list = [ 
-            "si-wt-1-A1"; "si-wt-5-A5"; 
-            "si-apc-1-B1"; "si-apc-5-B5"; 
-            "si-kras-1-C1"; "si-kras-5-C5"; 
-            "si-apc-kras-1-D1"; "si-apc-kras-5-D5" 
+            
+            "si-wt-1-A1";            
+            "si-apc-1-B1"; 
+            "si-kras-1-C1";
+            "si-apc-kras-1-D1";
+            
+            "si-wt-5-A5"; 
+            "si-apc-5-B5"; 
+            "si-apc-kras-5-D5";
+            "si-apc-kras-slc7a5-5-E5"
+            
             ];
         
         extensive_filesToProcess(9:9+3*5-1,:) = filesToProcess(2,:);
         smaller_masks_list = [ 
             smaller_masks_list;
-            "si-wt-2-A2"; "si-wt-3-A3"; "si-wt-4-A4"; 
-            "si-apc-2-B2"; "si-apc-3-B3"; "si-apc-4-B4";
-            "si-kras-2-C2"; "si-kras-3-C3"; "si-kras-4-C4"; 
-            "si-apc-kras-2-D2"; "si-apc-kras-3-D3"; "si-apc-kras-4-D4"; 
-            "si-apc-kras-slc7a5-2-E2"; "si-apc-kras-slc7a5-3-E3"; "si-apc-kras-slc7a5-4-E4"
+            
+            "si-wt-2-A2"; 
+            "si-apc-2-B2";
+            "si-kras-2-C2"; 
+            "si-apc-kras-2-D2"; 
+            "si-apc-kras-slc7a5-2-E2";
+             
+            "si-wt-3-A3"; 
+            "si-apc-3-B3";
+            "si-kras-3-C3"; 
+            "si-apc-kras-3-D3";
+            "si-apc-kras-slc7a5-3-E3";
+            
+            "si-wt-4-A4"; 
+            "si-apc-4-B4";
+            "si-kras-4-C4"; 
+            "si-apc-kras-4-D4";
+            "si-apc-kras-slc7a5-4-E4"
+            
             ];
         
         extensive_filesToProcess(24:24+2*4-1,:) = filesToProcess(3,:);
         smaller_masks_list = [
             smaller_masks_list;
-            "c-wt-1-A1"; "c-wt-5-A5"; 
-            "c-apc-1-B1"; "c-apc-5-B5"; 
-            "c-kras-1-C1"; "c-kras-5-C5"; 
-            "c-apc-kras-1-D1"; "c-apc-kras-5-D5" 
+            
+            "c-wt-5-A5";
+            "c-apc-5-B5";
+            "c-kras-5-C5";
+            "c-apc-kras-5-D5";
+            
+            "c-wt-1-A1";
+            "c-apc-1-B1";
+            "c-apc-kras-1-D1";
+            "c-apc-kras-slc7a5-1-E1"
+            
             ];
         
         extensive_filesToProcess(32:32+3*5-1,:) = filesToProcess(4,:);
         smaller_masks_list = [ 
             smaller_masks_list;
-            "c-wt-2-A2"; "c-wt-3-A3"; "c-wt-4-A4"; 
-            "c-apc-2-B2"; "c-apc-3-B3"; "c-apc-4-B4";
-            "c-kras-2-C2"; "c-kras-3-C3"; "c-kras-4-C4"; 
-            "c-apc-kras-2-D2"; "c-apc-kras-3-D3"; "c-apc-kras-4-D4"; 
-            "c-apc-kras-slc7a5-2-E2"; "c-apc-kras-slc7a5-3-E3"; "c-apc-kras-slc7a5-4-E4"
+            
+            "c-wt-2-A2"; 
+            "c-apc-2-B2"; 
+            "c-kras-2-C2"; 
+            "c-apc-kras-2-D2";
+            "c-apc-kras-slc7a5-2-E2";
+            
+            "c-wt-3-A3";
+            "c-apc-3-B3"; 
+            "c-kras-3-C3";
+            "c-apc-kras-3-D3";
+            "c-apc-kras-slc7a5-3-E3"; 
+            
+            "c-wt-4-A4";
+            "c-apc-4-B4";
+            "c-kras-4-C4";
+            "c-apc-kras-4-D4";             
+            "c-apc-kras-slc7a5-4-E4"
+            
             ];   
         
         outputs_xy_pairs = [
-            1 1; 5 1;
-            1 2; 5 2;
-            1 3; 5 3;
-            1 4; 5 4;
-            2 1; 3 1; 4 1;
-            2 2; 3 2; 4 2;
-            2 3; 3 3; 4 3;
-            2 4; 3 4; 4 4;
-            2 5; 3 5; 4 5;
+            1 1; 1 2; 1 3; 1 4;
+            5 1; 5 2; 5 4; 5 5;
+            2 1; 2 2; 2 3; 2 4; 2 5;
+            3 1; 3 2; 3 3; 3 4; 3 5;
+            4 1; 4 2; 4 3; 4 4; 4 5;
             
-            1 1+5; 5 1+5;
-            1 2+5; 5 2+5;
-            1 3+5; 5 3+5;
-            1 4+5; 5 4+5;
-            2 1+5; 3 1+5; 4 1+5;
-            2 2+5; 3 2+5; 4 2+5;
-            2 3+5; 3 3+5; 4 3+5;
-            2 4+5; 3 4+5; 4 4+5;
-            2 5+5; 3 5+5; 4 5+5;
+            5 1+5; 5 2+5; 5 3+5; 5 4+5;
+            1 1+5; 1 2+5; 1 4+5; 1 5+5;
+            2 1+5; 2 2+5; 2 3+5; 2 4+5; 2 5+5;
+            3 1+5; 3 2+5; 3 3+5; 3 4+5; 3 5+5;
+            4 1+5; 4 2+5; 4 3+5; 4 4+5; 4 5+5;
             ];
         
     case "PI3K SI-initial look"

@@ -21,9 +21,11 @@ addpath(genpath('')) % Spectral Analysis path
 % Please list the paths to all of the folders containing data you will like to process.
 
 data_folders = { ...
+    ...
     };
 
-dataset_name_portion = { ... % Any string that matches the name of the files to be analised. If all need to be analised, please use '*'.
+dataset_name_portion = { 
+    ... % Any string that matches the name of the files to be analised. If all need to be analised, please use '*'.
     };
 
 filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion{i} '.imzML']) ]; end % Files and adducts information gathering
@@ -263,9 +265,9 @@ norm_list = [ "no norm", "pqn median", "zscore" ];
 
 mva_list = [ "pca" ]; % only runnng for pca at the moment
 numComponents_array = [ 16 ]; % needs to match the size of mva_list
-component_x = ;
-component_y = ;
-component_z = ;
+% component_x = ;
+% component_y = ;
+% component_z = ;
 
 % % small intestine neg desi
 %
