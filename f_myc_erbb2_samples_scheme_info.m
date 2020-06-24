@@ -16,7 +16,7 @@ switch dataset_name
         
         clear extensive_filesToProcess
         
-        extensive_filesToProcess(1:32,:) = filesToProcess(1,:);
+        extensive_filesToProcess(1:32,:) = filesToProcess(1:32,:);
         smaller_masks_list = [
             "erbb2-a1-r1"; "erbb2-a2-r1"; "erbb2-a3-r1"; "erbb2-a4-r1";
             "myc-a1-r1"; "myc-a2-r1"; "myc-a3-r1"; "myc-a4-r1";

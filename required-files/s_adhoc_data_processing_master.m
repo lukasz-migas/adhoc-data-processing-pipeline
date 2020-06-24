@@ -1,5 +1,5 @@
 
-%% Data processing - 09 April 2020 - Teresa Murta
+%% Data processing - 24 June 2020 - Teresa Murta
 
 addpath(genpath('')) % Scripts path
 addpath(genpath('')) % Spectral Analysis path
@@ -18,23 +18,21 @@ addpath(genpath('')) % Spectral Analysis path
 % Each file saved in the folder swill be analysed according to the instructions defined in the inputs file.
 % Data from 2 polarities have to be saved in 2 different folders, one folder for each polarity.
 
-% Please list the paths to all of the folders containing data you will like to process.
-
 data_folders = { ...
+    ... % Please list the paths to all folders containing data.
     };
 
-dataset_name_portion = { ... % Any string that matches the name of the files to be analised. If all need to be analised, please use '*'.
+dataset_name_portion = { 
+    ... % Please list the strings that matches the names of the files to be analised. Each row should match each folder specified above. If all files need to be analised, please use '*'.
     };
 
 filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion{i} '.imzML']) ]; end % Files and adducts information gathering
 
-% Pre-processing file path (location of spectralAnalysis preprocessing file)
+preprocessing_file = ''; % Pre-processing file path (location of spectralAnalysis preprocessing file)
 
-preprocessing_file = '';
+%% Data Pre-Processing (for each dataset individually)
 
-%% Treating each dataset individually to create the tissue only ROI
-
-mask = "tissue only";
+mask = "no mask"; % "no mask" to start with, "tissue only" to follow
 
 % Pre-processing data and saving total spectra
 
@@ -58,114 +56,130 @@ f_saving_datacube_peaks_details( filesToProcess, mask )
 
 f_saving_data_cube( filesToProcess, mask )
 
-%% !!! Multivariate analysis
+%% Multivariate Analysis (for each dataset individually)
 
-% running
+mask_on = 0; % Please use 1 or 0 depending on whether the sii (of mva drivers) are to be masked with the main mask (usually "tissue only") or not.
+
+norm_list = [ "no norm", "pqn median" ]; % Please list the normalisations. For a list of those available, check the function called "f_norm_datacube".
 
 f_running_mva( filesToProcess, mask, norm_list, string([]), string([]) ) % running MVAs
 
-% saving outputs
-
-mask_on = 0; % 1 or 0 depending on either the sii are to be masked with the main mask or not
-
 f_saving_mva_outputs( filesToProcess, mask, mask_on, norm_list, string([]), string([]) ); % saving MVAs outputs
 
-%% Saving single ion images
+%% Single Ion Images (for each dataset individually)
 
-mask_on = 0; % 1 or 0 depending on either the sii are to be masked with the main mask or not.
-sii_peak_list = "Shorter Beatson metabolomics & CRUK list"; % Use "all" for all lists, or the names of the individual lists.
+mask_on = 0; % Please use 1 or 0 depending on whether the sii (of mva drivers) are to be masked with the main mask (usually "tissue only") or not.
 
-f_saving_sii_relevant_molecules( filesToProcess, "no mask", mask_on, norm_list, sii_peak_list );
+norm_list = [ "no norm", "pqn median" ]; % Please list the normalisations. For a list of those available, check the function called "f_norm_datacube".
 
-%% Manual mask creation (e.g.: tissue only, sample A)
+sii_peak_list = "Shorter Beatson metabolomics & CRUK list"; % Please list all the lists you would like to save the sii for, or simply "all" if you would like to the sii for all lists considered.
 
-% Please change the variable bellow.
+f_saving_sii_relevant_molecules( filesToProcess, "no mask", mask_on, norm_list, sii_peak_list ); % saving SIIs
 
-file_index = 2; disp(filesToProcess(file_index).name); % Index of which one of the files in filesToProcess would you like to work on?
+%% Manual Mask Creation (e.g.: tissue only, sample A)
+
+% Step 1 - Please update the variable "file_index" to match the file you need to work from.
+
+file_index = 2; disp(filesToProcess(file_index).name);
+
+% Step 2 - Please define the name of the new mask.
 
 output_mask = "tissue only"; % Name for the new mask.
 
-% Details regarding the MVA results that you would like to use to create the mask.
+% Step 3 - Please update all variables bellow to match the MVA results you want to use to define the new masks.
 
 mva_reference   = "100 highest peaks";
 input_mask      = "no mask";
 numComponents   = 4;
 mva_type        = "kmeans";
 norm_type       = "no norm";
-vector_set      = [ 1 ]; % IDs of the clusters that will be added to create the mask.
+vector_set      = [ 1 ]; % Please list here the ids of the clusters that you want to "add" to create the new mask. For example, for "tissue only", list all clusters that overlap with the tissue.
 
-regionsNum2keep = 1;
-regionsNum2fill = 1;
+% Step 4 - Please update the number of times you would like to have to define particular regions/areas to keep, and/or to fill.
 
-%%%
+regionsNum2keep = 1; % to keep
+regionsNum2fill = 1; % to fill
 
-f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, mva_reference, numComponents, norm_type, vector_set, regionsNum2keep, regionsNum2fill, output_mask )
+f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, mva_reference, numComponents, norm_type, vector_set, regionsNum2keep, regionsNum2fill, output_mask ) % new mask creation
 
-%% Saving masks for each one of the MVA results
+%% Grouping datasets to be processed together (using a common m/z axis)
 
-mva_list = "tsne"; % example
-numComponents_list = NaN; % example
-norm_list = "pqn median";
+% Step 1 - Please update the f_X_samples_scheme_info function.
 
-for mva_specifics = [ "Fatty Acyls", "Glycerolipids", "Glycerophospholipids" ] % "all" for all lists, or the name of a short list of molecules
-    % key metabolites, fatty acyls, glycerolipids, glycerophospholipids, and top 100 peaks    
-    f_saving_mva_rois_ca( extensive_filesToProcess, main_mask_list, dataset_name, mva_list, numComponents_list, norm_list, mva_specifics )    
-end
-
-%% Treating all datasets together
-
-% Please note that you need to update the samples_scheme_info function.
+% Step 2 - Please run this cell.
 
 dataset_name = "negative DESI combined"; background = 0; check_datacubes_size = 1;
 
 [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = ...
-    f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size );
+    f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size ); 
 
-% Pre-processing data and saving spectral details (total spectrum and peakDetails structs) with background
+filesToProcess = f_unique_extensive_filesToProcess(extensive_filesToProcess); % collects all files that need to have a common m/z axis
 
-filesToProcess = f_unique_extensive_filesToProcess(extensive_filesToProcess); % This function collects all files that need to have a common axis.
+%% Data Pre-Processing (all datasets in filesToProcess are processed together)
 
-%% Treating all datasets together
+mask = "no mask"; % can be "no mask" to start with (making the whole process quicker because both assigments steps are run only once), "tissue only" to follow
 
 % Pre-processing data and saving total spectra
 
-f_saving_spectra_details( filesToProcess, preprocessing_file, "tissue only" )
+f_saving_spectra_details( filesToProcess, preprocessing_file, mask )
 
 % Peak picking and saving peak details
 
-f_saving_peaks_details_ca( filesToProcess, "tissue only" )
+f_saving_peaks_details_ca( filesToProcess, mask )
 
 % Peak Assignments (lists of relevant molecules & HMDB)
 
-f_saving_relevant_lists_assignments_ca( filesToProcess, "tissue only" )
+f_saving_relevant_lists_assignments_ca( filesToProcess, mask )
 
-f_saving_hmdb_assignments_ca( filesToProcess, "tissue only" )
+f_saving_hmdb_assignments_ca( filesToProcess, mask )
 
 % Saving mz values that have to be included in each datacube
 
-f_saving_datacube_peaks_details_ca( filesToProcess, "tissue only" )
+f_saving_datacube_peaks_details_ca( filesToProcess, mask )
 
 % Data cube (creation and saving)
 
-f_saving_data_cube( filesToProcess, "tissue only" )
+f_saving_data_cube( filesToProcess, mask )
 
-%% Saving single ion images of relevant molecules
+%% Use MVA results to create new masks (each clustered will be saved as a mask i.e. SA roi struct)
 
-sii_peak_list = "Shorter Beatson metabolomics & CRUK list";
+% Please specify the details of the MVAs you want to save the clustering maps for.
 
-f_saving_sii_relevant_molecules_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, sii_peak_list )
+mva_list = "tsne"; % kmeans or tsne
+numComponents_list = NaN; % a particular number or NaN (if you want to use the elbow method result)
+norm_list = "pqn median"; % normalisation used
+
+% Please list all the lists you would like to save the clustering maps for, or "all" if you would like to them for all lists considered.    
+
+mva_specifics_list = [ "Fatty Acyls", "Glycerolipids", "Glycerophospholipids" ];
+
+for mva_specifics = mva_specifics_list 
+    f_saving_mva_rois_ca( extensive_filesToProcess, main_mask_list, dataset_name, mva_list, numComponents_list, norm_list, mva_specifics ) % saving masks / rois   
+end
+
+%% Single Ion Images (all datasets are processed together)
+
+norm_list = [ "no norm", "pqn median" ]; % Please list the normalisations. For a list of those available, check the function called "f_norm_datacube".
+
+sii_peak_list = "Shorter Beatson metabolomics & CRUK list"; % Please list all the lists you would like to save the sii for, or simply "all" if you would like to the sii for all lists considered.
 
 f_saving_sii_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, sii_peak_list ) % New function - it can accept hmdb classes, relevant molecules lists names or a vector of meas masses.
 
-%% Multivariate analysis (running and saving outputs)
+%% Multivariate Analysis (all datasets are processed together)
+
+norm_list = [ "no norm", "pqn median" ]; % Please list the normalisations. For a list of those available, check the function called "f_norm_datacube".
 
 mva_classes_list = string([]);
+
+% Using specific lists of peaks (listed below in the variable "mva_molecules_list").
 
 mva_molecules_list = [ "CRUK metabolites", "Immunometabolites", "Structural Lipids", "Fatty acid metabolism" ];
 
 f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Running MVAs
 
 f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Saving MVAs outputs
+
+% Using the top peaks specific in the "inputs_file".
 
 mva_molecules_list = string([]);
 
@@ -174,18 +188,17 @@ f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, 
 f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Saving MVAs outputs
 
 %% Multivariate analysis (saving outputs barplots)
-
-norm_list = "zscore"; mva_peak_list = "Shorter Beatson metabolomics & CRUK list";
-
-f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, "pca", 16, 8, mva_peak_list )
-f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, [ "nnmf", "kmeans"], 16, 4, mva_peak_list )
+% 
+% norm_list = "zscore"; mva_peak_list = "Shorter Beatson metabolomics & CRUK list";
+% 
+% f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, "pca", 16, 8, mva_peak_list )
+% f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, [ "nnmf", "kmeans"], 16, 4, mva_peak_list )
 
 %% ROC analysis
 
 norm_list = "pqn median";
 
-% Note: As it is, the ROC analysis is done for the entire list of m/z
-% values saved in the datacube. However, the name of the database is assig
+% Note: The ROC analysis is done for the entire list of m/z values saved in the datacube.
 
 % neg DESI small intestine
 
@@ -194,7 +207,6 @@ norm_list = "pqn median";
 % APC_KRAS_group =    [ "SA1-1-short-list-apc-kras-8","SA1-1-short-list-apc-kras-14", "SA1-2-short-list-apc-kras-8","SA1-2-short-list-apc-kras-14", "SA2-1-short-list-apc-kras-8","SA2-1-short-list-apc-kras-14", "SA2-2-short-list-apc-kras-8","SA2-2-short-list-apc-kras-14" ];
 APC_group =         [ "SA1-1-short-list-apc-1", "SA1-2-short-list-apc-1", "SA2-1-short-list-apc-1", "SA2-2-short-list-apc-1" ];
 APC_KRAS_group =    [ "SA1-1-short-list-apc-kras-14", "SA1-2-short-list-apc-kras-14", "SA2-1-short-list-apc-kras-14", "SA2-2-short-list-apc-kras-14" ];
-
 
 group0 = APC_group;
 group0_name = "short-list-1-14-apc";
@@ -249,12 +261,6 @@ group1_name = "small I APC-KRAS";
 
 f_saving_t_tests( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list )
 
-%% Saving data for supervised classification in Python
-
-project_id = "icr";
-
-f_data_4_sup_class_ca( filesToProcess, main_mask_list, smaller_masks_list, project_id, dataset_name, "mat" )
-
 %% Plot 2D and 3D PCs plots
 
 % RGB codes for the colours of the masks defined in smaller_masks_list
@@ -263,9 +269,9 @@ norm_list = [ "no norm", "pqn median", "zscore" ];
 
 mva_list = [ "pca" ]; % only runnng for pca at the moment
 numComponents_array = [ 16 ]; % needs to match the size of mva_list
-component_x = ;
-component_y = ;
-component_z = ;
+% component_x = ;
+% component_y = ;
+% component_z = ;
 
 % % small intestine neg desi
 %
@@ -308,4 +314,8 @@ smaller_masks_colours = [
 
 f_saving_pca_nmf_scatter_plots_ca( extensive_filesToProcess, mva_list, numComponents_array, component_x, component_y, component_z, main_mask_list, smaller_masks_list, smaller_masks_colours, dataset_name, norm_list, string([]), string([]) )
 
+%% Saving data for supervised classification in Python
 
+% project_id = "icr"; f_data_4_sup_class_ca( filesToProcess, main_mask_list, smaller_masks_list, project_id, dataset_name, "txt" ) % old
+
+f_data_4_cnn_ca( filesToProcess, main_mask_list, smaller_masks_list, dataset_name, 'txt' )
