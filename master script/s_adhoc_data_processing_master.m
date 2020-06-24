@@ -19,11 +19,11 @@ addpath(genpath('')) % Spectral Analysis path
 % Data from 2 polarities have to be saved in 2 different folders, one folder for each polarity.
 
 data_folders = { ...
-    ... % Please list the paths to all folders containing data.
+    'X:\ICR Breast PDX\Data\ICL neg DESI\'... % Please list the paths to all folders containing data.
     };
 
 dataset_name_portion = { 
-    ... % Please list the strings that matches the names of the files to be analised. Each row should match each folder specified above. If all files need to be analised, please use '*'.
+    '*'... % Please list the strings that matches the names of the files to be analised. Each row should match each folder specified above. If all files need to be analised, please use '*'.
     };
 
 filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion{i} '.imzML']) ]; end % Files and adducts information gathering
@@ -108,16 +108,16 @@ f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, mva_refer
 
 % Step 2 - Please run this cell.
 
-dataset_name = "negative DESI combined"; background = 0; check_datacubes_size = 1;
+dataset_name = "icl neg desi 1458 and 1282 pdx only"; background = 0; check_datacubes_size = 1;
 
 [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = ...
-    f_beatson_samples_scheme_info( dataset_name, background, check_datacubes_size ); 
+    f_icr_samples_scheme_info( dataset_name, background, check_datacubes_size ); 
 
 filesToProcess = f_unique_extensive_filesToProcess(extensive_filesToProcess); % collects all files that need to have a common m/z axis
 
 %% Data Pre-Processing (all datasets in filesToProcess are processed together)
 
-mask = "no mask"; % can be "no mask" to start with (making the whole process quicker because both assigments steps are run only once), "tissue only" to follow
+mask = "tissue only"; % can be "no mask" to start with (making the whole process quicker because both assigments steps are run only once), "tissue only" to follow
 
 % Pre-processing data and saving total spectra
 
@@ -313,6 +313,28 @@ smaller_masks_colours = [
     ];
 
 f_saving_pca_nmf_scatter_plots_ca( extensive_filesToProcess, mva_list, numComponents_array, component_x, component_y, component_z, main_mask_list, smaller_masks_list, smaller_masks_colours, dataset_name, norm_list, string([]), string([]) )
+
+%% ANOVA (2-way)
+
+norm_list = "no norm";
+
+anova_masks = [ "t-1282-1", "t-1282-2", "t-1282-3", "t-1282-4", "t-1282-5", "t-1458-1", "t-1458-2", "t-1458-3", "t-1458-4", "t-1458-5" ];
+
+anova_effect_1_name = 'mutation';
+anova_effect_1 = { '1282'; '1282'; '1282'; '1282'; '1282'; '1458'; '1458'; '1458'; '1458'; '1458' }; % mutation
+
+anova_effect_2_name = 'session';
+anova_effect_2 = { '1'; '2'; '3'; '4'; '5'; '1'; '2'; '3'; '4'; '5' }; % session
+
+f_saving_anova( filesToProcess, main_mask_list, norm_list, anova_masks, anova_effect_1_name, anova_effect_1, anova_effect_2_name, anova_effect_2 ) % saving the anova results table
+
+%% Create a new set of meas mzs by filtering the ANOVA results
+
+column_name = "p value for session effect (mean))";
+equal_above_or_below = "above";
+threshold = 0.05;
+
+meas_mz_array = f_anova_based_meas_mz_array( filesToProcess, main_mask_list, norm_list, anova_effect_1_name, anova_effect_2_name, column_name, equal_above_or_below, threshold);
 
 %% Saving data for supervised classification in Python
 
