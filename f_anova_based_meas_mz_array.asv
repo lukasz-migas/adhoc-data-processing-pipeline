@@ -45,7 +45,7 @@ for main_mask = main_mask_list
             
         end
         
-        black_meas_mz = unique(double(measmz(logical(bol1.*bol2),1)));
+        black_meas_mz = unique(double(measmz(logical(bol2.*bol2),1)));
         
     end
     
