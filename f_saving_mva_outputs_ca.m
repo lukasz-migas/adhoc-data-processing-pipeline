@@ -1,4 +1,6 @@
-function f_saving_mva_outputs_ca( filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list0, mva_classes_list0 )
+function f_saving_mva_outputs_ca( filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list0, mva_classes_list0, mzvalues2discard )
+
+if nargin <= 8; mzvalues2discard = []; end
 
 for main_mask = main_mask_list
     
@@ -48,7 +50,7 @@ for main_mask = main_mask_list
         numPeaks4mva_array = [];
         perc4mva_array = [];
     end
-    
+        
     % Defining all paths needed
     
     rois_path               = [ char(outputs_path) '\rois\' ];
@@ -151,6 +153,10 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(length(mva_mzvalues_vector))) ' adhoc mz values\' ];
                 
+                if ~isempty(mzvalues2discard)
+                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                end
+                
                 f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
                 
             end
@@ -160,6 +166,10 @@ for main_mask = main_mask_list
             for molecules_list = mva_molecules_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ];
+                
+                if ~isempty(mzvalues2discard)
+                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                end
                 
                 f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
                 
@@ -173,6 +183,10 @@ for main_mask = main_mask_list
                 
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks\' ];
                 
+                if ~isempty(mzvalues2discard)
+                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                end
+                
                 f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
                 
             end
@@ -182,6 +196,10 @@ for main_mask = main_mask_list
             for perc4mva = perc4mva_array
                 
                 mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks\' ];
+                
+                if ~isempty(mzvalues2discard)
+                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                end
                 
                 f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
                 
@@ -197,6 +215,10 @@ for main_mask = main_mask_list
                     
                     mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
                     
+                    if ~isempty(mzvalues2discard)
+                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    end
+                    
                     f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
                     
                 end
@@ -206,6 +228,10 @@ for main_mask = main_mask_list
                 for perc4mva = perc4mva_array
                     
                     mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
+                    
+                    if ~isempty(mzvalues2discard)
+                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    end
                     
                     f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
                     
@@ -233,6 +259,10 @@ for main_mask = main_mask_list
                         
                         mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ];
                         
+                        if ~isempty(mzvalues2discard)
+                            mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                        end
+                        
                         f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
                         
                     end
@@ -246,6 +276,10 @@ for main_mask = main_mask_list
                 for classi = 2:size(classes_info,1)
                     
                     mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
+                    
+                    if ~isempty(mzvalues2discard)
+                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    end
                     
                     f_saving_mva_auxiliar_ca( mva_type, mva_path, dataset_name, main_mask, norm_type, norm_data_cell, numComponents, numLoadings, datacube_cell, outputs_xy_pairs, spectra_details_path, datacubeonly_peakDetails, hmdb_sample_info, relevant_lists_sample_info, filesToProcess, smaller_masks_list, smaller_masks_cell, meanSpectrum_intensities, meanSpectrum_mzvalues, fig_ppmTolerance )
                     

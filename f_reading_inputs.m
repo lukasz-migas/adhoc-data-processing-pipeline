@@ -56,9 +56,6 @@ pa_molecules_lists_label_list   = string([]);
 pa_max_ppm = [];
 fig_ppm = [];
 
-numPeaks4mva = NaN;
-perc4mva = NaN;
-
 metabolite_lists_path = "\\datasvr1\MALDI_AMBIENT_DATA\2020_Scripts for Data Processing\Git Repository (March 2020)\molecules-lists\";
 logical_list_path = 0;
 
@@ -260,7 +257,8 @@ for i = 1:length(inputs_info_reshaped)
             end
         case "k-means"
             if strcmpi(inputs_info_reshaped(i+2),"yes")
-                aux_vector = [ NaN str2num(char(inputs_info_reshaped(i+4))) ];
+                % aux_vector = [ NaN str2num(char(inputs_info_reshaped(i+4))) ];
+                aux_vector = [ str2num(char(inputs_info_reshaped(i+4))) ];
                 mva_list = [ mva_list, repmat("kmeans",1,size(aux_vector,2)) ];
                 numComponents_array = [ numComponents_array, aux_vector ];
                 numLoadings_array = [ numLoadings_array, repmat(10,1,size(aux_vector,2)) ];
@@ -271,14 +269,16 @@ for i = 1:length(inputs_info_reshaped)
             end
         case "NN t-sne"
             if strcmpi(inputs_info_reshaped(i+2),"yes")
-                aux_vector = [ NaN str2num(char(inputs_info_reshaped(i+4))) ];
+                % aux_vector = [ NaN str2num(char(inputs_info_reshaped(i+4))) ];
+                aux_vector = [ str2num(char(inputs_info_reshaped(i+4))) ];
                 mva_list = [ mva_list, repmat("nntsne",1,size(aux_vector,2)) ];
                 numComponents_array = [ numComponents_array, aux_vector ];
                 numLoadings_array = [ numLoadings_array, repmat(10,1,size(aux_vector,2)) ];
             end
         case "t-sne"
             if strcmpi(inputs_info_reshaped(i+2),"yes")
-                aux_vector = [ NaN str2num(char(inputs_info_reshaped(i+4))) ];
+                % aux_vector = [ NaN str2num(char(inputs_info_reshaped(i+4))) ];
+                aux_vector = [ str2num(char(inputs_info_reshaped(i+4))) ];
                 mva_list = [ mva_list, repmat("tsne",1,size(aux_vector,2)) ];
                 numComponents_array = [ numComponents_array, aux_vector ];
                 numLoadings_array = [ numLoadings_array, repmat(10,1,size(aux_vector,2)) ];

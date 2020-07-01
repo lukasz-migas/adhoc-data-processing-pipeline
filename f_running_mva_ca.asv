@@ -1,7 +1,5 @@
 function f_running_mva_ca( filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_molecules_list0, mva_classes_list0, mzvalues2discard )
 
-if nargin <= 7; mzvalues2discard = []; end
-
 for main_mask = main_mask_list
     
     % Creating the cells that will comprise the information regarding the
@@ -51,6 +49,8 @@ for main_mask = main_mask_list
         numPeaks4mva_array = [];
         perc4mva_array = [];
     end
+    
+    if nargin <= 7; mzvalues2discard = []; end
     
     % Defining all paths needed
     
@@ -145,7 +145,7 @@ for main_mask = main_mask_list
                 % Remove a particular list of meas mz
                 
                 if ~isempty(mzvalues2discard)
-                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    mva_path = [ mva_path(1:end-1) (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
                     datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                 end
                 
@@ -164,14 +164,14 @@ for main_mask = main_mask_list
             
             for molecules_list = mva_molecules_list
                 
-                mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ]; 
+                mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                 
                 datacube_mzvalues_indexes = f_datacube_mzvalues_lists( molecules_list, ppmTolerance, relevant_lists_sample_info, datacubeonly_peakDetails );
                 
                 % Remove a particular list of meas mz
                 
                 if ~isempty(mzvalues2discard)
-                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '(' num2str(length(mzvalues2discard)) ' black peaks removed)\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                 end
                 
@@ -179,8 +179,6 @@ for main_mask = main_mask_list
                 data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
                 
                 % Creating a new folder, running and saving MVA results
-                
-                if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                 
                 f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                 
@@ -192,7 +190,7 @@ for main_mask = main_mask_list
             
             for numPeaks4mva = numPeaks4mva_array
                 
-                mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks\' ]; 
+                mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                 
                 % Determining the indexes of the mzvalues that are of interest from the datacube
                 
@@ -201,7 +199,7 @@ for main_mask = main_mask_list
                 % Remove a particular list of meas mz
                 
                 if ~isempty(mzvalues2discard)
-                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '(' num2str(length(mzvalues2discard)) ' black peaks removed)\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                 end
                 
@@ -209,8 +207,6 @@ for main_mask = main_mask_list
                 data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
                 
                 % Creating a new folder, running and saving MVA results
-                
-                if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                 
                 f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                 
@@ -220,7 +216,7 @@ for main_mask = main_mask_list
             
             for perc4mva = perc4mva_array
                 
-                mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks\' ]; 
+                mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                 
                 % Determining the indexes of the mzvalues that are of interest from the datacube
                 
@@ -229,7 +225,7 @@ for main_mask = main_mask_list
                 % Remove a particular list of meas mz
                 
                 if ~isempty(mzvalues2discard)
-                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '(' num2str(length(mzvalues2discard)) ' black peaks removed)\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                 end
                 
@@ -237,8 +233,6 @@ for main_mask = main_mask_list
                 data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
                 
                 % Creating a new folder, running and saving MVA results
-                
-                if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                 
                 f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                 
@@ -252,7 +246,7 @@ for main_mask = main_mask_list
                 
                 for numPeaks4mva = numPeaks4mva_array
                     
-                    mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
+                    mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     
                     % Determining the indexes of the mzvalues that are of interest from the datacube
                     
@@ -261,7 +255,7 @@ for main_mask = main_mask_list
                     % Remove a particular list of meas mz
                     
                     if ~isempty(mzvalues2discard)
-                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                        mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '(' num2str(length(mzvalues2discard)) ' black peaks removed)\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                         datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                     end
                     
@@ -269,8 +263,6 @@ for main_mask = main_mask_list
                     data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
                     
                     % Creating a new folder, running and saving MVA results
-                    
-                    if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     
                     f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                     
@@ -280,7 +272,7 @@ for main_mask = main_mask_list
                 
                 for perc4mva = perc4mva_array
                     
-                    mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
+                    mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     
                     % Determining the indexes of the mzvalues that are of interest from the datacube
                     
@@ -289,7 +281,7 @@ for main_mask = main_mask_list
                     % Remove a particular list of meas mz
                     
                     if ~isempty(mzvalues2discard)
-                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                        mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '(' num2str(length(mzvalues2discard)) ' black peaks removed)\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                         datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                     end
                     
@@ -297,8 +289,6 @@ for main_mask = main_mask_list
                     data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
                     
                     % Creating a new folder, running and saving MVA results
-                     
-                    if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     
                     f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                     
@@ -323,7 +313,7 @@ for main_mask = main_mask_list
                     
                     if strcmpi(classes_list,classes_info{classi,1})==1
                         
-                        mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ];
+                        mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                         
                         % Determining the indexes of the mzvalues that are of interest from the datacube
                         
@@ -332,7 +322,7 @@ for main_mask = main_mask_list
                         % Remove a particular list of meas mz
                         
                         if ~isempty(mzvalues2discard)
-                            mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                            mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '(' num2str(length(mzvalues2discard)) ' black peaks removed)\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                             datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                         end
                         
@@ -340,8 +330,6 @@ for main_mask = main_mask_list
                         data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
                         
                         % Creating a new folder, running and saving MVA results
-                         
-                        if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                         
                         f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                         
@@ -355,7 +343,7 @@ for main_mask = main_mask_list
                 
                 for classi = 2:size(classes_info,1)
                     
-                    mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; 
+                    mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     
                     % Determining the indexes of the mzvalues that are of interest from the datacube
                     
@@ -364,7 +352,7 @@ for main_mask = main_mask_list
                     % Remove a particular list of meas mz
                     
                     if ~isempty(mzvalues2discard)
-                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                        mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '(' num2str(length(mzvalues2discard)) ' black peaks removed)\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                         datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                     end
                     
@@ -374,8 +362,6 @@ for main_mask = main_mask_list
                     data4mva = assembled_norm_data(mask4mva,datacube_mzvalues_indexes);
                     
                     % Creating a new folder, running and saving MVA results
-                    
-                    if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     
                     f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
                     

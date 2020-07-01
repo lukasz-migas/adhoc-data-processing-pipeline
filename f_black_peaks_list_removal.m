@@ -6,5 +6,7 @@ white_datacube_mzvalues_indexes = datacube_mzvalues_indexes;
 
 [ ~, indexes2discard1 ] = ismembertol(indexes2discard0,white_datacube_mzvalues_indexes,0);
 
+indexes2discard1(indexes2discard1==0) = [];
+
 white_datacube_mzvalues_indexes(indexes2discard1) = [];
 

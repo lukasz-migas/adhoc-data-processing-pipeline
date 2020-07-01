@@ -2,6 +2,49 @@ function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs
 
 switch dataset_name
     
+    case "cell pellets v3"
+        
+        main_mask_list = "tissue only";
+        
+        % Datasets
+            
+        data_folders = { 'X:\Beatson\Cell Pellets\negative REIMS ibds and imzMLs version 3\' };
+        
+        dataset_name = 'Beatson Pellets v3';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+               
+        clear extensive_filesToProcess
+        
+        extensive_filesToProcess(1:13,:) = filesToProcess(1,:);
+        smaller_masks_list = [ 
+            
+        "apc-kras-vehicle-1";
+        "apc-kras-vehicle-2";
+        "apc-kras-vehicle-3";
+        "apc-kras-vehicle-4";
+        
+        "apc-kras-6244-1";
+        "apc-kras-6244-2";
+        
+        "apc-kras-2014-1";
+        "apc-kras-2014-2";
+        "apc-kras-2014-3";
+        
+        "apc-kras-6244-2014-1";
+        "apc-kras-6244-2014-2";
+        "apc-kras-6244-2014-3";
+        "apc-kras-6244-2014-4";
+            ];
+                
+        outputs_xy_pairs = [
+            1 1; 2 1; 3 1; 4 1;
+            1 2; 2 2;
+            1 3; 2 3; 3 3;
+            1 4; 2 4; 3 4; 4 4;
+            ];
+        
+    
     case "U13C Leucine"
         
         main_mask_list = "tissue only";

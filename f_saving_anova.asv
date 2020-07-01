@@ -98,8 +98,8 @@ for main_mask = main_mask_list
         mean_col_names = [];
         median_col_names = [];
         for wayi = 1:length(anova_effects_names)
-            mean_col_names = [ mean_col_names, string([ 'p value for ' anova_effects_names{wayi} ' effect (mean)' ]) ];
-            median_col_names = [ median_col_names, string([ 'p value for ' anova_effects_names{wayi} ' effect (median)' ]) ];            
+            mean_col_names = [ mean_col_names, st[ 'p value for ' anova_effects_names{wayi} ' effect (mean)' ], [ 'p value for ' anova_effects_names{wayi} ' effect (mean)' ] ];
+            median_col_names = [ median_col_names, [ 'p value for ' anova_effects_names{wayi} ' effect (median)' ], [ 'p value for ' anova_effects_names{wayi} ' effect (median)' ] ];            
         end
                
         anova_analysis_table = [ ...

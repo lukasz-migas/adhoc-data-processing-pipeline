@@ -98,13 +98,13 @@ for main_mask = main_mask_list
                 if ~isempty(mva_mzvalues_vector)
                     
                     mva_path = [ char(outputs_path) '\mva ' char(num2str(length(mva_mzvalues_vector))) ' adhoc mz values\' ];
-                    
+                                       
                     if ~isempty(mzvalues2discard)
                         mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
                     end
-                    
+                   
                     f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
-                    
+
                     
                 end
                 
@@ -114,7 +114,7 @@ for main_mask = main_mask_list
                     
                     mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ];
                     
-                    if ~isempty(mzvalues2discard)
+                     if ~isempty(mzvalues2discard)
                         mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
                     end
                     
@@ -130,7 +130,7 @@ for main_mask = main_mask_list
                     
                     mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks\' ];
                     
-                    if ~isempty(mzvalues2discard)
+                     if ~isempty(mzvalues2discard)
                         mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
                     end
                     
@@ -144,7 +144,7 @@ for main_mask = main_mask_list
                     
                     mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks\' ];
                     
-                    if ~isempty(mzvalues2discard)
+                     if ~isempty(mzvalues2discard)
                         mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
                     end
                     
@@ -162,9 +162,9 @@ for main_mask = main_mask_list
                         
                         mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
                         
-                        if ~isempty(mzvalues2discard)
-                            mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
-                        end
+                         if ~isempty(mzvalues2discard)
+                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    end
                         
                         f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
                         
@@ -176,9 +176,9 @@ for main_mask = main_mask_list
                         
                         mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
                         
-                        if ~isempty(mzvalues2discard)
-                            mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
-                        end
+                         if ~isempty(mzvalues2discard)
+                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    end
                         
                         f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
                         
@@ -210,9 +210,9 @@ for main_mask = main_mask_list
                             
                             mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ];
                             
-                            if ~isempty(mzvalues2discard)
-                                mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
-                            end
+                             if ~isempty(mzvalues2discard)
+                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    end
                             
                             f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
                             
@@ -226,11 +226,7 @@ for main_mask = main_mask_list
                     
                     for classi = 2:size(classes_info,1)
                         
-                        mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ];
-                        
-                        if ~isempty(mzvalues2discard)
-                            mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
-                        end
+                        mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                         
                         f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
                         
