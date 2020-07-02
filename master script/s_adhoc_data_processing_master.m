@@ -314,23 +314,49 @@ smaller_masks_colours = [
 
 f_saving_pca_nmf_scatter_plots_ca( extensive_filesToProcess, mva_list, numComponents_array, component_x, component_y, component_z, main_mask_list, smaller_masks_list, smaller_masks_colours, dataset_name, norm_list, string([]), string([]) )
 
-%% ANOVA (2-way)
+%% ANOVA (N-way)
 
 norm_list = "no norm";
 
-anova_masks = [ "t-1282-1", "t-1282-2", "t-1282-3", "t-1282-4", "t-1282-5", "t-1458-1", "t-1458-2", "t-1458-3", "t-1458-4", "t-1458-5" ];
+anova_masks = [ 
+    "apc-kras-vehicle-1", "apc-kras-vehicle-2", "apc-kras-vehicle-3", "apc-kras-vehicle-4",...
+    "apc-kras-2014-1", "apc-kras-2014-2", "apc-kras-2014-3",...
+    "apc-kras-6244-1", "apc-kras-6244-2",...
+    "apc-kras-6244-2014-1", "apc-kras-6244-2014-2", "apc-kras-6244-2014-3", "apc-kras-6244-2014-4"    
+    ];
 
-anova_effect_1_name = 'mutation';
-anova_effect_1 = { '1282'; '1282'; '1282'; '1282'; '1282'; '1458'; '1458'; '1458'; '1458'; '1458' }; % mutation
+anova_effect_1_name = '2014';
+anova_effect_1 = { 
+    'na'; 'na'; 'na'; 'na';
+    '2014'; '2014'; '2014';
+    'na'; 'na';
+    'na'; 'na'; 'na'; 'na'
+    };
 
-anova_effect_2_name = 'session';
-anova_effect_2 = { '1'; '2'; '3'; '4'; '5'; '1'; '2'; '3'; '4'; '5' }; % session
+anova_effect_2_name = '6244';
+anova_effect_2 = { 
+    'na'; 'na'; 'na'; 'na';
+    'na'; 'na'; 'na';
+    '6244'; '6244';
+    'na'; 'na'; 'na'; 'na'
+    };
 
-f_saving_anova( filesToProcess, main_mask_list, norm_list, anova_masks, anova_effect_1_name, anova_effect_1, anova_effect_2_name, anova_effect_2 ) % saving the anova results table
+anova_effect_3_name = '2014 and 6244';
+anova_effect_3 = { 
+    'na'; 'na'; 'na'; 'na';
+    'na'; 'na'; 'na';
+    'na'; 'na';
+    '2014 and 6244'; '2014 and 6244'; '2014 and 6244'; '2014 and 6244'
+    };
+
+anova_effects_names = { anova_effect_1_name, anova_effect_2_name, anova_effect_3_name };
+anova_effects = { anova_effect_1, anova_effect_2, anova_effect_3 };
+
+f_saving_anova( filesToProcess, main_mask_list, norm_list, anova_masks, anova_effects_names, anova_effects ) % saving the anova results table
 
 %% Create a new set of meas mzs by filtering the ANOVA results
 
-column_name = "p value for session effect (mean))";
+column_name = "p value for 2014 and 6244 effect (mean)";
 equal_above_or_below = "above";
 threshold = 0.05;
 

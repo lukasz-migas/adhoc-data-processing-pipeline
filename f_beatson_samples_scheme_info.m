@@ -2,6 +2,29 @@ function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs
 
 switch dataset_name
     
+    case "pos uMALDI intercolonics"
+        
+        main_mask_list = "tissue only";
+        
+        % Datasets
+            
+        data_folders = { 'X:\Beatson\Intracolonic tumour study\Pos uMALDI Data\' };
+        
+        dataset_name = '20191009_beatson_intracolonics_batch2_slide5 uMALDI_pos';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+               
+        clear extensive_filesToProcess
+        
+        extensive_filesToProcess(1:13,:) = filesToProcess(1,:);
+        smaller_masks_list = [ 
+        "tissue only"
+            ];
+                
+        outputs_xy_pairs = [
+            1 1
+            ];
+    
     case "cell pellets v3"
         
         main_mask_list = "tissue only";

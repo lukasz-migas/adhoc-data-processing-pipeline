@@ -1,4 +1,4 @@
-function black_meas_mz = f_anova_based_meas_mz_array( filesToProcess, main_mask_list, norm_list, anova_effect_1_name, anova_effect_2_name, column1, equal_above_or_below1, threshold1, column2, equal_above_or_below2, threshold2)
+function black_meas_mz = f_anova_based_meas_mz_array( filesToProcess, main_mask_list, norm_list, anova_results_path, column1, equal_above_or_below1, threshold1, column2, equal_above_or_below2, threshold2)
 
 filesToProcess = f_unique_extensive_filesToProcess(filesToProcess); % This function collects all files that need to have a common axis.
 
@@ -15,7 +15,7 @@ for main_mask = main_mask_list
         
         cd([ anova_path char(main_mask) '\' char(norm_type) ])
         
-        load([ 'anova ' char(anova_effect_1_name), ' & ', char(anova_effect_2_name), '.mat' ],'anova_analysis_table' )
+        load(anova_results_path, 'anova_analysis_table')
         
         columns = anova_analysis_table(1,:);
                 

@@ -154,11 +154,16 @@ for main_mask = main_mask_list
         mkdir([ anova_path char(main_mask) '\' char(norm_type) ])
         cd([ anova_path char(main_mask) '\' char(norm_type) ])
         
-        save([ 'anova ' char(anova_effect_1_name), ' & ', char(anova_effect_2_name), '.mat' ],'anova_analysis_table' )
+        file_name = 'anova';
+        for wayi = 1:length(anova_effects_names)
+            file_name = [file_name, ['-', anova_effects_names{wayi}]];
+        end
+        
+        save([ file_name '.mat' ],'anova_analysis_table' )
         
         txt_row = strcat(repmat('%s\t',1,size(anova_analysis_table,2)-1),'%s\n');
         
-        fileID = fopen([ 'anova ' char(anova_effect_1_name), ' & ', char(anova_effect_2_name), '.txt' ],'w');
+        fileID = fopen([ file_name '.txt' ],'w');
         fprintf(fileID,txt_row, anova_analysis_table');
         fclose(fileID);
         
