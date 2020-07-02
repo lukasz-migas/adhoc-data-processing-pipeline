@@ -16,7 +16,7 @@ switch dataset_name
                
         clear extensive_filesToProcess
         
-        extensive_filesToProcess(1:13,:) = filesToProcess(1,:);
+        extensive_filesToProcess(1,:) = filesToProcess(1,:);
         smaller_masks_list = [ 
         "tissue only"
             ];
