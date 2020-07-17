@@ -2,6 +2,90 @@ function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs
 
 switch dataset_name
     
+    case "icl neg desi 1458 and 1282 pdx only (s245 only)"
+        
+        data_folders = { 'X:\ICR Breast PDX\Data\ICL neg DESI\' };
+        
+        dataset_name = '*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            extensive_filesToProcess = filesToProcess([3:6 9:10],:);
+            smaller_masks_list = [ 
+                "t-1458-2";
+                "t-1282-4";
+                "t-1282-5";
+                "t-1458-4";
+                "t-1458-5";
+                "t-1282-2"
+                ];
+                                   
+        end
+        
+        %
+        
+        outputs_xy_pairs = [
+            2 1; 1 2; 1 3; 2 2; 2 3; 1 1
+            ];
+        
+        case "icl neg desi 1458 and 1282 pdx only"
+        
+        data_folders = { 'X:\ICR Breast PDX\Data\ICL neg DESI\' };
+        
+        dataset_name = '*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            extensive_filesToProcess = filesToProcess;
+            smaller_masks_list = [ 
+                "t-1282-1";
+                "t-1458-1";
+                "t-1458-2";
+                "t-1282-4";
+                "t-1282-5";
+                "t-1458-4";
+                "t-1458-3";
+                "t-1282-3";
+                "t-1458-5";
+                "t-1282-2"
+                ];
+                                   
+        end
+        
+        %
+        
+        outputs_xy_pairs = [
+            1 1; 2 1; 2 2; 1 4; 1 5; 2 4; 2 3; 1 3; 2 5; 1 2 
+            ];
+    
     case "icl neg desi 1458 and 1282 pdx only (s2-5 only)"
         
         data_folders = { 'X:\ICR Breast PDX\Data\ICL neg DESI\' };
@@ -555,21 +639,21 @@ switch dataset_name
             %
             
             extensive_filesToProcess(1,:) = filesToProcess(1,:);
-            smaller_masks_list = [ "tissue only" ];
+            smaller_masks_list = [ "BR1282-1-pdx" ];
             extensive_filesToProcess(2,:) = filesToProcess(2,:);
-            smaller_masks_list = [ smaller_masks_list; "tissue only" ];
+            smaller_masks_list = [ smaller_masks_list; "BR1458-1-pdx" ];
             extensive_filesToProcess(3,:) = filesToProcess(3,:);
-            smaller_masks_list = [ smaller_masks_list; "tissue only" ];
+            smaller_masks_list = [ smaller_masks_list; "BR1282-2-pdx" ];
             extensive_filesToProcess(4,:) = filesToProcess(4,:);
-            smaller_masks_list = [ smaller_masks_list; "tissue only" ];
+            smaller_masks_list = [ smaller_masks_list; "BR1458-2-pdx" ];
             extensive_filesToProcess(5,:) = filesToProcess(5,:);
-            smaller_masks_list = [ smaller_masks_list; "tissue only" ];
+            smaller_masks_list = [ smaller_masks_list; "BR1282-3-pdx" ];
             extensive_filesToProcess(6,:) = filesToProcess(6,:);
-            smaller_masks_list = [ smaller_masks_list; "tissue only" ];
+            smaller_masks_list = [ smaller_masks_list; "BR1458-3-pdx" ];
             extensive_filesToProcess(7,:) = filesToProcess(7,:);
-            smaller_masks_list = [ smaller_masks_list; "tissue only" ];
+            smaller_masks_list = [ smaller_masks_list; "BR1282-4-pdx" ];
             extensive_filesToProcess(8,:) = filesToProcess(8,:);
-            smaller_masks_list = [ smaller_masks_list; "tissue only" ];
+            smaller_masks_list = [ smaller_masks_list; "BR1458-4-pdx" ];
 
                         
         end

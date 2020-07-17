@@ -48,6 +48,7 @@ if sum(datacube_mzvalues_indexes) >= 3
         case 'kmeans'
             
             [ idx0, C, optimal_numComponents ] = f_kmeans( data4mva, numComponents, 'cosine' );
+            % [ idx0, C, optimal_numComponents ] = f_kmeans( data4mva, numComponents, 'correlation' );
             
             idx = zeros(length(mask4mva),1); idx(mask4mva,:) = idx0; idx(isnan(idx)) = 0;
             

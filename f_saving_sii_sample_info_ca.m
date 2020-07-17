@@ -30,7 +30,7 @@ for file_index = 1:length(filesToProcess)
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'datacubeonly_peakDetails' ])
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'totalSpectrum_mzvalues' ])
         
-        [~, datacube_indexes] = ismembertol(mzvalues2plot,datacubeonly_peakDetails(:,2),1e-10);    
+        [~, datacube_indexes] = ismembertol(mzvalues2plot,datacubeonly_peakDetails(:,2),1e-10);
         [~, sample_info_indexes] = ismembertol(mzvalues2plot,double(sample_info(:,4)),1e-10);
         
         % Loading peaks information
