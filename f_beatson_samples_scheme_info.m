@@ -2,6 +2,78 @@ function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs
 
 switch dataset_name
     
+    case "PI3K SI DESI Negative"
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            % Datasets
+            
+            data_folders = { 'X:\Beatson\PI3K study (drug swiss)\Data\DESI Neg\imzml\Synapt\' };
+            
+            dataset_name = '*SI*';
+            
+            filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+            
+            delta = 0;
+            smaller_masks_list = [];
+            
+            clear extensive_filesToProcess
+            
+            extensive_filesToProcess(1:7,:) = filesToProcess(1,:);
+            smaller_masks_list = [ "b1s24_vehicle"; "b1s24_8186"; "b1s24_6244_8186"; "b1s24_6244_2014"; "b1s24_6244"; "b1s24_2014_8186"; "b1s24_2014";  ];
+            
+            extensive_filesToProcess(8:13,:) = filesToProcess(2,:);
+            smaller_masks_list = [ smaller_masks_list; "b2s22_vehicle"; "b2s22_8186"; "b2s22_6244_8186"; "b2s22_6244_2014"; "b2s22_6244"; "b2s22_2014";  ];
+            
+            extensive_filesToProcess(14:20,:) = filesToProcess(3,:);
+            smaller_masks_list = [ smaller_masks_list; "b3s24_vehicle"; "b3s24_8186"; "b3s24_6244_8186"; "b3s24_6244_2014"; "b3s24_6244"; "b3s24_2014_8186"; "b3s24_2014";  ];
+            
+            extensive_filesToProcess(21:22,:) = filesToProcess(4,:);
+            smaller_masks_list = [ smaller_masks_list; "b4s20_8186"; "b4s20_6244";  ];
+            
+            extensive_filesToProcess(23:29,:) = filesToProcess(5,:);
+            smaller_masks_list = [ smaller_masks_list; "b1s19_vehicle"; "b1s19_8186"; "b1s19_6244_8186"; "b1s19_6244_2014"; "b1s19_6244"; "b1s19_2014_8186"; "b1s19_2014";  ];
+            
+            extensive_filesToProcess(30:35,:) = filesToProcess(6,:);
+            smaller_masks_list = [ smaller_masks_list; "b2s21_vehicle"; "b2s21_8186"; "b2s21_6244_8186"; "b2s21_6244_2014"; "b2s21_6244"; "b2s21_2014";  ];
+            
+            extensive_filesToProcess(36:42,:) = filesToProcess(7,:);
+            smaller_masks_list = [ smaller_masks_list; "b3s25_vehicle"; "b3s25_8186"; "b3s25_6244_8186"; "b3s25_6244_2014"; "b3s25_6244"; "b3s25_2014_8186"; "b3s25_2014";  ];
+            
+            extensive_filesToProcess(43:45,:) = filesToProcess(8,:);
+            smaller_masks_list = [ smaller_masks_list; "b4s24_vehicle"; "b4s24_8186"; "b4s24_6244"; ];
+            
+            extensive_filesToProcess(46:51,:) = filesToProcess(9,:);
+            smaller_masks_list = [ smaller_masks_list; "b4s23_vehicle"; "b4s23_8186"; "b4s23_6244_8186"; "b4s23_6244"; "b4s23_2014_8186"; "b4s23_2014";  ];
+            
+            extensive_filesToProcess(52:58,:) = filesToProcess(10,:);
+            smaller_masks_list = [ smaller_masks_list; "b3s26_vehicle"; "b3s26_8186"; "b3s26_6244_8186"; "b3s26_6244_2014"; "b3s26_6244"; "b3s26_2014_8186"; "b3s26_2014";  ];
+            
+        end
+        
+        outputs_xy_pairs = [
+            1 1; 1 3; 1 5; 1 6; 1 4; 1 7; 1 2;
+            3 1; 3 3; 3 5; 3 6; 3 4;      3 2;
+            5 1; 5 3; 5 5; 5 6; 5 4; 5 7; 5 2;
+            8 3;           8 4;
+            2 1; 2 3; 2 5; 2 6; 2 4; 2 7; 2 2;
+            4 1; 4 3; 4 5; 4 6; 4 4;      4 2;
+            6 1; 6 3; 6 5; 6 6; 6 4; 6 7; 6 2;
+            9 1; 9 3; 9 5;
+            10 1; 10 3; 10 5; 10 4; 10 7; 10 2;
+            7 1; 7 3; 7 5; 7 6; 7 4; 7 7 ; 7 2;
+            ];
+        
     case "pos uMALDI intercolonics"
         
         main_mask_list = "tissue only";

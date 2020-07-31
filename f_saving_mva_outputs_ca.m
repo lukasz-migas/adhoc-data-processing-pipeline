@@ -2,6 +2,16 @@ function f_saving_mva_outputs_ca( filesToProcess, main_mask_list, smaller_masks_
 
 if nargin <= 8; mzvalues2discard = []; end
 
+% Sorting the filesToProcess and smaller_masks_list to avoid the need to 
+% load the data unnecessary times.
+
+file_names = []; for i = 1:size(filesToProcess,1); file_names = [ file_names; string(filesToProcess(i).name) ]; end
+[~, files_indicies] = sort(file_names);
+filesToProcess = filesToProcess(files_indicies);
+smaller_masks_list = smaller_masks_list(files_indicies);
+
+%
+
 for main_mask = main_mask_list
     
     % Creating the cells that will comprise the information regarding the

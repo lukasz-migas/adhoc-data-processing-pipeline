@@ -141,6 +141,10 @@ f_saving_datacube_peaks_details_ca( filesToProcess, mask )
 
 f_saving_data_cube( filesToProcess, mask )
 
+% Data normalisation (saving a normalised version of the data which is required to later plot normalised SIIs or run MVAs with normalised data)
+
+f_saving_normalised_data( filesToProcess, mask_list, norm_list )
+
 %% Use MVA results to create new masks (each clustered will be saved as a mask i.e. SA roi struct)
 
 % Please specify the details of the MVAs you want to save the clustering maps for.
