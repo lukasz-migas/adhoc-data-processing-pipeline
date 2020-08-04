@@ -28,7 +28,7 @@ for main_mask = main_mask_list
         
         for listi = sii_peak_list
             
-            if strcmpi(listi,"all relevant molecules")
+            if strcmpi(listi,"all relevant molecules") || strcmpi(listi,"all")
                 sample_info = [
                     sample_info
                     relevant_lists_sample_info

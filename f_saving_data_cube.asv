@@ -50,7 +50,7 @@ for mask_type = mask_list
         for i = 1:size(datacubeonly_peakDetails,1)
             % Peak() arguments: spectralData, centroid, intensity, minSpectralChannel, maxSpectralChannel
             peak = Peak(originalSpectrum, datacubeonly_peakDetails(i, 2), datacubeonly_peakDetails(i, 4), datacubeonly_peakDetails(i,1), datacubeonly_peakDetails(i, 3));            
-            % Create a vector of Peak instances
+            % Create a vector of Peak instances. 
             if isempty(peakList)
                 peakList = peak;
             else
@@ -58,6 +58,11 @@ for mask_type = mask_list
             end
         end
 
+        
+        peakList.minSpectralChannel = [ datacubeonly_peakDetails(:,1) ];
+        peakList.centroid = [ datacubeonly_peakDetails(:,2) ];
+        peakList.maxSpectralChannel = [ datacubeonly_peakDetails(:,3) ];
+        
         reduction.setPeakList(peakList);
         
         datacube = reduction.process(data);

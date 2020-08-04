@@ -91,9 +91,7 @@ for main_mask = main_mask_list
         
         if file_index == 1
             
-            load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\peakDetails' ])
             load([ spectra_details_path     filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacubeonly_peakDetails' ])
-            
             load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
             load([ peak_assignments_path    filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
             
@@ -139,6 +137,7 @@ for main_mask = main_mask_list
                 mask4plotting = logical(smaller_masks_cell{file_index});
                 
                 data_cell{file_index}.data = data(mask4plotting,:);
+                data_cell{file_index}.mask = mask4plotting;
                 data_cell{file_index}.pixels_coord = pixels_coord(mask4plotting,:);
                 data_cell{file_index}.width = width;
                 data_cell{file_index}.height = height;

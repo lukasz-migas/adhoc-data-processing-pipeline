@@ -12,7 +12,7 @@ for file_index = 1:length(data_cell)
     endi = starti+data_cell{file_index}.width*data_cell{file_index}.height-1;
     
     mva_output0 = mva_output(starti:endi,:); % MVAs results corresponde to all pixels in the imzml file.
-    mva_output0(mva_output0==0) = []; % Removing all pixels with value equal to 0 (irrelavant for plotting MVAs results).
+    mva_output0(~data_cell{file_index}.mask) = []; % Removing all pixels with value equal to 0 (irrelavant for plotting MVAs results).
     
     x_coord = data_cell{file_index}.pixels_coord(:,1);
     y_coord = data_cell{file_index}.pixels_coord(:,2);

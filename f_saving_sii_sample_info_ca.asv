@@ -1,7 +1,8 @@
 function f_saving_sii_sample_info_ca( filesToProcess, main_mask, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, sample_info )
 % Saving sii given a curated sample_info matrix.
 
-% Sorting filesToProcess (and re-organising the related information) to avoid the need to load data unnecessary times
+% Sorting the filesToProcess (and re-organising the related
+% information) to avoid the need to load the data unnecessary times.
 
 file_names = []; for i = 1:size(filesToProcess,1); file_names = [ file_names; string(filesToProcess(i).name) ]; end
 [~, files_indicies] = sort(file_names);
@@ -9,7 +10,7 @@ filesToProcess = filesToProcess(files_indicies);
 smaller_masks_list = smaller_masks_list(files_indicies);
 outputs_xy_pairs = outputs_xy_pairs(files_indicies,:);
 
-% Defining all paths needed
+% Defining all paths needed.
 
 csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
 [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, fig_ppmTolerance, outputs_path ] = f_reading_inputs(csv_inputs);
@@ -83,13 +84,13 @@ for norm_type = norm_list
     
     outputs_path = [ sii_path filesep char(dataset_name) filesep char(main_mask) filesep char(norm_type) filesep ]; mkdir(outputs_path)
     
-    % Loading normalised data, pixels coord, width and height
+    % Loading normalised data and pixels coord
     
     data_cell = {};
     for file_index = 1:length(smaller_masks_cell)
         
-        % Loading data only if the name of the file changes.
-        % filesToProcess needs to be sorted for this to work properly.
+        % Load data only if the name of the file changes.
+        % filesToProcess should be sorted for this to work properly.
         
         if file_index == 1 || ~strcmpi(filesToProcess(file_index).name(1,1:end-6),filesToProcess(file_index-1).name(1,1:end-6))
             

@@ -239,7 +239,7 @@ for peak_i = 1:size(peak_details,1)
                 stem([ppmwindow_xmin ppmwindow_xmax],1.1*ymax.*[1 1],'color',[.5 .5 .5],'linewidth',.5,'Marker','none')
                 
                 plot(window_mzvalues,window_intensities,'k','linewidth',1);
-                legend({'peak delimitation','theoretical mz value', [ num2str(fig_ppmTolerance) ' ppm window' ],'mean spectrum'}, 'fontsize', 12, 'Location','northeast'); legend('boxoff'); xlabel('\it{m/z}'); axis square;
+                legend({'peak delimitation','theoretical mz value', [ num2str(fig_ppmTolerance) ' ppm window' ],'mean spectrum'}, 'fontsize', 12, 'Location','northoutside'); legend('boxoff'); xlabel('\it{m/z}'); axis square;
                 
             else
                 
