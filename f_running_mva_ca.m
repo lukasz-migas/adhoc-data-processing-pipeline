@@ -13,19 +13,7 @@ smaller_masks_list = smaller_masks_list(files_indicies);
 %
 
 for main_mask = main_mask_list
-    
-    % Creating the cells that will comprise the information regarding the
-    % single ion images, the main mask, and the smaller mask.
-    % Main mask - Mask used at the preprocessing step (usually tissue only).
-    % Small mask - Mask used to plot the results in the shape of a grid
-    % defined by the user (it can be a reference to a particular piece of
-    % tissue or a set of tissues).
-    
-    data_cell = {};
-    smaller_masks_cell = {};
-    
-    % Loading peak details information
-    
+       
     csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
     
     [ ~, ~, ~, ...
@@ -84,11 +72,15 @@ for main_mask = main_mask_list
         
     end
     
+    % Masks
+    
+    smaller_masks_cell = {};
+    
     for file_index = 1:length(filesToProcess)
         
         % Loading information about the peaks, the mz values saved as a
         % dacube cube and the matching of the dataset with a set of lists
-        % of relevant molecules
+        % of relevant molecules, and hmdb
         
         if file_index == 1
             
@@ -118,9 +110,13 @@ for main_mask = main_mask_list
         
         for file_index = 1:length(smaller_masks_cell)
             
+            % Load data only if the name of the file changes.
+            % filesToProcess should be sorted for this to work properly.
+            
             if file_index == 1 || ~strcmpi(filesToProcess(file_index).name(1,1:end-6),filesToProcess(file_index-1).name(1,1:end-6))
                 
                 disp(['! Loading ' filesToProcess(file_index).name(1,1:end-6) ' data...'])
+                
                 load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(norm_type) '\data.mat' ])
                 
             end

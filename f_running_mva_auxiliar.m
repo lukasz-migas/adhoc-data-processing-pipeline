@@ -35,7 +35,7 @@ if sum(datacube_mzvalues_indexes) >= 3
             save('firstCoeffs','firstCoeffs','-v7.3')
             save('firstScores','firstScores','-v7.3')
             save('explainedVariance','explainedVariance','-v7.3')
-            
+                        
         case 'nnmf'
             
             [ W0, H ] = nnmf(data4mva, numComponents);

@@ -38,8 +38,11 @@ for mask_type = mask_list
         
         addlistener(reduction, 'FastMethods', @(src, canUseFastMethods)disp(['! Using fast Methods?   ' num2str(canUseFastMethods.bool)]));
         
-        reduction.setPeakList(datacubeonly_peakDetails(:,2));
-        reduction.setPeakDetails(datacubeonly_peakDetails);
+        peakList.minSpectralChannel = [ datacubeonly_peakDetails(:,1) ];
+        peakList.centroid = [ datacubeonly_peakDetails(:,2) ];
+        peakList.maxSpectralChannel = [ datacubeonly_peakDetails(:,3) ];
+        
+        reduction.setPeakList(peakList);
         
         datacube = reduction.process(data);
         datacube = datacube.get(1);
@@ -53,9 +56,11 @@ for mask_type = mask_list
         
         width = datacube.width;
         height = datacube.height;
+        pixels_coord = datacube.pixels;
         
         save('width','width','-v7.3')
         save('height','height','-v7.3')
+        save('pixels_coord','pixels_coord','-v7.3')
         
         % Checking section!
         

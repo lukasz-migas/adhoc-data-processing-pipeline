@@ -56,6 +56,10 @@ f_saving_datacube_peaks_details( filesToProcess, mask )
 
 f_saving_data_cube( filesToProcess, mask )
 
+% Data normalisation (saving a normalised version of the data which is required to later plot normalised SIIs or run MVAs with normalised data)
+
+f_saving_normalised_data( filesToProcess, mask, norm_list )
+
 %% Multivariate Analysis (for each dataset individually)
 
 mask_on = 0; % Please use 1 or 0 depending on whether the sii (of mva drivers) are to be masked with the main mask (usually "tissue only") or not.
@@ -143,7 +147,7 @@ f_saving_data_cube( filesToProcess, mask )
 
 % Data normalisation (saving a normalised version of the data which is required to later plot normalised SIIs or run MVAs with normalised data)
 
-f_saving_normalised_data( filesToProcess, mask_list, norm_list )
+f_saving_normalised_data( filesToProcess, mask, norm_list )
 
 %% Use MVA results to create new masks (each clustered will be saved as a mask i.e. SA roi struct)
 

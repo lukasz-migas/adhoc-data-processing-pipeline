@@ -41,16 +41,20 @@ for peak_i = 1:size(peak_details,1)
             
             for file_index = 1:length(norm_sii_cell)
                 
-                norm_sii1 = reshape(norm_sii_cell{file_index}.data(:,peak_i).*smaller_masks_cell{file_index},norm_sii_cell{file_index}.width,norm_sii_cell{file_index}.height)';
-                norm_sii1(isnan(norm_sii1)) = 0;
+                x_coord = norm_sii_cell{file_index}.pixels_coord(:,1);
+                y_coord = norm_sii_cell{file_index}.pixels_coord(:,2);
+    
+                x_coord = x_coord-min(x_coord)+1; % Reducing the image to the minimum possible rectangle.
+                y_coord = y_coord-min(y_coord)+1;
+    
+                image2plot = zeros(max(x_coord), max(y_coord));
+        
+                for i = 1:size(x_coord,1); image2plot(x_coord(i),y_coord(i)) = norm_sii_cell{file_index}.data(i,peak_i); end % Bulding the image of each individual small mask.
+                           
+                sii_cell2plot{outputs_xy_pairs(file_index,1),outputs_xy_pairs(file_index,2)} = image2plot;
                 
-                rows = (sum(norm_sii1,2)==0); norm_sii1(rows,:) = [];
-                cols = (sum(norm_sii1,1)==0); norm_sii1(:,cols) = [];
-                
-                sii_cell2plot{outputs_xy_pairs(file_index,1),outputs_xy_pairs(file_index,2)} = norm_sii1;
-                
-                min_cn = max(min_cn,size(norm_sii1,2));
-                min_rn = max(min_rn,size(norm_sii1,1));
+                min_cn = max(min_cn,size(image2plot,2));
+                min_rn = max(min_rn,size(image2plot,1));
                                 
                 smaller_masks_list2plot{outputs_xy_pairs(file_index,1),outputs_xy_pairs(file_index,2)} = smaller_masks_list{file_index};
                 
