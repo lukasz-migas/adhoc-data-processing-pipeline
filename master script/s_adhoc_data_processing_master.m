@@ -70,15 +70,13 @@ f_running_mva( filesToProcess, mask, norm_list, string([]), string([]) ) % runni
 
 f_saving_mva_outputs( filesToProcess, mask, mask_on, norm_list, string([]), string([]) ); % saving MVAs outputs
 
-%% Single Ion Images (for each dataset individually)
+%% Saving single ion images
 
-mask_on = 0; % Please use 1 or 0 depending on whether the sii (of mva drivers) are to be masked with the main mask (usually "tissue only") or not.
+mask_on = 0; % 1 or 0 depending on either the sii are to be masked with the main mask or not.
+sii_peak_list = "all"; % "all" (to save all lists); an array of lists; an array of hmdb classes or subclasses; an array of m/z values (less then 1e-10 apart from those saved in the datacube).
+norm_list = "no norm";
 
-norm_list = [ "no norm", "pqn median" ]; % Please list the normalisations. For a list of those available, check the function called "f_norm_datacube".
-
-sii_peak_list = "Shorter Beatson metabolomics & CRUK list"; % Please list all the lists you would like to save the sii for, or simply "all" if you would like to the sii for all lists considered.
-
-f_saving_sii_relevant_molecules( filesToProcess, "no mask", mask_on, norm_list, sii_peak_list ); % saving SIIs
+f_saving_sii( filesToProcess, "no mask", mask_on, norm_list, sii_peak_list );
 
 %% Manual Mask Creation (e.g.: tissue only, sample A)
 

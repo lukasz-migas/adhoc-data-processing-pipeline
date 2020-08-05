@@ -3,7 +3,7 @@ function f_saving_sii_sample_info(filesToProcess, mask_list, norm_list, sample_i
 % Saving sii given a curated sample_info matrix.
 
 for file_index = 1:length(filesToProcess)
-        
+    
     csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
     
     [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, fig_ppmTolerance, outputs_path ] = f_reading_inputs(csv_inputs);
@@ -14,10 +14,12 @@ for file_index = 1:length(filesToProcess)
     
     for main_mask = mask_list
         
+        disp(filesToProcess(file_index).name(1,1:end-6))
+        
         % Defining mz values of interest (to plot sii of)
         
         mzvalues2plot = unique(double(sample_info(:,4)));
-                
+        
         % Loading datacube
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\datacube' ])
@@ -30,8 +32,8 @@ for file_index = 1:length(filesToProcess)
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\pixels_num' ])
         
         % Loading main main_mask
-
-        if mask_on            
+        
+        if mask_on
             load([ rois_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\roi' ])
             mask = logical((sum(datacube.data,2)>0).*reshape(roi.pixelSelection',[],1));
         end
@@ -41,8 +43,8 @@ for file_index = 1:length(filesToProcess)
         image_width = datacube.width;
         image_height = datacube.height;
         
-        [~, datacube_indexes] = ismembertol(mzvalues2plot,datacubeonly_peakDetails(:,2),1e-12);        
-        [~, sample_info_indexes] = ismembertol(mzvalues2plot,double(sample_info(:,4)),1e-12);
+        [~, datacube_indexes] = ismembertol(mzvalues2plot,datacubeonly_peakDetails(:,2),1e-10);
+        [~, sample_info_indexes] = ismembertol(mzvalues2plot,double(sample_info(:,4)),1e-10);
         
         peak_details = datacubeonly_peakDetails(datacube_indexes,:);
         
@@ -52,16 +54,16 @@ for file_index = 1:length(filesToProcess)
         end
         
         for norm_type = norm_list
-                        
+            
             outputs_path = [ sii_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(norm_type) '\' ]; mkdir(outputs_path)
-                        
+            
             norm_sii = f_norm_datacube( datacube, norm_type );
             norm_sii = norm_sii(:,datacube_indexes);
             
             if mask_on
                 norm_sii(~mask,:) = NaN;
             end
-                        
+            
             f_saving_sii_files( outputs_path, sample_info, sample_info_indexes, norm_sii, image_width, image_height, peak_details, pixels_num, totalSpectrum_intensities, totalSpectrum_mzvalues, fig_ppmTolerance, 0 )
             
         end

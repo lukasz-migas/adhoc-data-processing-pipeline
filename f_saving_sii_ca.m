@@ -1,21 +1,21 @@
 function f_saving_sii_ca( filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, sii_peak_list )
 
-file_index = 1;
-
-csv_inputs = [ filesToProcess(file_index).folder filesep 'inputs_file' ];
+csv_inputs = [ filesToProcess(1).folder filesep 'inputs_file' ]; % The outputs folder is the same for all files in filesToProcess so it needs to be defined just once.
 
 [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
 
 peak_assignments_path   = [ char(outputs_path) filesep 'peak assignments' filesep ];
 
+measmz_col = 4;
+abs_ppm_col = 5;
 database_col = 7;
 superclass_col = 15;
 class_col = 16;
 subclass_col = 17;
-measmz_col = 4;
-abs_ppm_col = 5;
 
 for main_mask = main_mask_list
+    
+    % The peak assigments information is common to all files in filesToProcess so it is has to be loaded only once, at the start of the process.
     
     load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) filesep char(main_mask) filesep 'relevant_lists_sample_info' ])
     load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) filesep char(main_mask) filesep 'hmdb_sample_info' ])
@@ -102,6 +102,10 @@ for main_mask = main_mask_list
         end
         
     end
+    
+    % filesToProcess, smaller_masks_list, and outputs_xy_pairs are the same
+    % number of rows, each representing one of the small masks that will be
+    % combined in a grid
     
     f_saving_sii_sample_info_ca( filesToProcess, main_mask, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, sample_info )
     
