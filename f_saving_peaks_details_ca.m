@@ -30,7 +30,9 @@ for mask_type = mask_list
     
     peakPicking = GradientPeakDetection();
     
-    [ ~, ~, peakDetails ] = peakPicking.process(totalSpectrum_mzvalues, y); % peak pick total spectrum
+    peaks = peakPicking.process(SpectralData(totalSpectrum_mzvalues, y)); % peak pick total spectrum
+    
+    peakDetails = [ [ peaks.minSpectralChannel ]', [ peaks.centroid ]', [ peaks.maxSpectralChannel ]', [ peaks.intensity ]' ];
     
     % Saving a unique peak details mat file
     
