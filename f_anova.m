@@ -14,9 +14,7 @@ rois_path               = [ char(outputs_path) '\rois\' ];
 for main_mask = main_mask_list
     
     for norm_type = norm_list
-        
-        %%
-        
+                
         data4anova = [];
         small_mask_1 = 0;
         pixels_per_model = [];
@@ -75,11 +73,11 @@ for main_mask = main_mask_list
             
             pixels_per_model = [ pixels_per_model; pixels_per_model0 ];
             
-            disp(join(['# pixels per anova mask: ' num2str(sum(pixels_per_model0>0,1))]))
+            disp(join(['# pixels (per mask): ' num2str(sum(pixels_per_model0>0,1))]))
             
         end
         
-        disp(join(['# pixels per anova mask: ' num2str(sum(pixels_per_model>0,1))]))
+        disp(join(['total # pixels (per mask): ' num2str(sum(pixels_per_model>0,1))]))
         
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
@@ -90,9 +88,7 @@ for main_mask = main_mask_list
             ];
         
         new_hmdb_sample_info = f_saving_curated_hmdb_info( extended_hmdb_sample_info, relevant_lists_sample_info );
-        
-        %%
-        
+                
         %%% Anova
         
         mean_col_names = [];
