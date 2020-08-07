@@ -24,8 +24,8 @@ for main_mask = main_mask_list
         
         col_mean = string([]);
         col_median = string([]);
-        
-        data4anova = [];
+        small_mask_1 = 0;
+        data4stats = [];
         pixels_per_model = [];
         
         for file_index = 1:length(filesToProcess)
@@ -59,8 +59,6 @@ for main_mask = main_mask_list
                         col_mean(1,anovamaski) = string([ char(all_folders_names(aux_i)), ' mean']);
                         col_median(1,anovamaski) = string([ char(all_folders_names(aux_i)), ' median']);
                         
-                        load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(all_folders_names(aux_i)) filesep 'roi' ])
-                        
                         model_mask = reshape(roi.pixelSelection',[],1);
                         pixels_per_model0(:,1) = pixels_per_model0(:,1) + model_mask.*anovamaski.*~pixels_per_model0(:,1);
                         disp(join(['# pixels (per mask): ' num2str(sum(pixels_per_model0(:,1)==anovamaski,1))]))
@@ -70,14 +68,10 @@ for main_mask = main_mask_list
                 
             end
             
-            % Data compilation
-            
-            rows = logical(sum(pixels_per_model0,2)>0);
-            data4anova = [ data4anova; data(rows,:) ];
-            pixels_per_model = [ pixels_per_model; pixels_per_model0(rows,:) ];
-            
+            pixels_per_model = [ pixels_per_model; pixels_per_model0 ];
+                        
         end
-        
+                
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\hmdb_sample_info' ])
         load([ peak_assignments_path filesToProcess(1).name(1,1:end-6) '\' char(main_mask) '\relevant_lists_sample_info' ])
         
@@ -98,19 +92,19 @@ for main_mask = main_mask_list
         end
         
         anova_analysis_table = [ ...
-            mean_col_names, col_mean, ...
-            median_col_names, col_median, ...
+            mean_col_names, anova.masks, ...
+            median_col_names, anova.masks, ...
             "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)"
             ];
         
-        for mzi = 1:size(data4anova,2)
+        for mzi = 1:size(datacubeonly_peakDetails,1)
             
             mean_d = zeros(1,size(pixels_per_model,2));
             median_d = zeros(1,size(pixels_per_model,2));
             
             for anovamaski = unique(pixels_per_model)
-                mean_d(1,anovamaski) = mean(data4anova(pixels_per_model(:,1)==anovamaski,mzi),'omitnan');
-                median_d(1,anovamaski) = median(data4anova(pixels_per_model(:,1)==anovamaski,mzi),'omitnan');
+                mean_d(1,anovamaski) = mean(data4anova(pixels_per_model(:,anovamaski)>0,mzi),'omitnan');
+                median_d(1,anovamaski) = median(data4anova(pixels_per_model(:,anovamaski)>0,mzi),'omitnan');
             end
             
             if sum(~isnan(mean_d))>0
@@ -118,7 +112,7 @@ for main_mask = main_mask_list
                 [ mean_p, ~, ~, ~ ] = anovan(mean_d, anova.effects, 'display','off');
                 [ median_p, ~, ~, ~ ] = anovan(median_d, anova.effects, 'display','off');
                 
-                indexes2add = (abs(datacubeonly_peakDetails(mzi,2)-double(new_hmdb_sample_info(:,3))) < 1e-10);
+                indexes2add = (abs(datacube.spectralChannels(mzi)-double(new_hmdb_sample_info(:,3))) < 1e-10);
                 
                 if sum(indexes2add) >= 1
                     

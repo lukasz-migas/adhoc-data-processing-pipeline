@@ -7,6 +7,8 @@ disp('This script works by searching for each individual small mask, within the 
 disp('Masks with the same name (even if for different imzmls) will be combined.')
 disp(' ')
 
+filesToProcess = f_unique_extensive_filesToProcess(filesToProcess); % This function collects all files that need to have a common axis.
+
 csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
 
 [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
@@ -73,9 +75,7 @@ if univtests.roc || univtests.ttest
                 % Data compilation
                 
                 rows = logical(sum(pixels_per_model0,2)>0);
-                
                 data4stats = [ data4stats; data(rows,:) ];
-                
                 pixels_per_model = [ pixels_per_model; pixels_per_model0(rows,:) ];
                 
                 disp(join(['# pixels (per group): ' num2str(sum(pixels_per_model0>0))]))
@@ -102,7 +102,7 @@ if univtests.roc || univtests.ttest
             table_row1 = string([]);
             sii_sample_info = [];
             
-            for mzi = 1:size(datacubeonly_peakDetails(:,2),1)
+            for mzi = 1:size(data4stats,2)
                 
                 switch mzi/size(datacubeonly_peakDetails(:,2),1)
                     case 1/4; disp('! 1/4')
