@@ -103,7 +103,7 @@ for main_mask = main_mask_list
             "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)"
             ];
         
-        for mzi = 1:size(data4anova,2)
+        for mzi = 1:10%size(data4anova,2)
             
             mean_d = zeros(1,length(anova.masks));
             median_d = zeros(1,length(anova.masks));
@@ -150,8 +150,8 @@ for main_mask = main_mask_list
         cd([ anova_path char(main_mask) '\' char(norm_type) ])
         
         file_name = 'anova';
-        for wayi = 1:length(anova_effects_names)
-            file_name = [file_name, ['-', anova_effects_names{wayi}]];
+        for wayi = 1:length(anova.labels)
+            file_name = [file_name, ['-', anova.labels{wayi}]];
         end
         
         save([ file_name '.mat' ],'anova_analysis_table' )
