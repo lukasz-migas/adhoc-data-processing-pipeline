@@ -103,7 +103,7 @@ for main_mask = main_mask_list
             "meas mz", "molecule", "mono mz", "adduct", "ppm", "database (by mono mz)"
             ];
         
-        for mzi = 1:10%size(data4anova,2)
+        for mzi = 1:size(data4anova,2)
             
             mean_d = zeros(1,length(anova.masks));
             median_d = zeros(1,length(anova.masks));
