@@ -105,10 +105,10 @@ for main_mask = main_mask_list
         
         for mzi = 1:size(data4anova,2)
             
-            mean_d = zeros(1,size(pixels_per_model,2));
-            median_d = zeros(1,size(pixels_per_model,2));
+            mean_d = zeros(1,length(anova.masks));
+            median_d = zeros(1,length(anova.masks));
             
-            for anovamaski = unique(pixels_per_model)
+            for anovamaski = unique(pixels_per_model)'
                 mean_d(1,anovamaski) = mean(data4anova(pixels_per_model(:,1)==anovamaski,mzi),'omitnan');
                 median_d(1,anovamaski) = median(data4anova(pixels_per_model(:,1)==anovamaski,mzi),'omitnan');
             end
@@ -132,7 +132,7 @@ for main_mask = main_mask_list
                     
                 else
                     
-                    aux_row = string(repmat([ mean_p', mean_d, median_p', median_d, datacube.spectralChannels(mzi)], 1, 1));
+                    aux_row = string(repmat([ mean_p', mean_d, median_p', median_d, datacubeonly_peakDetails(mzi,2)], 1, 1));
                     aux_row(ismissing(aux_row)) = "NaN";
                     
                     anova_analysis_table = [
