@@ -1,4 +1,4 @@
-function f_saving_anova( filesToProcess, main_mask_list, norm_list, anova_masks, anova_effects_names, anova_effects )
+function f_anova( filesToProcess, main_mask_list, norm_list, anova_masks, anova_effects_names, anova_effects )
 
 filesToProcess = f_unique_extensive_filesToProcess(filesToProcess); % This function collects all files that need to have a common axis.
 

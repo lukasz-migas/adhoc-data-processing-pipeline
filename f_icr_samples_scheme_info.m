@@ -46,7 +46,7 @@ switch dataset_name
         
         data_folders = { 'X:\ICR Breast PDX\Data\ICL neg DESI\' };
         
-        dataset_name = '*';
+        dataset_name = '*pdx*';
         
         filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
         

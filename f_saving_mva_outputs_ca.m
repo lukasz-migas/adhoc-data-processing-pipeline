@@ -104,47 +104,48 @@ for main_mask = main_mask_list
         
     end
     
-    % MVAs outputs
-    
-    mvai = 0;
-    for mva_type = mva_list
-        mvai = mvai + 1;
+    for norm_type = norm_list
         
-        for norm_type = norm_list
+        % Loading normalised data and pixels coord
+        
+        data_cell = {};
+        
+        for file_index = 1:length(smaller_masks_cell)
+            
+            % Load data only if the name of the file changes.
+            % filesToProcess should be sorted for this to work properly.
+            
+            if file_index == 1 || ~strcmpi(filesToProcess(file_index).name(1,1:end-6),filesToProcess(file_index-1).name(1,1:end-6))
+                
+                disp(['! Loading ' filesToProcess(file_index).name(1,1:end-6) ' data (to plot top loadings siis)...'])
+                
+                load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(norm_type) '\data.mat' ])
+                load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\pixels_coord'])
+                load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\width'])
+                load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\height'])
+                
+            end
+            
+            mask4plotting = logical(smaller_masks_cell{file_index});
+            
+            data_cell{file_index}.data = data(mask4plotting,:);
+            data_cell{file_index}.mask = mask4plotting;
+            data_cell{file_index}.pixels_coord = pixels_coord(mask4plotting,:);
+            data_cell{file_index}.width = width;
+            data_cell{file_index}.height = height;
+            
+        end
+        
+        % MVAs
+        
+        mvai = 0;
+        for mva_type = mva_list
+            mvai = mvai + 1;
             
             numComponents = numComponents_array(mvai);
             numLoadings = numLoadings_array(mvai);
             
-            % Loading normalised data and pixels coord
-            
-            data_cell = {};
-            for file_index = 1:length(smaller_masks_cell)
-                
-                % Load data only if the name of the file changes.
-                % filesToProcess should be sorted for this to work properly.
-                
-                if file_index == 1 || ~strcmpi(filesToProcess(file_index).name(1,1:end-6),filesToProcess(file_index-1).name(1,1:end-6))
-                    
-                    disp(['! Loading ' filesToProcess(file_index).name(1,1:end-6) ' data (to plot top loadings siis)...'])
-                    
-                    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(norm_type) '\data.mat' ])
-                    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\pixels_coord'])
-                    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\width'])
-                    load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\height'])
-                    
-                end
-                
-                mask4plotting = logical(smaller_masks_cell{file_index});
-                
-                data_cell{file_index}.data = data(mask4plotting,:);
-                data_cell{file_index}.mask = mask4plotting;
-                data_cell{file_index}.pixels_coord = pixels_coord(mask4plotting,:);
-                data_cell{file_index}.width = width;
-                data_cell{file_index}.height = height;
-                
-            end
-            
-            %
+            % Plotting related information
             
             paths.dataset_name = dataset_name;
             paths.main_mask = main_mask;

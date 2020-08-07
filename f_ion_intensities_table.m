@@ -1,4 +1,4 @@
-function f_saving_ion_intensities_table( filesToProcess, main_mask_list, smaller_masks_list, norm_list )
+function f_ion_intensities_table( filesToProcess, main_mask_list, smaller_masks_list, norm_list )
 
 disp(' ')
 disp('! Please make sure that every small mask has a unique name.')

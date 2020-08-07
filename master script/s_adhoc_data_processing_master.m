@@ -149,6 +149,9 @@ f_saving_normalised_data( filesToProcess, mask, norm_list )
 
 %% Use MVA results to create new masks (each clustered will be saved as a mask i.e. SA roi struct)
 
+% Important note!!! This function needs to be updated because the MVA results are now a short array of
+% pixels (small masks only pixels). 07 Aug 2020 Teresa
+
 % Please specify the details of the MVAs you want to save the clustering maps for.
 
 mva_list = "tsne"; % kmeans or tsne
@@ -193,109 +196,67 @@ f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, 
 
 f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_molecules_list, mva_classes_list ) % Saving MVAs outputs
 
-%% Multivariate analysis (saving outputs barplots)
-% 
-% norm_list = "zscore"; mva_peak_list = "Shorter Beatson metabolomics & CRUK list";
-% 
-% f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, "pca", 16, 8, mva_peak_list )
-% f_saving_mva_outputs_barplot_summary_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, [ "nnmf", "kmeans"], 16, 4, mva_peak_list )
+%% Saving ion intensities per small mask table
 
-%% ROC analysis
+norm_list = [ "no norm", "RMS" ];
 
-norm_list = "pqn median";
+f_ion_intensities_table( filesToProcess, main_mask_list, smaller_masks_list, norm_list )
 
-% Note: The ROC analysis is done for the entire list of m/z values saved in the datacube.
+%% Univariate analyses (ROC, t-test)
 
-% neg DESI small intestine
+norm_list = [ "no norm", "RMS" ];
 
-% WT_group =          [ "SA1-1-short-list-wt-9", "SA1-2-short-list-wt-9", "SA2-1-short-list-wt-9", "SA2-2-short-list-wt-9" ];
-% APC_group =         [ "SA1-1-short-list-apc-1","SA1-1-short-list-apc-13", "SA1-2-short-list-apc-1","SA1-2-short-list-apc-13", "SA2-1-short-list-apc-1","SA2-1-short-list-apc-13", "SA2-2-short-list-apc-1","SA2-2-short-list-apc-13" ];
-% APC_KRAS_group =    [ "SA1-1-short-list-apc-kras-8","SA1-1-short-list-apc-kras-14", "SA1-2-short-list-apc-kras-8","SA1-2-short-list-apc-kras-14", "SA2-1-short-list-apc-kras-8","SA2-1-short-list-apc-kras-14", "SA2-2-short-list-apc-kras-8","SA2-2-short-list-apc-kras-14" ];
-APC_group =         [ "SA1-1-short-list-apc-1", "SA1-2-short-list-apc-1", "SA2-1-short-list-apc-1", "SA2-2-short-list-apc-1" ];
-APC_KRAS_group =    [ "SA1-1-short-list-apc-kras-14", "SA1-2-short-list-apc-kras-14", "SA2-1-short-list-apc-kras-14", "SA2-2-short-list-apc-kras-14" ];
+% Groups of pixels  (arrays of small masks names)
 
-group0 = APC_group;
-group0_name = "short-list-1-14-apc";
+vehicle =           [ "b1s24_vehicle","b2s22_vehicle","b3s24_vehicle","b1s19_vehicle","b2s21_vehicle","b3s25_vehicle","b4s24_vehicle","b4s23_vehicle","b3s26_vehicle" ];
+AZD2014 =           [ "b1s24_2014","b2s22_2014","b3s24_2014","b1s19_2014","b2s21_2014","b3s25_2014","b4s23_2014","b3s26_2014" ];
+AZD8186 =           [ "b1s24_8186","b2s22_8186","b3s24_8186","b4s20_8186","b1s19_8186","b2s21_8186","b3s25_8186","b4s24_8186","b4s23_8186","b3s26_8186"];
+AZD6244 =           [ "b1s24_6244","b2s22_6244","b3s24_6244","b4s20_6244","b1s19_6244","b2s21_6244","b3s25_6244","b4s24_6244","b4s23_6244","b3s26_6244" ];
+AZD6244_AZD8186 =   [ "b1s24_6244_8186","b2s22_6244_8186","b3s24_6244_8186","b1s19_6244_8186","b2s21_6244_8186","b3s25_6244_8186","b4s23_6244_8186","b3s26_6244_8186" ];
+AZD6244_AZD2014 =   [ "b1s24_6244_2014","b2s22_6244_2014","b3s24_6244_2014","b1s19_6244_2014","b2s21_6244_2014","b3s25_6244_2014","b3s26_6244_2014" ];
+AZD2014_AZD8186 =   [ "b1s24_2014_8186","b3s24_2014_8186","b1s19_2014_8186","b3s25_2014_8186","b4s23_2014_8186","b3s26_2014_8186" ];
 
-group1 = APC_KRAS_group;
-group1_name = "short-list-1-14-apc-kras";
+% Pairs of groups of pixels to compare with the univariate analysis
 
-% % single imzml
-%
-% f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, [], [], [] )
+groups.name = "all vs veh and sing vs combi";
 
-% combined imzmls
+groups.masks = { vehicle, AZD2014, AZD8186, AZD6244, AZD6244_AZD8186, AZD6244_AZD2014, AZD2014_AZD8186 };
+groups.names = { "vehicle", "AZD2014", "AZD8186", "AZD6244", "AZD6244_AZD8186", "AZD6244_AZD2014", "AZD2014_AZD8186" };
+groups.pairs = { [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7], [2, 6], [2, 7], [3, 5], [3, 7], [4, 5], [4, 6] }; % [1, 2] will combine vehicle (1st position in the lists) with AZD2014 (2nd position in the lists)
 
-mask_on = 1; % 1 or 0 depending on either the sii are to be masked with the main mask or not.
-save_sii = 0;  % 1 or 0 depending on either the sii are to be saved.
+% Univariate analysis to perform
 
-f_saving_roc_analysis( filesToProcess, main_mask_list, mask_on, save_sii, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
+univtests.roc = 1;
+univtests.ttest = 1;
 
-%%
+% Save single ion images?
 
-norm_list = "no norm";
+sii.plot = 1; % 1 or 0 depending on wether siis are to be plotted or not.
+sii.mask = 1; % 1 or 0 depending on wether siis are to be masked with the main mask or not.
+sii.roc_th = 0.3; % Peacks with AUC below roc_th2plotsii and above 1-roc_th2plotsii will be plotted. e.g.: use 0.3 to plot AUC<0.3 and AUC>0.7
+sii.ttest_th = 0.05; % Peaks with p values below ttest_th2plotsii will be plotted. e.g.: use 0.05 to plot p<0.05
 
-group0 = [ "G-APC-normal", "B-APC-normal", "D-APC-KRAS-normal", "A-APC-KRAS-normal", "C-APC-normal"];
-group0_name = "normal";
+sii.dataset_name = dataset_name; % Name of the dataset, which is the name given to the particular combination of small masks to plot.
+sii.extensive_filesToProcess = extensive_filesToProcess; % Extensive lists of files.
+sii.smaller_masks_list = smaller_masks_list; % Extensive list of small masks.
+sii.outputs_xy_pairs = outputs_xy_pairs; % Extensive lists of coordenates (one pair for each small mask).
 
-group1 = [ "G-APC-tumour", "B-APC-tumour", "D-APC-KRAS-tumour", "A-APC-KRAS-tumour", "C-APC-tumour" ];
-group1_name = "tumour";
-
-% % single imzml
-%
-% f_saving_roc_analysis( extensive_filesToProcess, main_mask_list, mask_on, group0, group0_name, group1, group1_name, norm_list, [], [], [] )
-
-% combined imzmls
-
-mask_on = 1; % 1 or 0 depending on either the sii are to be masked with the main mask or not.
-save_sii = 0;  % 1 or 0 depending on either the sii are to be saved.
-
-f_saving_roc_analysis( filesToProcess, main_mask_list, mask_on, save_sii, group0, group0_name, group1, group1_name, norm_list, dataset_name, smaller_masks_list, outputs_xy_pairs )
-
-%% T-test
-
-WT_group =          [ "SB1-2-WT","SB2-1-WT","SB2-2-WT" ];
-KRAS_group =        [ "SB1-2-KRAS","SB2-1-KRAS","SB2-2-KRAS", ];
-APC_group =         [ "SB1-2-APC","SB2-1-APC","SB2-2-APC" ];
-APC_KRAS_group =    [ "SB1-2-APC-KRAS","SB2-1-APC-KRAS","SB2-2-APC-KRAS" ];
-
-group0 = WT_group;
-group0_name = "small I WT";
-
-group1 = APC_KRAS_group;
-group1_name = "small I APC-KRAS";
-
-f_saving_t_tests( filesToProcess, main_mask_list, group0, group0_name, group1, group1_name, norm_list )
+f_univariate_analyses( filesToProcess, main_mask_list, groups, norm_list, univtests, sii )
 
 %% Plot 2D and 3D PCs plots
 
-% RGB codes for the colours of the masks defined in smaller_masks_list
+% Important note!!! This function needs to be updated because the MVA results are now a short array of
+% pixels (small masks only pixels). 07 Aug 2020 Teresa
 
 norm_list = [ "no norm", "pqn median", "zscore" ];
 
-mva_list = [ "pca" ]; % only runnng for pca at the moment
-numComponents_array = [ 16 ]; % needs to match the size of mva_list
+mva_list = "pca"; % only running for pca at the moment
+numComponents_array = 16; % needs to match the size of mva_list
 % component_x = ;
 % component_y = ;
 % component_z = ;
 
-% % small intestine neg desi
-%
-% smaller_masks_colours = [
-%     1 .8 0 % yellow - KRAS
-%     1 0.3 0.3 % red - APC
-%     .2 .2 .8 % blue - APC-KRAS
-%     0 0 0 % black - WT
-%     1 .8 0
-%     1 0.3 0.3
-%     .2 .2 .8
-%     1 .8 0
-%     .2 .2 .8
-%     0 0 0
-%     1 .8 0
-%     1 .3 .3
-%     .2 .2 .8
-%     ];
+% RGB codes for the colours of the masks defined in smaller_masks_list
 
 % small intestine neg desi
 
@@ -324,49 +285,54 @@ f_saving_pca_nmf_scatter_plots_ca( extensive_filesToProcess, mva_list, numCompon
 
 norm_list = "no norm";
 
-anova_masks = [ 
-    "apc-kras-vehicle-1", "apc-kras-vehicle-2", "apc-kras-vehicle-3", "apc-kras-vehicle-4",...
-    "apc-kras-2014-1", "apc-kras-2014-2", "apc-kras-2014-3",...
-    "apc-kras-6244-1", "apc-kras-6244-2",...
-    "apc-kras-6244-2014-1", "apc-kras-6244-2014-2", "apc-kras-6244-2014-3", "apc-kras-6244-2014-4"    
-    ];
+anova_masks = [ "t-1282-1", "t-1282-2", "t-1282-3", "t-1282-4", "t-1282-5", "t-1458-1", "t-1458-2", "t-1458-3", "t-1458-4", "t-1458-5" ]; % list of small masks (order needs effects!!!)
 
-anova_effect_1_name = '2014';
-anova_effect_1 = { 
-    'na'; 'na'; 'na'; 'na';
-    '2014'; '2014'; '2014';
-    'na'; 'na';
-    'na'; 'na'; 'na'; 'na'
-    };
+anova_effect_1_name = 'mutation';
+anova_effect_1 = { '1282'; '1282'; '1282'; '1282'; '1282'; '1458'; '1458'; '1458'; '1458'; '1458' }; % mutation
 
-anova_effect_2_name = '6244';
-anova_effect_2 = { 
-    'na'; 'na'; 'na'; 'na';
-    'na'; 'na'; 'na';
-    '6244'; '6244';
-    'na'; 'na'; 'na'; 'na'
-    };
+anova_effect_2_name = 'sessions (12345)';
+anova_effect_2 = { '1'; '2'; '3'; '4'; '5'; '1'; '2'; '3'; '4'; '5' }; % session
 
-anova_effect_3_name = '2014 and 6244';
-anova_effect_3 = { 
-    'na'; 'na'; 'na'; 'na';
-    'na'; 'na'; 'na';
-    'na'; 'na';
-    '2014 and 6244'; '2014 and 6244'; '2014 and 6244'; '2014 and 6244'
-    };
-
-anova_effects_names = { anova_effect_1_name, anova_effect_2_name, anova_effect_3_name };
-anova_effects = { anova_effect_1, anova_effect_2, anova_effect_3 };
+anova_effects_names = { anova_effect_1_name, anova_effect_2_name };
+anova_effects = { anova_effect_1, anova_effect_2 };
 
 f_saving_anova( filesToProcess, main_mask_list, norm_list, anova_masks, anova_effects_names, anova_effects ) % saving the anova results table
 
-%% Create a new set of meas mzs by filtering the ANOVA results
+%% Create a new set of meas m/z by filtering the ANOVA results, and run MVAs excluding this particular set of peaks
 
-column_name = "p value for 2014 and 6244 effect (mean)";
-equal_above_or_below = "above";
-threshold = 0.05;
-
-meas_mz_array = f_anova_based_meas_mz_array( filesToProcess, main_mask_list, norm_list, anova_effect_1_name, anova_effect_2_name, column_name, equal_above_or_below, threshold);
+for th = [ 0.45 0.5 0.55 ]
+    
+    % Meas m/z black list creation
+    
+    anova_results_path = 'X:\ICR Breast PDX\Data\ICL neg DESI\dpo\anova\tissue only\no norm\anova-mutation-sessions (12345).mat';
+    
+    column1 = "p value for sessions (12345) effect (mean)";
+    equal_above_or_below1 = "equal_below";
+    threshold1 = th;
+    
+    column2 = "p value for mutation effect (mean)";
+    equal_above_or_below2 = "above";
+    threshold2 = 1;
+    
+    mzvalues2discard = f_anova_based_meas_mz_array( filesToProcess, main_mask_list, norm_list, anova_results_path, column1, equal_above_or_below1, threshold1, column2, equal_above_or_below2, threshold2);
+    
+    disp(['# peaks removed: ', num2str(size(mzvalues2discard,1))])
+    
+    % MVAs
+    
+    mva_peak_list = "CRUK metabolites";
+    
+    f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_peak_list, string([]), mzvalues2discard ) % Running MVAs
+    
+    f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_peak_list, string([]), mzvalues2discard ) % Saving MVAs outputs
+    
+    mva_peak_list = string([]); % Top peaks
+    
+    f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_peak_list, string([]), mzvalues2discard ) % Running MVAs
+    
+    f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_peak_list, string([]), mzvalues2discard ) % Saving MVAs outputs
+    
+end
 
 %% Saving data for supervised classification in Python
 
