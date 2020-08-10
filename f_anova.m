@@ -151,10 +151,10 @@ for main_mask = main_mask_list
         
         file_name = 'anova';
         for wayi = 1:length(anova.labels)
-            file_name = [file_name, ['-', anova.labels{wayi}]];
+            file_name = [file_name, [' ', anova.labels{wayi}]];
         end
         
-        save([ file_name '.mat' ],'anova_analysis_table' )
+        save([ file_name '.mat' ], 'anova_analysis_table' )
         
         txt_row = strcat(repmat('%s\t',1,size(anova_analysis_table,2)-1),'%s\n');
         

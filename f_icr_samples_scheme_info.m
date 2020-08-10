@@ -28,7 +28,7 @@ switch dataset_name
             
             %
             
-            extensive_filesToProcess(1:10) = filesToProcess(1:10);
+            extensive_filesToProcess(1:10,1) = filesToProcess(1:10,1);
             smaller_masks_list = [
                 "t-1282-1";
                 "t-1458-1";
@@ -42,7 +42,7 @@ switch dataset_name
                 "t-1282-2";
                 ];
             
-            extensive_filesToProcess(11:14) = filesToProcess(11);
+            extensive_filesToProcess(11:14,1) = filesToProcess(11,1);
             smaller_masks_list = [
                 smaller_masks_list;
                 "pt-35-1-18";
@@ -51,7 +51,7 @@ switch dataset_name
                 "pt-35-1-33";
                 ];
             
-            extensive_filesToProcess(15:19) = filesToProcess(12);
+            extensive_filesToProcess(15:19,1) = filesToProcess(12,1);
             smaller_masks_list = [
                 smaller_masks_list;
                 "pt-35-2-25";
@@ -60,7 +60,7 @@ switch dataset_name
                 "pt-35-2-80";
                 "pt-35-2-81";
                 ];
-            extensive_filesToProcess(20:23) = filesToProcess(13);
+            extensive_filesToProcess(20:23,1) = filesToProcess(13,1);
             smaller_masks_list = [
                 smaller_masks_list;
                 "pt-35-3-12";
@@ -68,7 +68,7 @@ switch dataset_name
                 "pt-35-3-70";
                 "pt-35-3-78";
                 ];
-            extensive_filesToProcess(24:34) = filesToProcess(14);
+            extensive_filesToProcess(24:34,1) = filesToProcess(14,1);
             smaller_masks_list = [
                 smaller_masks_list;
                 "pt-35-e-4";

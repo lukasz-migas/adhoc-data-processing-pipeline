@@ -1,4 +1,4 @@
-function black_meas_mz = f_anova_based_meas_mz_array( filesToProcess, main_mask_list, norm_list, anova_results_path, column1, equal_above_or_below1, threshold1, column2, equal_above_or_below2, threshold2)
+function black_meas_mz = f_anova_based_unwanted_mzs( filesToProcess, main_mask_list, norm_list, criteria)
 
 filesToProcess = f_unique_extensive_filesToProcess(filesToProcess); % This function collects all files that need to have a common axis.
 
@@ -6,7 +6,6 @@ csv_inputs = [ filesToProcess(1).folder '\inputs_file' ];
 
 [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
 
-% spectra_details_path = [ char(outputs_path) '\spectra details\' ];
 anova_path = [ char(outputs_path) '\anova\' ]; if ~exist(anova_path, 'dir'); mkdir(anova_path); end
 
 for main_mask = main_mask_list

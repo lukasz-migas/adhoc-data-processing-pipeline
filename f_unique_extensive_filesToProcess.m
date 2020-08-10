@@ -1,7 +1,7 @@
 function filesToProcess = f_unique_extensive_filesToProcess(extensive_filesToProcess)
 
 string_files = string([]);
-for i = 1:size(extensive_filesToProcess,1)
+for i = 1:length(extensive_filesToProcess)
     string_files(i,1) = string(extensive_filesToProcess(i).name);
 end
 
