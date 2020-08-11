@@ -103,14 +103,7 @@ if univtests.roc || univtests.ttest
             sii_sample_info = [];
             
             for mzi = 1:size(data4stats,2)
-                
-                switch round(mzi/size(datacubeonly_peakDetails(:,2),1))
-                    case 0.25; disp('! 1/4')
-                    case 0.5; disp('! 2/4')
-                    case 0.75; disp('! 3/4')
-                    case 1; disp('! 4/4')
-                end
-                
+                                
                 table_moving_row = [];
                 
                 mean4ttest1 = NaN*ones(max(pixels_per_model(:)),length(groups.pairs));
