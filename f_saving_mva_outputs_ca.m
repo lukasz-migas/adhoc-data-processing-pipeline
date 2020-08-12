@@ -175,7 +175,7 @@ for main_mask = main_mask_list
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(length(mva_mzvalues_vector))) ' adhoc mz values\' ];
                 
                 if ~isempty(mzvalues2discard)
-                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                 end
                 
                 paths.mva_path = mva_path;
@@ -191,7 +191,7 @@ for main_mask = main_mask_list
                 mva_path = [ char(outputs_path) '\mva ' char(molecules_list) '\' ];
                 
                 if ~isempty(mzvalues2discard)
-                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                 end
                 
                 paths.mva_path = mva_path;
@@ -209,7 +209,7 @@ for main_mask = main_mask_list
                 mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks\' ];
                 
                 if ~isempty(mzvalues2discard)
-                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                 end
                 
                 paths.mva_path = mva_path;
@@ -225,7 +225,7 @@ for main_mask = main_mask_list
                 mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks\' ];
                 
                 if ~isempty(mzvalues2discard)
-                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                 end
                 
                 paths.mva_path = mva_path;
@@ -245,7 +245,7 @@ for main_mask = main_mask_list
                     mva_path = [ char(outputs_path) '\mva ' char(num2str(numPeaks4mva)) ' highest peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
                     
                     if ~isempty(mzvalues2discard)
-                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                     end
                     
                     paths.mva_path = mva_path;
@@ -261,7 +261,7 @@ for main_mask = main_mask_list
                     mva_path = [ char(outputs_path) '\mva percentile ' char(num2str(perc4mva)) ' peaks + ' char(num2str(amplratio4mva)) ' ampls ratio\' ];
                     
                     if ~isempty(mzvalues2discard)
-                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                     end
                     
                     paths.mva_path = mva_path;
@@ -293,7 +293,7 @@ for main_mask = main_mask_list
                         mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ];
                         
                         if ~isempty(mzvalues2discard)
-                            mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                            mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                         end
                         
                         paths.mva_path = mva_path;
@@ -313,7 +313,7 @@ for main_mask = main_mask_list
                     mva_path = [ char(outputs_path) '\mva ' char(classes_info{classi,1}) '\' ]; if ~exist(mva_path, 'dir'); mkdir(mva_path); end
                     
                     if ~isempty(mzvalues2discard)
-                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                     end
                     
                     paths.mva_path = mva_path;

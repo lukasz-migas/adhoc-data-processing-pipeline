@@ -149,7 +149,7 @@ for main_mask = main_mask_list
                 % Remove a particular list of meas mz
                 
                 if ~isempty(mzvalues2discard)
-                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                     datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                 end
                 
@@ -179,7 +179,7 @@ for main_mask = main_mask_list
                 % Remove a particular list of meas mz
                 
                 if ~isempty(mzvalues2discard)
-                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                     datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                 end
                 
@@ -213,7 +213,7 @@ for main_mask = main_mask_list
                 % Remove a particular list of meas mz
                 
                 if ~isempty(mzvalues2discard)
-                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                     datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                 end
                 
@@ -245,7 +245,7 @@ for main_mask = main_mask_list
                 % Remove a particular list of meas mz
                 
                 if ~isempty(mzvalues2discard)
-                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                    mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                     datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                 end
                 
@@ -281,7 +281,7 @@ for main_mask = main_mask_list
                     % Remove a particular list of meas mz
                     
                     if ~isempty(mzvalues2discard)
-                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                         datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                     end
                     
@@ -313,7 +313,7 @@ for main_mask = main_mask_list
                     % Remove a particular list of meas mz
                     
                     if ~isempty(mzvalues2discard)
-                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                         datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                     end
                     
@@ -356,7 +356,7 @@ for main_mask = main_mask_list
                         % Remove a particular list of meas mz
                         
                         if ~isempty(mzvalues2discard)
-                            mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                            mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                             datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                         end
                         
@@ -392,7 +392,7 @@ for main_mask = main_mask_list
                     % Remove a particular list of meas mz
                     
                     if ~isempty(mzvalues2discard)
-                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
+                        mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' peaks discarded)\' ];
                         datacube_mzvalues_indexes = f_black_peaks_list_removal( mzvalues2discard, datacubeonly_peakDetails, datacube_mzvalues_indexes );
                     end
                     
