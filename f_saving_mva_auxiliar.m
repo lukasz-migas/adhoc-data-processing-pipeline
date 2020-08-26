@@ -31,6 +31,14 @@ if sum(datacube_mzvalues_indexes) > 0
             numComponentsSaved = size(firstCoeffs,2);
             o_numComponents = numComponents;
             
+        case 'rica'
+            
+            load('z')
+            load('model')
+            
+            numComponentsSaved = size(z,2);
+            o_numComponents = numComponents;
+            
         case 'nnmf'
             
             load('W')
@@ -186,6 +194,23 @@ if sum(datacube_mzvalues_indexes) > 0
                     
                     outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\pc ' num2str(componenti) '\top loadings images\']; mkdir(outputs_path)
                     
+                case 'rica'
+                    
+                    mkdir([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\ic ' num2str(componenti) '\'])
+                    cd([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\ic ' num2str(componenti) '\'])
+                    
+                    image_component = reshape(z(:,componenti),datacube.width,datacube.height)';
+                    
+                    spectral_component = model.TransformWeights(:,componenti);
+                    
+                    imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
+                    
+                    cmap = makePCAcolormap_tm('DarkRose-LightRose-White-LightGreen-DarkGreen'); scaleColorMap(cmap, 0);
+                    
+                    title({['ic ' num2str(componenti) ]})
+                    
+                    outputs_path = [ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\ic ' num2str(componenti) '\top loadings images\']; mkdir(outputs_path)
+                    
                 case 'nnmf'
                     
                     mkdir([ mva_path file_name '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\factor ' num2str(componenti) '\'])
@@ -285,6 +310,13 @@ if sum(datacube_mzvalues_indexes) > 0
                     
                     figname_char = [ 'pc ' num2str(componenti) ' scores and loadings.fig'];
                     tifname_char = [ 'pc ' num2str(componenti) ' scores and loadings.tif'];
+                    
+                case 'rica'
+                    
+                    title({['IC ' num2str(componenti) ' weights' ]})
+                    
+                    figname_char = [ 'ic ' num2str(componenti) ' transformation and weights.fig'];
+                    tifname_char = [ 'ic ' num2str(componenti) ' transformation and weights.tif'];
                     
                 case 'nnmf'
                     

@@ -239,8 +239,19 @@ for i = 1:length(inputs_info_reshaped)
                 mva_list = [ mva_list, "pca" ];
                 numComponents_array = [ numComponents_array, aux_vector ];
                 numLoadings_array = [ numLoadings_array, repmat(10,1,size(aux_vector,2)) ];
-                if isnan(double(inputs_info_reshaped(i+4)))
+                if isnan(aux_vector)
                     disp("Undefined number of componenets to save for PCA!")
+                    break
+                end
+            end
+        case "Reconstruction Independent Component Analysis (RICA)"
+             if strcmpi(inputs_info_reshaped(i+2),"yes")
+                aux_vector = str2num(char(inputs_info_reshaped(i+4)));
+                mva_list = repmat("rica",1,size(aux_vector,2));
+                numComponents_array = [ numComponents_array, aux_vector ];
+                numLoadings_array = [ numLoadings_array, repmat(10,1,size(aux_vector,2)) ];
+                if isnan(aux_vector)
+                    disp("Undefined number of componenets to save for RICA!")
                     break
                 end
             end

@@ -329,31 +329,41 @@ f_anova( filesToProcess, main_mask_list, norm_list, anova ) % saving the anova r
 
 %% Create a new set of meas m/zs to discard by filtering the ANOVA results
 
-criteria.file = "anova day block vehicle 2014 8186 6244";
-criteria.column = { "p value for day effect (mean)", "p value for block effect (mean)" }; % select from the anova results file
-criteria.ths_type = { "below", "below" }; % "equal_below", "below", "equal_above", "above"
-criteria.ths_value = { 0.05, 0.05 };  % between 0 and 1
-criteria.combination = "or"; % "and", "or"
+norm_list = [ "RMS", "no norm" ];
 
-mzvalues2discard = f_anova_based_unwanted_mzs( filesToProcess, main_mask_list, norm_list, criteria);
-
-%% Run MVAs after discarding the m/zs selected above
-
-disp(['# peaks discarded: ', num2str(size(mzvalues2discard,1))])
+for norm = norm_list
     
-% MVAs
-
-mva_peak_list = "Amino Acids";
-
-f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_peak_list, string([]), mzvalues2discard ) % Running MVAs
-
-f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_peak_list, string([]), mzvalues2discard ) % Saving MVAs outputs
-
-mva_peak_list = string([]); % Top peaks
-
-f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_peak_list, string([]), mzvalues2discard ) % Running MVAs
-
-f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_peak_list, string([]), mzvalues2discard ) % Saving MVAs outputs
+    for th = [ 0.01, 0.05 ]
+        
+        criteria.file = "anova day block vehicle 2014 8186 6244";
+        criteria.column = { "p value for day effect (mean)" }; % select from the anova results file
+        criteria.ths_type = { "equal_below" }; % "equal_below", "below", "equal_above", "above"
+        criteria.ths_value = { th };  % between 0 and 1
+        criteria.combination = "or"; % "and", "or"
+        
+        mzvalues2discard = f_anova_based_unwanted_mzs( filesToProcess, main_mask_list, norm, criteria); % Values to discard are norm specific
+        
+        %%% Run MVAs after discarding the m/zs selected above
+        
+        disp(['# peaks discarded: ', num2str(size(mzvalues2discard,1))])
+        
+        % MVAs
+        
+        % mva_peak_list = "Amino Acids";
+        %
+        % f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm_list, mva_peak_list, string([]), mzvalues2discard ) % Running MVAs
+        %
+        % f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm_list, mva_peak_list, string([]), mzvalues2discard ) % Saving MVAs outputs
+        
+        mva_peak_list = string([]); % Top peaks
+        
+        f_running_mva_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, dataset_name, norm, mva_peak_list, string([]), mzvalues2discard ) % Running MVAs
+        
+        f_saving_mva_outputs_ca( extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs, dataset_name, norm, mva_peak_list, string([]), mzvalues2discard ) % Saving MVAs outputs
+        
+    end
+    
+end
 
 %% Plot 2D and 3D PCs plots
 

@@ -45,6 +45,32 @@ if sum(datacube_mzvalues_indexes) >= 3
             save('W','W','-v7.3')
             save('H','H','-v7.3')
             
+        case 'rica'
+            
+            rng default % for reproducibility
+            
+            % data - matrix with the dimentions number of pixels (rows) by number of masses (columns)
+            % q - the number os features
+            % 'Lambda' — Regularization coefficient value (1 (default) | positive numeric scalar)
+            % 'Standardize' — Flag to standardize predictor data (false (default) | true)
+            % 'ContrastFcn' — Contrast function ('logcosh' (default) | 'exp' | 'sqrt')
+            % 'InitialTransformWeights' — Transformation weights that initialize
+            % optimization (randn(p,q) (default) | numeric matrix)
+            
+            q = numComponents;
+            p = size(data4mva,2);
+            
+            InitialTransformWeights = randn(p,q); % would fix this for different runs
+            
+            model = rica(data4mva,q,'VerbosityLevel',1,'Lambda',1,'Standardize',true,'ContrastFcn','logcosh', 'InitialTransformWeights', InitialTransformWeights);
+            
+            z0 = transform(model,data4mva); % transforms the data into the features z via the model
+            
+            z = zeros(length(mask4mva),min(numComponents,size(z0,2))); z(mask4mva,:) = z0(:,1:min(numComponents,size(z0,2)));
+                       
+            save('z','z','-v7.3')
+            save('model','model','-v7.3')
+            
         case 'kmeans'
             
             [ idx0, C, optimal_numComponents ] = f_kmeans( data4mva, numComponents, 'cosine' );
