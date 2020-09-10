@@ -146,7 +146,7 @@ for main_mask = main_mask_list
         
         txt_row = strcat(repmat('%s\t',1,size(table,2)-1),'%s\n');
         
-        fileID = fopen('ion_intensities_table.txt','w');
+        fileID = fopen('ion intensities table.txt','w');
         fprintf(fileID,txt_row, table');
         fclose(fileID);
         

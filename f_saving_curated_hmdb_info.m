@@ -30,7 +30,9 @@ for endi = log_diff
     
     long_string0 = unique(hmdb_sample_info2(starti:endi,1),'stable');
     long_string = reshape([long_string0 repmat(", ",size(long_string0,1),1)]',1,[]);
-    new_hmdb_sample_info(i,1) = strjoin(long_string(1:end-1)); 
+    long_string = char(strjoin(long_string(1:end-1)));
+    long_string = long_string(1,1:min(size(long_string,2),32767)); % to avoid the excel cell breaking issue
+    new_hmdb_sample_info(i,1) = string(long_string); 
     
     % monoiso mz
             
