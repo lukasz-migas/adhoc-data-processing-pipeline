@@ -2,7 +2,7 @@ function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs
 
 switch dataset_name
     
-    case "PI3K SI DESI Negative 4 feature selection work PI3K SI DESI Negative epithelium only"
+    case "PI3K SI DESI Negative epithelium only"
         
         if background == 1
             
