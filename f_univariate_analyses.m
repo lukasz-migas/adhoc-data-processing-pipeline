@@ -198,8 +198,8 @@ if univtests.roc || univtests.ttest
                     
                     indexes2add = (abs(datacubeonly_peakDetails(mzi,2)-double(extended_hmdb_sample_info(:,4))) < 1e-10);
                     
-                    if (sii.plot == 1) && ( (AUC<=sii.roc_th) || (AUC>=(1-sii.roc_th)) || (min_p<=sii.ttest_th) )
-                        
+                    if (sii.plot == 1) && ( ( (abs(AUC-0.5)+0.5)>=(1-sii.roc_th) ) || ( min_p<=sii.ttest_th ) )
+                                                
                         if sum(indexes2add) >= 1
                             
                             sii_sample_info = [ sii_sample_info; [ extended_hmdb_sample_info(find(indexes2add,1),:)]]; % just one sii per peak
@@ -218,7 +218,7 @@ if univtests.roc || univtests.ttest
                     end
                     
                 end
-                
+                                
                 % Adding peak assigments information
                 
                 if mzi == 1
@@ -272,10 +272,12 @@ if univtests.roc || univtests.ttest
             cd([ results_path char(main_mask) '\' char(norm_type) ])
             
             save(strjoin([ groups.name, '.mat' ],''),'table' )
+           
+            table(ismissing(table)) = "NaN";
             
             txt_row = strcat(repmat('%s\t',1,size(table,2)-1),'%s\n');
             
-            fileID = fopen(strjoin([ groups.name, '.txt' ],''), 'w');
+            fileID = fopen([ char(groups.name), '.txt' ], 'w');
             fprintf(fileID,txt_row, table');
             fclose(fileID);
             
@@ -284,10 +286,7 @@ if univtests.roc || univtests.ttest
             % Saving siis
             
             if size(sii_sample_info,1)>1
-                
-                [~, images2plot] = unique(sii_sample_info(:,4));
-                sii_sample_info(~images2plot,:) = [];
-                
+                                
                 disp(['! Saving ' num2str(size(sii_sample_info,1)) ' single ion images...'])
                 
                 if isempty(sii.dataset_name)
