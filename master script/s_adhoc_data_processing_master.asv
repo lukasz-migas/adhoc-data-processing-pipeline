@@ -1,4 +1,4 @@
-% Script originally written and currently maintained by Teresa Murta.
+% Script written and continuously maintained by Teresa Murta (currently maintained by her.
 
 % This script contains a modular mass spectrometry data analysis pipeline, and it can be used to perform the following steps:
 % 1	DESI, MALSI, SIMS or REIMS data pre-processing (using SpectralAnalysis functions)
@@ -45,8 +45,8 @@
 
 % SpectralAnalysis git repository can be dowloaded / cloned from https://github.com/AlanRace/SpectralAnalysis
 % adhoc-data-processing-pipeline git repository can be dowloaded / cloned from https://github.com/NICE-MSI/adhoc-data-processing-pipeline"
-sa_path = '...'; % path to SpectralAnalysis folder
-sdpp_path = '...'; % path to adhoc-data-processing-pipeline
+sa_path = 'path1'; % path to SpectralAnalysis folder
+sdpp_path = 'path2'; % path to adhoc-data-processing-pipeline
 
 addpath(genpath(sa_path)) 
 addpath(genpath(sdpp_path))
@@ -56,18 +56,18 @@ addpath(genpath(sdpp_path))
 % Please list the paths to all folders containing data.
 
 data_folders = { ...
-    '...',...
-    '...',...
+    'path1',...
+    'path2',...
     };
 
 % Please list the strings that matches the names of the files to be analised. Each row should match each folder specified above. If all files need to be analised, please use '*'.
 
 dataset_name_portion = { 
-    '...',...
-    '...',...
+    'string1',...
+    'string2',...
     };
 
-% ! Please don't modify the code from here till end of this cell.
+% 
 
 filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion{i} '.imzML']) ]; end % Files and adducts information gathering
 
@@ -97,8 +97,7 @@ preprocessing_file = '... .sap';
 
 %% Data Pre-Processing (for each dataset individually)
 
-% Please specify the name of the mask that should be used to run all the
-% processing. This is also called the "main mask".
+% Please specify the "" mask
 
 mask = "no mask"; % if mask = "no mask", all pixels will be processed
 
@@ -107,7 +106,7 @@ mask = "no mask"; % if mask = "no mask", all pixels will be processed
 
 norm_list = "no norm";
 
-% ! Please don't modify the code from here till end of this cell.
+%
 
 % Pre-processing data and saving total spectra
 
@@ -131,8 +130,7 @@ f_saving_datacube_peaks_details( filesToProcess, mask )
 
 f_saving_data_cube( filesToProcess, mask )
 
-% Data normalisation (saving a normalised version of the data (required to 
-% plot normalised single ion images or run MVAs with normalised data)
+% Data normalisation (saving a normalised version of the data which is required to later plot normalised SIIs or run MVAs with normalised data)
 
 f_saving_normalised_data( filesToProcess, mask, norm_list )
 
