@@ -57,14 +57,17 @@ for file_index = 1:length(filesToProcess)
             
             outputs_path = [ sii_path filesToProcess(file_index).name(1,1:end-6) '\' char(main_mask) '\' char(norm_type) '\' ]; mkdir(outputs_path)
             
-            norm_sii = f_norm_datacube( datacube, norm_type );
-            norm_sii = norm_sii(:,datacube_indexes);
+            % Loading normalised data
+            
+            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep char(norm_type) filesep 'data'])
+            
+            data_sii = data(:,datacube_indexes);
             
             if mask_on
-                norm_sii(~mask,:) = NaN;
+                data_sii(~mask,:) = NaN;
             end
             
-            f_saving_sii_files( outputs_path, sample_info, sample_info_indexes, norm_sii, image_width, image_height, peak_details, pixels_num, totalSpectrum_intensities, totalSpectrum_mzvalues, fig_ppmTolerance, 0 )
+            f_saving_sii_files( outputs_path, sample_info, sample_info_indexes, data_sii, image_width, image_height, peak_details, pixels_num, totalSpectrum_intensities, totalSpectrum_mzvalues, fig_ppmTolerance, 0 )
             
         end
         

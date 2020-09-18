@@ -74,12 +74,12 @@ for main_mask = main_mask_list
         
         for norm_type = norm_list
             
-            % Data normalisation and compilation
+            % Loading normalised data
             
-            norm_data = f_norm_datacube( datacube, norm_type );
+            load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep char(norm_type) filesep 'data'])
             
             if mask_on == 1
-                norm_data(~mask,:) = NaN;
+                data(~mask,:) = NaN;
             end
             
             %
@@ -103,7 +103,7 @@ for main_mask = main_mask_list
                         mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
                     end
                     
-                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
+                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
                     
                     
                 end
@@ -118,7 +118,7 @@ for main_mask = main_mask_list
                         mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
                     end
                     
-                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
+                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
                     
                 end
                 
@@ -134,7 +134,7 @@ for main_mask = main_mask_list
                         mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
                     end
                     
-                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
+                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num,  fig_ppmTolerance)
                     
                 end
                 
@@ -148,7 +148,7 @@ for main_mask = main_mask_list
                         mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
                     end
                     
-                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
+                    f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
                     
                 end
                 
@@ -166,7 +166,7 @@ for main_mask = main_mask_list
                             mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
                         end
                         
-                        f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
+                        f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
                         
                     end
                     
@@ -180,7 +180,7 @@ for main_mask = main_mask_list
                             mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
                         end
                         
-                        f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
+                        f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
                         
                     end
                     
@@ -214,7 +214,7 @@ for main_mask = main_mask_list
                                 mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
                             end
                             
-                            f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
+                            f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
                             
                         end
                         
@@ -232,7 +232,7 @@ for main_mask = main_mask_list
                             mva_path = [ mva_path(1:end-1)  ' (' num2str(length(mzvalues2discard)) ' black peaks removed)\' ];
                         end
                         
-                        f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, norm_data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
+                        f_saving_mva_auxiliar( filesToProcess(file_index).name(1,1:end-6), main_mask, mva_type, mva_path, norm_type, data, numComponents, numLoadings, datacube, datacubeonly_peakDetails, hmdb_sample_info, totalSpectrum_intensities, totalSpectrum_mzvalues, pixels_num, fig_ppmTolerance)
                         
                     end
                     
