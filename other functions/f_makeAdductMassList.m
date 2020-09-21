@@ -1,5 +1,14 @@
 function [ adductMasses ] = f_makeAdductMassList( adducts, databaseMasses, polarity)
 
+% This function calculates theoretical masses for all adducts listed in
+% "adducts", monoisotopic masses specified in "databaseMasses", and
+% polarity specified in "polarity".
+%
+% Inputs:
+% adducts - list of strings of the shape -H, Cl for example
+% databaseMasses - array of monoisopic masses
+% polarity - chars 'positive' or 'negative'
+
 adductMasses = zeros(size(databaseMasses,1), length(adducts));
 for i = 1:length(adducts)
     [isotopes] = f_stringToFormula(adducts{i});

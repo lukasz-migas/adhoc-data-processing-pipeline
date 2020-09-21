@@ -1,6 +1,19 @@
 function datacubeonly_peakDetails = f_peakdetails4datacube( sample_info, amplratio4mva_array, numPeaks4mva_array, perc4mva_array, molecules_classes_specification_path, hmdb_sample_info, peakDetails, totalSpectrum_mzvalues, totalSpectrum_intensities )
 
-% Select the mz values of the molecules that belong to the relevant lists (within a given ppm error).
+% This function searches for all peaks of interest i.e. that will be
+% required in any of the following steps of the data processing (e.g. 
+% univariate or multivariate analyses, plotting of single ion images).
+% In particular, this functions goes through all the available criteria for
+% peak selection:
+% - beloging to one of the lists of molecules of interest
+% - top peaks in the total spectrum
+% -- top N peaks
+% -- top peaks whose intensities are part of X percentile
+% - beloging to a kingdom, superclass, class or subclass of molecules
+
+%
+
+% Select the mz values of the molecules that belonging to the relevant lists (within a given ppm error).
 
 mzvalues2keep1 = double(unique(sample_info(:,4)));
 
@@ -29,7 +42,6 @@ else
 end
 
 % Select the mz values of peaks that survive the 'amplitude test' - Teresa Jan 2019.
-
 
 if ~isempty(amplratio4mva_array)
     
@@ -103,7 +115,7 @@ else
 
 end
 
-% ! % PeakDetails indexes
+% ! % Find PeakDetails indexes
 
 mzvalues2keep = unique([mzvalues2keep1;mzvalues2keep2;mzvalues2keep3;mzvalues2keep4;mzvalues2keep5;mzvalues2keep6]);
 

@@ -1,8 +1,9 @@
 function [ formula ] = f_stringToFormula( formulaString )
-%stringToFormula converts chemical formula string into structure suitable
-%for isotopicdist function
-%   placing - or + at the beginning signifies loss or addition, no symbol
-%   is assumed as addition
+
+% This function converts a chemical formula string into a structure suitable
+% for the isotopicdist function.
+% Note: Placing - or + at the beginning of the string signifies loss or 
+% addition; no symbol signifies addition.
 
 asciiString = double(formulaString);
 element = [];

@@ -117,22 +117,21 @@ f_saving_spectra_details( filesToProcess, preprocessing_file, mask )
 
 f_saving_peaks_details( filesToProcess, mask )
 
-% Peak Assignments (lists of relevant molecules & HMDB)
+% Peak assignments (HMDB & lists of relevant molecules)
 
 f_saving_hmdb_assignments( filesToProcess, mask )
 
 f_saving_relevant_lists_assignments( filesToProcess, mask )
 
-% Saving mz values that have to be included in each datacube
+% Save peaks that have to be included in each datacube
 
 f_saving_datacube_peaks_details( filesToProcess, mask )
 
-% Data cube (creation and saving)
+% Create and save datacubes
 
 f_saving_data_cube( filesToProcess, mask )
 
-% Data normalisation (saving a normalised version of the data (required to 
-% plot normalised single ion images or run MVAs with normalised data)
+% Normalise data and save normalised data matrices
 
 f_saving_normalised_data( filesToProcess, mask, norm_list )
 
@@ -182,11 +181,36 @@ f_mask_creation( filesToProcess(file_index), input_mask, [], mva_type, mva_refer
 
 %% Grouping datasets to be processed together (using a common m/z axis)
 
-% Step 1 - Please update the f_X_samples_scheme_info function.
+% Have you used this script to analyse data from the study you are working on?
+% 
+% If no:
+% - copy and paste the file f_Beatson_samples_scheme_info.m into the same
+% folder (adhoc-data-processing-pipeline);
+% - change the name of the copy to f_{StudyName}_samples_scheme_info;
+% - update the content of the file just saved by replacing the 
+% relevant paths and folder names (these will be specific to your study);
+% 
+% If yes:
+% - check if the file f_{StudyName}_samples_scheme_info has the particular 
+% case / compiled dataset you wish to work on;
+% -- if yes, just change the variable dataset_name below to match the case;
+% -- if no, create a new case;
 
-% Step 2 - Please run this cell.
+% Specify the name of the dataset you want to work on (this will be a
+% spefific combination of the data that is defined in f_{StudyName}_samples_scheme_info).
 
-dataset_name = "icl neg desi 1458 and 1282 pdx only"; background = 0; check_datacubes_size = 1;
+dataset_name = "icl neg desi 1458 and 1282 pdx only";
+
+% Would you like to keep the background in? (this will use the "no mask" as
+% the main mask for the study) 
+
+background = 0; % 0 for no, 1 for yes
+
+% Would you like to check if all the required datacubes are in the same m/z axis?
+
+check_datacubes_size = 1; % 0 for no, 1 for yes
+
+% ! Please don't modify the code from here till end of this cell.
 
 [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = ...
     f_icr_samples_scheme_info( dataset_name, background, check_datacubes_size ); 

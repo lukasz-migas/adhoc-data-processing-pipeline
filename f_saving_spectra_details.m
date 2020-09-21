@@ -1,30 +1,30 @@
-% * This function performs:*
-% - data pre-processing
-% - total spectrum computation
+
+function f_saving_spectra_details( filesToProcess, preprocessing_file, mask_list)
+
+% This function performs data pre-processing and computes the total spectrum.
 %
-% *Inputs:*
-% filesToProcess - Matlab structure created by the function “dir” which 
-% contains the list of files to process and their locations (paths)
+% Inputs:
+% filesToProcess - Matlab structure created by matlab function dir, 
+% containing the list of files to process and their locations / paths
 % preprocessing_file - SpectralAnalysis pre-processing file
-% mask - Name of the mask to be used to reduce the data to a particular 
-% group of pixels of interest. This name can  be either “no mask”, in which
-% case all pixels of the imzml file are used, or a name of a folder saved 
-% in a folder called “rois” which is part of the folders created by the 
-% pipeline
+% mask_list - array with names of masks to be used (sequentially) to reduce 
+% data to a particular group of pixels
+%
+% Note: 
+% The masks in mask_list can be “no mask” (all pixels of the imzml file are
+% used), or names of folders saved in the outputs folder “rois” (created as
+% part of the pipeline)
 % 
-% *Outputs:*
+% Outputs:
 % totalSpectrum_intensities - total spectrum counts (per imzml and mask)
 % totalSpectrum_mzvalues - total spectrum mass channels (per imzml and mask)
 % pixels_num - number of pixels of interest (per imzml and mask)
 
-function f_saving_spectra_details( filesToProcess, preprocessing_file, mask_list)
-
 for file_index = 1:length(filesToProcess)
-
-    csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
     
     % Read outputs path from "inputs_file.xlsx"
 
+    csv_inputs = [ filesToProcess(file_index).folder '\inputs_file' ];
     [ ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, outputs_path ] = f_reading_inputs(csv_inputs);
     
     % Define rois and spectral details paths
@@ -55,7 +55,7 @@ for file_index = 1:length(filesToProcess)
         spectrumGeneration = TotalSpectrum();
         spectrumGeneration.setPreprocessingWorkflow(preprocessing); % setting preprocessing workflow
         
-        % Data reduction based on the pixels of interest
+        % Data reduction based on pixels of interest (defined as a binary mask)
         
         data = DataOnDisk(parser);
         
