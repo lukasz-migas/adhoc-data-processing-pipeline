@@ -23,7 +23,7 @@ function f_saving_mva_outputs( filesToProcess, main_mask_list, mask_on, norm_lis
 % data.mat - Matlab matrix with normalised data (dimentions: pixels (rows) 
 % by mass channels (columns)) 
 
-if nargin < 5; mva_mzvalues_vector = []; mva_classes_list0 = []; mzvalues2discard = []; end
+if nargin < 5; mva_molecules_list0 = []; mva_classes_list0 = []; mzvalues2discard = []; end
 if nargin < 6; mva_classes_list0 = []; mzvalues2discard = []; end
 if nargin < 7; mzvalues2discard = []; end
 

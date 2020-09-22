@@ -48,7 +48,7 @@ function f_running_mva( filesToProcess, main_mask_list, norm_list, mva_molecules
 % See the help of each function for details on its outputs. With the
 % exception of nntsne, Matlab functions are called.
          
-if nargin < 4; mva_mzvalues_vector = []; mva_classes_list0 = []; mzvalues2discard = []; end
+if nargin < 4; mva_molecules_list0 = []; mva_classes_list0 = []; mzvalues2discard = []; end
 if nargin < 5; mva_classes_list0 = []; mzvalues2discard = []; end
 if nargin < 6; mzvalues2discard = []; end
 
@@ -127,7 +127,7 @@ for main_mask = main_mask_list
                 load([ rois_path filesToProcess(file_index).name(1,1:end-6) filesep char(main_mask) filesep 'roi'])
                 mask = reshape(roi.pixelSelection',[],1);
             else
-                mask = true(ones(size(data,1),1));
+                mask = true(size(data,1),1);
             end
             
             % Run multivariate analyses using different criteria for peak selection
