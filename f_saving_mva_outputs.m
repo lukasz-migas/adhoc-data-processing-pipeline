@@ -1,6 +1,31 @@
 function f_saving_mva_outputs( filesToProcess, main_mask_list, mask_on, norm_list, mva_molecules_list0, mva_classes_list0, mzvalues2discard )
 
-if nargin <= 6; mzvalues2discard = []; end
+% This function runs the multivariate analysis specified in , and
+% saves a data matrix that will be required at any further down the line 
+% step using normalised data (e.g. univariate or multivariate analyses, 
+% plotting of single ion images).
+% 
+% Inputs:
+% filesToProcess - Matlab structure created by matlab function dir, 
+% containing the list of files to process and their locations / paths
+% mask_list - array with names of masks to be used (sequentially) to reduce 
+% data to a particular group of pixels
+% norm_list - list of strings specifying the normalisations of interest,
+% which can be one or more of the following options: "no norm", "tic", "RMS", 
+% "pqn mean", "pqn median", "zscore"
+%
+% Note: 
+% The masks in mask_list can be “no mask” (all pixels of the imzml file are
+% used), or names of folders saved in the outputs folder “rois” (created as
+% part of the pipeline)
+% 
+% Outputs:
+% data.mat - Matlab matrix with normalised data (dimentions: pixels (rows) 
+% by mass channels (columns)) 
+
+if nargin < 5; mva_mzvalues_vector = []; mva_classes_list0 = []; mzvalues2discard = []; end
+if nargin < 6; mva_classes_list0 = []; mzvalues2discard = []; end
+if nargin < 7; mzvalues2discard = []; end
 
 for main_mask = main_mask_list
     

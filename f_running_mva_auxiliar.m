@@ -1,6 +1,30 @@
 function f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, norm_type, data4mva, mask4mva, numComponents, datacube_mzvalues_indexes )
 
-% Creating a new folder
+% This function runs the multivariate analysis - mva_type - on the curated data - data4mva.
+%
+% Inputs:
+% mva_type - string specifying which MVA to run
+% mva_path - path to where the MVA results will be saved
+% dataset_name - name of the dataset
+% main_mask - main mask used
+% norm_type - normalisation used
+% data4mva - curated data
+% mask4mva - mask (pixels) used to obtain curated data
+% numComponents - number of components to save
+% datacube_mzvalues_indexes - indicies of the peaks selected to be used in
+% the MVA in the datacube
+%
+% Outputs:
+% pca - firstCoeffs, firstScores, explainedVariance
+% nnmf - W, H
+% ica - z, model
+% kmeans - idx, C, optimal_numComponents
+% tsne - rgbData, idx, cmap, loss, tsne_parameters
+% nntsne - rgbData, idx, cmap, outputSpectralContriubtion  
+% See the help of each function for details on its outputs. With the
+% exception of nntsne, Matlab functions are called.
+
+% Create a folder to save the outputs of the MVA
 
 if ~isnan(numComponents)
     
@@ -14,9 +38,11 @@ else
     
 end
 
+% Save the indicies of peaks selected to be used in the MVA in the datacube
+
 save('datacube_mzvalues_indexes','datacube_mzvalues_indexes','-v7.3')
 
-if sum(datacube_mzvalues_indexes) >= 3
+if sum(datacube_mzvalues_indexes) >= 3 % if there are more then 3 peaks in the curated data
     
     % Running MVA
     
@@ -116,6 +142,6 @@ if sum(datacube_mzvalues_indexes) >= 3
     
 else
     
-    disp('!!! There are less than 3 mz values of interest. MVA will not run.')
+    disp('!!! There are less than 3 mz values of interest. MVA did not run.')
     
 end

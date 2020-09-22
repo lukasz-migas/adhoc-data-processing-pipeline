@@ -69,7 +69,7 @@ dataset_name_portion = {
 
 % ! Please don't modify the code from here till end of this cell.
 
-filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} filesep dataset_name_portion{i} '.imzML']) ]; end % Files and adducts information gathering
+filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name_portion{i} '.imzML']) ]; end % Files and adducts information gathering
 
 %% Creating a new inputs_file.xlsx
 
@@ -135,18 +135,27 @@ f_saving_datacube( filesToProcess, mask )
 
 f_saving_normalised_data( filesToProcess, mask, norm_list )
 
-%% Multivariate Analysis (for each imzML individually) (MVAs)
+%% Multivariate Analysis (for each imzML individually)
 
-% Please make sure you specify which multivariate analysis to run in 
-% "inputs_file.xlsx".
+% Would you like to mask the mva's drivers images with the mask?
+
+mask_on = 0; % 1 for yes, 0 for no
+
+% Which normalisation would you like to consider?
+% Make sure that you f_saving_normalised_data has been run for the normalisations specified below. 
+
+norm_list = [ "no norm", "pqn median" ]; % Please list the normalisations. For a list of those available, check the function called "f_norm_datacube".
+
+% Please make sure you specify the Multivariate Analysis you would intend
+% to run in "inputs_file.xlsx". 
 
 % ! Please don't modify the code from here till end of this cell.
 
-f_running_mva( filesToProcess, mask, norm_list ) % running MVAs with the top N peaks (N is specified in "inputs_file.xlsx")
+f_running_mva( filesToProcess, mask, norm_list, string([]), string([]) ) % running MVAs
 
-f_saving_mva_outputs( filesToProcess, mask, 0, norm_list ); % saving outputs of MVAs ran with top N peaks (N is specified in "inputs_file.xlsx")
+f_saving_mva_outputs( filesToProcess, mask, mask_on, norm_list, string([]), string([]) ); % saving MVAs outputs
 
-%% Saving single ion images (SIIs)
+%% Saving single ion images
 
 mask_on = 0; % 1 or 0 depending on either the sii are to be masked with the main mask or not.
 sii_peak_list = "all"; % "all" (to save all lists); an array of lists; an array of hmdb classes or subclasses; an array of m/z values (less then 1e-10 apart from those saved in the datacube).

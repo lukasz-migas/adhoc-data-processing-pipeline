@@ -22,7 +22,6 @@ function f_saving_datacube_peaks_details( filesToProcess, mask_list )
 % and end of each relevant peak (in m/z), as well as its intenisty in the 
 % total spectrum
 
-
 for file_index = 1:length(filesToProcess)
     
     for mask_type = mask_list
@@ -45,8 +44,7 @@ for file_index = 1:length(filesToProcess)
         % Load peak details
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\peakDetails.mat' ])
-        
-        
+                
         % Load total spectrum information
         
         load([ spectra_details_path filesToProcess(file_index).name(1,1:end-6) '\' char(mask_type) '\totalSpectrum_intensities.mat' ])

@@ -39,7 +39,7 @@ for c=1:ToTest %for each sample
         [~,~,dist]=kmeans(X,c,'emptyaction','drop');
         tmp=min(sum(dist),tmp);
     end
-    D(c,1)=tmp; %collect the best so far in the results vecor
+    D(c,1)=tmp; %collect the best so far in the results vector
 end
 
 Var=D(1:end-1)-D(2:end); %calculate %variance explained

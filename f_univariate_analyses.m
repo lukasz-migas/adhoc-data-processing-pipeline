@@ -199,6 +199,8 @@ if univtests.roc || univtests.ttest
                     indexes2add = (abs(datacubeonly_peakDetails(mzi,2)-double(extended_hmdb_sample_info(:,4))) < 1e-10);
                     
                     if (sii.plot == 1) && ( ( (abs(AUC-0.5)+0.5)>=(1-sii.roc_th) ) || ( min_p<=sii.ttest_th ) )
+                        
+                        starti = size(sii_sample_info,1)+1;
                                                 
                         if sum(indexes2add) >= 1
                             
@@ -213,7 +215,9 @@ if univtests.roc || univtests.ttest
                             
                         end
                         
-                        sii_sample_info(1:end,7) = ['uva ' char(groups.names{groups.pairs{groupi}(2)}) ' vs ' char(groups.names{groups.pairs{groupi}(1)}) ];
+                        endi = size(sii_sample_info,1);
+                        
+                        sii_sample_info(starti:endi,7) = ['uva ' char(groups.names{groups.pairs{groupi}(2)}) ' vs ' char(groups.names{groups.pairs{groupi}(1)}) ];
                         
                     end
                     

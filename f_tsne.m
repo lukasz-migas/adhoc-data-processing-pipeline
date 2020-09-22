@@ -1,6 +1,19 @@
 function [ reduced_x, idx, tsne_colomap, loss, tsne_parameters ] = f_tsne( x, clusters_num )
 
+% This function performs t-sne (using the Matlab function "tsne") using a
+% variety of perplexities, distances, exaggerations, and principal
+% component number. This function also clusters the t-sne embedding space
+% using k-means and the number of clusters selected by the elbow method.
+% 
+% x - data
+% clusters_num - maximum number of clusters to consider when searching for 
+% the best number of clusters using the elbow method
+
+% Run t-sne for a set of different combinations of parameters
+
 [ reduced_x0, loss, tsne_parameters ] = f_tsne_with_diff_parameters( x );
+
+% Run the elbow method
 
 reduced_x = reduced_x0;
 for k = 1:3
