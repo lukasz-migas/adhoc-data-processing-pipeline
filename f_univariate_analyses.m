@@ -139,6 +139,28 @@ if univtests.roc || univtests.ttest
                         
                     end
                     
+                    masks1 = unique(pixels_per_model(:,groups.pairs{groupi}(1)))';
+                    
+                    for maski = masks1(masks1>0)
+                        
+                        data4ttest1 = data4stats(pixels_per_model(:,groups.pairs{groupi}(1))==maski,mzi);
+                        data4ttest1(data4ttest1==0)=[];
+                        mean4ttest1(maski,groupi) = mean(data4ttest1,1,'omitnan');
+                        median4ttest1(maski,groupi) = median(data4ttest1,1,'omitnan');
+                        
+                    end
+                    
+                    masks2 = unique(pixels_per_model(:,groups.pairs{groupi}(2)))';
+                    
+                    for maski = masks2(masks2>0)
+                        
+                        data4ttest2 = data4stats(pixels_per_model(:,groups.pairs{groupi}(2))==maski,mzi);
+                        data4ttest2(data4ttest2==0)=[];
+                        mean4ttest2(maski,groupi) = mean(data4ttest2,1,'omitnan');
+                        median4ttest2(maski,groupi) = median(data4ttest2,1,'omitnan');
+                        
+                    end
+                        
                     if univtests.ttest==1
                         
                         % t-test
@@ -151,28 +173,6 @@ if univtests.roc || univtests.ttest
                                 ['p-value (' char(groups.names{groups.pairs{groupi}(2)}) ' vs ' char(groups.names{groups.pairs{groupi}(1)}) ') (ttest2, median)'], ...
                                 ['p-value (' char(groups.names{groups.pairs{groupi}(2)}) ' vs ' char(groups.names{groups.pairs{groupi}(1)}) ') (ranksum, median)'], ...
                                 ];
-                        end
-                        
-                        masks1 = unique(pixels_per_model(:,groups.pairs{groupi}(1)))';
-                        
-                        for maski = masks1(masks1>0)
-                            
-                            data4ttest1 = data4stats(pixels_per_model(:,groups.pairs{groupi}(1))==maski,mzi);
-                            data4ttest1(data4ttest1==0)=[];
-                            mean4ttest1(maski,groupi) = mean(data4ttest1,1,'omitnan');
-                            median4ttest1(maski,groupi) = median(data4ttest1,1,'omitnan');
-                            
-                        end
-                        
-                        masks2 = unique(pixels_per_model(:,groups.pairs{groupi}(2)))';
-                        
-                        for maski = masks2(masks2>0)
-                            
-                            data4ttest2 = data4stats(pixels_per_model(:,groups.pairs{groupi}(2))==maski,mzi);
-                            data4ttest2(data4ttest2==0)=[];
-                            mean4ttest2(maski,groupi) = mean(data4ttest2,1,'omitnan');
-                            median4ttest2(maski,groupi) = median(data4ttest2,1,'omitnan');
-                            
                         end
                         
                         if sum(~isnan(mean4ttest1(masks1(masks1>0),groupi)))>0 && sum(~isnan(mean4ttest2(masks2(masks2>0),groupi)))>0
