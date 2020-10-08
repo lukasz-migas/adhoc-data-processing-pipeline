@@ -192,6 +192,10 @@ if univtests.roc || univtests.ttest
                         
                         min_p = min([ p_ttest2_mean, p_ranksum_mean, p_ttest2_median, p_ranksum_median ]);
                         
+                    else
+                        
+                        min_p = 1;
+                        
                     end
                     
                     % Single ion images
