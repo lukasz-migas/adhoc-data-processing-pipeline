@@ -741,13 +741,13 @@ switch dataset_name
             smaller_masks_list = [ smaller_masks_list; "BR1282-2-pdx" ];
             extensive_filesToProcess(4,:) = filesToProcess(4,:);
             smaller_masks_list = [ smaller_masks_list; "BR1458-2-pdx" ];
-            extensive_filesToProcess(5,:) = filesToProcess(5,:);
+            extensive_filesToProcess(7,:) = filesToProcess(5,:);
             smaller_masks_list = [ smaller_masks_list; "BR1282-3-pdx" ];
-            extensive_filesToProcess(6,:) = filesToProcess(6,:);
+            extensive_filesToProcess(8,:) = filesToProcess(6,:);
             smaller_masks_list = [ smaller_masks_list; "BR1458-3-pdx" ];
-            extensive_filesToProcess(7,:) = filesToProcess(7,:);
+            extensive_filesToProcess(5,:) = filesToProcess(7,:);
             smaller_masks_list = [ smaller_masks_list; "BR1282-4-pdx" ];
-            extensive_filesToProcess(8,:) = filesToProcess(8,:);
+            extensive_filesToProcess(6,:) = filesToProcess(8,:);
             smaller_masks_list = [ smaller_masks_list; "BR1458-4-pdx" ];
             
             
