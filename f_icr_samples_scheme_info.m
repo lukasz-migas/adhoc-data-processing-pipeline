@@ -2,6 +2,44 @@ function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs
 
 switch dataset_name
     
+    case "pos desi 3d pdx pilot"
+        
+        data_folders = { 'X:\ICR Breast PDX\Data\pos DESI\' };
+        
+        dataset_name = '*pdx_br*';
+        
+        filesToProcess = []; for i = 1:length(data_folders); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name '.imzML']) ]; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            extensive_filesToProcess(1:4,:) = filesToProcess(1,:);
+            smaller_masks_list = [
+                "t-1458-1-half-1";
+                "t-1282-1-half-1";
+                "t-1458-1-half-2";
+                "t-1282-1-half-2";
+                ];
+            
+        end
+        
+        %
+        
+        outputs_xy_pairs = [
+            1 1; 2 1; 1 2; 2 2;
+            ];
+    
     case "neg desi 3d pdx pilot"
         
         data_folders = { 'X:\ICR Breast PDX\Data\neg DESI\' };
@@ -41,7 +79,7 @@ switch dataset_name
         %
         
         outputs_xy_pairs = [
-            2 1; 1 3; 1 4; 2 3; 2 2; 1 2; 2 4; 1 1
+            1 1; 2 3; 2 4; 1 3; 1 2; 2 2; 1 4; 2 1
             ];
     
     case "icl neg desi 1458 and 1282 pdx & primary"
