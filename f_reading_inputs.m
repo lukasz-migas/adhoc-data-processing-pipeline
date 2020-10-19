@@ -294,6 +294,21 @@ for i = 1:length(inputs_info_reshaped)
                 numComponents_array = [ numComponents_array, aux_vector ];
                 numLoadings_array = [ numLoadings_array, repmat(10,1,size(aux_vector,2)) ];
             end
+        case "fdc"
+            if strcmpi(inputs_info_reshaped(i+2),"yes")
+                % aux_vector = [ NaN str2num(char(inputs_info_reshaped(i+4))) ];
+                string_split = split(inputs_info_reshaped(i+4),',');
+                for option=string_split'
+                    if strcmpi("manual",option)
+                        aux_vector = [ aux_vector, -1 ];
+                    else
+                        aux_vector = [ aux_vector, str2num(char(option)) ];
+                    end
+                end
+                mva_list = [ mva_list, repmat("fdc",1,size(aux_vector,2)) ];
+                numComponents_array = [ numComponents_array, aux_vector ];
+                numLoadings_array = [ numLoadings_array, repmat(10,1,size(aux_vector,2)) ];
+            end
             
     end
     

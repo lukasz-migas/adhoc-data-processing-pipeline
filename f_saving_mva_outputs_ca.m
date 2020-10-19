@@ -128,6 +128,7 @@ for main_mask = main_mask_list
             
             mask4plotting = logical(smaller_masks_cell{file_index});
             
+            data_cell{file_index}.id = smaller_masks_list(file_index);
             data_cell{file_index}.data = data(mask4plotting,:);
             data_cell{file_index}.mask = mask4plotting;
             data_cell{file_index}.pixels_coord = pixels_coord(mask4plotting,:);

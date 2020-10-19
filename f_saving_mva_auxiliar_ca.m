@@ -20,17 +20,22 @@ meanSpectrum_intensities = plots_info.meanSpectrum_intensities;
 meanSpectrum_mzvalues = plots_info.meanSpectrum_mzvalues;
 fig_ppmTolerance = plots_info.fig_ppmTolerance;
 
-if ~isnan(numComponents)
+if numComponents > 0
     
-    mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
-    cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
+    path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'];
     
-else
+elseif isnan(numComponents)
     
-    mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
-    cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
+    path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'];
+    
+elseif numComponents < 0
+    
+    path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' manual\' char(norm_type) '\'];
     
 end
+
+mkdir(path)
+cd(path)
 
 load('datacube_mzvalues_indexes')
 
@@ -103,6 +108,19 @@ if sum(datacube_mzvalues_indexes) > 0
             o_numComponents = numComponents;
             numComponents = numComponentsSaved;
             
+        case 'fdc'
+            
+            load('datacube_mzvalues_indexes')
+            load('C')
+            load('idx')
+            load('rho')
+            load('delta')
+            load('centInd')
+            
+            numComponentsSaved = max(idx);
+            o_numComponents = numComponents;
+            numComponents = numComponentsSaved;
+            
     end
     
     if numComponents > numComponentsSaved
@@ -116,18 +134,28 @@ if sum(datacube_mzvalues_indexes) > 0
             
             if ( componenti == 1 )
                 
-                if isequal(char(mva_type),'kmeans')
+                if isequal(char(mva_type),'kmeans') || isequal(char(mva_type),'fdc')
                     
                     if isnan(o_numComponents)
                         cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
-                    else
+                    elseif o_numComponents>0
                         cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
+                    elseif o_numComponents<0
+                        cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' manual\' char(norm_type) '\'])
                     end
                     
                     fig0 = figure('units','normalized','outerposition',[0 0 .7 .7]); % set(gcf,'Visible', 'off');
                     
-                    clustmap = f_full_colourscheme(numComponents)./255;
-                    
+                    if numComponents <= 10
+                        clustmap = [ 0 0 0; tab10(numComponents) ];
+                    elseif numComponents <= 20
+                        clustmap = [ 0 0 0; tab20(numComponents) ];
+                    elseif numComponents <= 40
+                        clustmap = [ 0 0 0; f_40colourscheme(numComponents) ];
+                    else
+                        clustmap = [ 0 0 0; viridis(numComponents) ];
+                    end
+                                        
                     image_component = f_mva_output_collage( idx, data_cell, outputs_xy_pairs );
                     
                     imagesc(image_component)
@@ -142,12 +170,66 @@ if sum(datacube_mzvalues_indexes) > 0
                     close all
                     clear fig0
                     
+                    clusters_table = f_mva_output_table( idx, data_cell );
+                    
+                    txt_row = strcat(repmat('%s\t',1,size(clusters_table,2)-1),'%s\n');
+                    
+                    fileID = fopen('clusters_table.txt','w');
+                    fprintf(fileID,txt_row, clusters_table');
+                    fclose(fileID);
+                    
+                    fig00 = figure('units','normalized','outerposition',[0 0 .7 .7]);
+                    image2plot00 = double(clusters_table(2:end-1,2:end));
+                    imagesc(image2plot00)
+                    colormap(clustmap)
+                    axis image; axis off;colorbar; set(gca, 'fontsize', 12);
+                    text(-1, size(image2plot00,1)/2, 'Cluster ID', 'rotation', 90, 'HorizontalAlignment', 'center')
+                    text(size(image2plot00,2)/2-1,size(image2plot00,1)+2,'Sample ID', 'HorizontalAlignment', 'center')
+                    
+                    hold on;
+                    rows = size(image2plot00,1);
+                    columns = size(image2plot00,2);
+                    for row = 0.5 : rows+1
+                        line([0, columns+1], [row, row], 'Color', 'k');
+                    end
+                    for col = 0.5 : columns+1
+                        line([col, col], [0, rows+1], 'Color', 'k');
+                    end
+                    xlabeli = -0.5;
+                    for mask_name = clusters_table(1,2:end)
+                        xlabeli = xlabeli+1;
+                        text(xlabeli,0, char(mask_name),'rotation',45)
+                    end
+                    
+                    figname_char = 'clusters vs samples.fig'; savefig(fig00,figname_char,'compact')
+                    tifname_char = 'clusters vs samples.tif'; saveas(fig00,tifname_char)
+                    
+                    if isequal(char(mva_type),'fdc')
+                       
+                        fig000 = figure;
+                        plot(rho, delta, 'o', 'MarkerSize', 7, 'MarkerFaceColor', 'k', 'MarkerEdgeColor', 'w');
+                        title('Decision Graph', 'FontSize', 12);
+                        xlabel('\rho');
+                        ylabel('\delta');
+                        hold on;
+                        for k = 1:numComponents                   
+                            plot(rho(centInd==k), delta(centInd==k), 'o', 'MarkerSize', 9, 'MarkerFaceColor', clustmap(k,:), 'MarkerEdgeColor', 'w'); axis square; grid on;
+                        end
+                        title('Decision Graph', 'FontSize', 11);
+                        savefig(fig000,'coloured_decision_graph.fig','compact')
+                        saveas(fig000,'coloured_decision_graph.tif','tif')
+                        close(fig000)
+                        
+                    end
+                                        
                 elseif isequal(char(mva_type),'nntsne') || isequal(char(mva_type),'tsne')
                     
                     if isnan(o_numComponents)
                         cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
-                    else
+                    elseif o_numComponents>0
                         cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
+                    elseif o_numComponents<0
+                        cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' manual\' char(norm_type) '\'])
                     end
                     
                     fig0 = figure('units','normalized','outerposition',[0 0 .7 .7]); % set(gcf,'Visible', 'off');
@@ -205,10 +287,44 @@ if sum(datacube_mzvalues_indexes) > 0
                     close all
                     clear fig0
                     
+                    clusters_table = f_mva_output_table( idx, data_cell );
+                    
+                    txt_row = strcat(repmat('%s\t',1,size(clusters_table,2)-1),'%s\n');
+                    
+                    fileID = fopen('clusters_table.txt','w');
+                    fprintf(fileID,txt_row, clusters_table');
+                    fclose(fileID);
+                    
+                    fig00 = figure('units','normalized','outerposition',[0 0 .7 .7]);
+                    image2plot00 = double(clusters_table(2:end-1,2:end));
+                    imagesc(image2plot00)
+                    colormap(cmap)
+                    axis image; axis off;colorbar; set(gca, 'fontsize', 12);
+                    text(-1, size(image2plot00,1)/2, 'Cluster ID', 'rotation', 90, 'HorizontalAlignment', 'center')
+                    text(size(image2plot00,2)/2-1,size(image2plot00,1)+2,'Sample ID', 'HorizontalAlignment', 'center')
+                    
+                    hold on;
+                    rows = size(image2plot00,1);
+                    columns = size(image2plot00,2);
+                    for row = 0.5 : rows+1
+                        line([0, columns+1], [row, row], 'Color', 'k');
+                    end
+                    for col = 0.5 : columns+1
+                        line([col, col], [0, rows+1], 'Color', 'k');
+                    end
+                    xlabeli = -0.5;
+                    for mask_name = clusters_table(1,2:end)
+                        xlabeli = xlabeli+1;
+                        text(xlabeli,0, char(mask_name),'rotation',45)
+                    end
+                    
+                    figname_char = 'clusters vs samples.fig'; savefig(fig00,figname_char,'compact')
+                    tifname_char = 'clusters vs samples.tif'; saveas(fig00,tifname_char)
+                    
+                    
                 end
                 
             end
-            
             
             fig = figure('units','normalized','outerposition',[0 0 .7 .7]); % set(gcf,'Visible', 'off');
             
@@ -334,6 +450,33 @@ if sum(datacube_mzvalues_indexes) > 0
                     
                     colormap(cmap([1 componenti+1],:)); title({['cluster ' num2str(componenti) ' image ' ]})
                     
+                case 'fdc'
+                    
+                    if isnan(o_numComponents)
+                        mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                        cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                        outputs_path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
+                        mkdir(outputs_path)
+                    elseif o_numComponents>0
+                        mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                        cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                        outputs_path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
+                        mkdir(outputs_path)
+                    elseif o_numComponents<0
+                        mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' manual\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                        cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' manual\' char(norm_type) '\cluster ' num2str(componenti) '\'])
+                        outputs_path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' manual\' char(norm_type) '\cluster ' num2str(componenti) '\top loadings images\'];
+                        mkdir(outputs_path)
+                    end
+                    
+                    image_component = f_mva_output_collage( logical(idx.*(idx==componenti)), data_cell, outputs_xy_pairs );
+                    
+                    spectral_component = C(componenti,:);
+                    
+                    imagesc(image_component); axis off; axis image; colorbar; set(gca, 'fontsize', 12);
+                    
+                    colormap(clustmap([1 componenti+1],:)); title({['cluster ' num2str(componenti) ' image ' ]})
+                    
             end
             
             subplot(1,2,2)
@@ -387,6 +530,14 @@ if sum(datacube_mzvalues_indexes) > 0
                     svgname_char = [ 'cluster ' num2str(componenti) ' image and spectrum.svg'];
                     
                 case 'tsne'
+                    
+                    title({['Cluster ' num2str(componenti) ' spectrum' ]})
+                    
+                    figname_char = [ 'cluster ' num2str(componenti) ' image and spectrum.fig'];
+                    tifname_char = [ 'cluster ' num2str(componenti) ' image and spectrum.tif'];
+                    svgname_char = [ 'cluster ' num2str(componenti) ' image and spectrum.svg'];
+                    
+                case 'fdc'
                     
                     title({['Cluster ' num2str(componenti) ' spectrum' ]})
                     
@@ -494,8 +645,10 @@ if sum(datacube_mzvalues_indexes) > 0
         
         if isnan(o_numComponents)
             cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
-        else
+        elseif o_numComponents>0
             cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
+        elseif o_numComponents<0
+            cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' manual\' char(norm_type) '\'])
         end
         
         save('top_loadings_info','table')

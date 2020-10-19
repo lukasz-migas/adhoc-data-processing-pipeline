@@ -26,17 +26,22 @@ function f_running_mva_auxiliar( mva_type, mva_path, dataset_name, main_mask, no
 
 % Create a folder to save the outputs of the MVA
 
-if ~isnan(numComponents)
+if numComponents > 0
     
-    mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
-    cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'])
+    path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' ' num2str(numComponents) ' components\' char(norm_type) '\'];
     
-else
+elseif isnan(numComponents)
     
-    mkdir([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
-    cd([ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'])
+    path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) '\' char(norm_type) '\'];
+    
+elseif numComponents < 0
+    
+    path = [ mva_path char(dataset_name) '\' char(main_mask) '\' char(mva_type) ' manual\' char(norm_type) '\'];
     
 end
+
+mkdir(path)
+cd(path)
 
 % Save the indicies of peaks selected to be used in the MVA in the datacube
 
@@ -110,8 +115,7 @@ if sum(datacube_mzvalues_indexes) >= 3 % if there are more then 3 peaks in the c
             if ~isnan(optimal_numComponents)
                 save('optimal_numComponents','optimal_numComponents','-v7.3')
             end
-            
-            
+                        
             
         case 'nntsne'
             
@@ -135,6 +139,32 @@ if sum(datacube_mzvalues_indexes) >= 3 % if there are more then 3 peaks in the c
             save('cmap','cmap')
             save('loss')
             save('tsne_parameters')
+            
+        case 'fdc'
+            
+            if isnan(numComponents)
+                isManualSelect = 0;
+                isAutoSelect = 1;
+                topK = 0;
+            elseif numComponents < 0
+                isManualSelect = 1;
+                isAutoSelect = 0;
+                topK = 0;
+            else
+                isManualSelect = 0;
+                isAutoSelect = 0;
+                topK = numComponents;
+            end
+                
+            [ idx0, C, rho, delta, centInd ]  = f_LC_FDC( data4mva, 'correlation', 0.1, 500, isManualSelect, isAutoSelect, topK, path );
+            
+            idx = zeros(length(mask4mva),1); idx(mask4mva,:) = idx0; idx(isnan(idx)) = 0;
+            
+            save('idx','idx','-v7.3')
+            save('C','C','-v7.3')
+            save('rho','rho','-v7.3')
+            save('delta','delta','-v7.3')
+            save('centInd','centInd','-v7.3')
             
     end
     

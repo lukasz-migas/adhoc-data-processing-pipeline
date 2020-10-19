@@ -24,11 +24,10 @@ switch dataset_name
             
             %
             
-            extensive_filesToProcess = filesToProcess([end end 1:end-1],:);
+            extensive_filesToProcess = filesToProcess(1:end,:);
             smaller_masks_list = [
                 "t-1458-1";
                 "t-1282-1";
-                "pdx-JOOO104720";
                 "pdx-TMO1273";
                 "pdx-TMO098";
                 "pdx-TMO1117";
@@ -36,6 +35,7 @@ switch dataset_name
                 "pdx-TMO112";
                 "pdx-JOOO100674";
                 "pdx-TMO099";
+                "pdx-BR1458"
                 ];
             
         end
@@ -43,16 +43,16 @@ switch dataset_name
         %
         
         outputs_xy_pairs = [
-            1 3;
-            1 1;
-            1 2;
-            1 4;
-            2 2;
-            2 4;
-            3 2;
-            3 4;
-            4 2;
-            5 2;
+            "t-1458-1";
+            "t-1282-1";
+            "pdx-TMO1273";
+            "pdx-TMO098";
+            "pdx-TMO1117";
+            "pdx-TMO00912";
+            "pdx-TMO112";
+            "pdx-JOOO100674";
+            "pdx-TMO099";
+            "pdx-BR1458"
             ];
         
     case "neg desi all pdx"
@@ -202,7 +202,7 @@ switch dataset_name
                 "pt-23-1-1";
                 "pt-23-1-3";
                 "pt-23-1-4";
-                
+               
                 "pt-23-1-6";
                 "pt-23-1-7";
                 "pt-23-1-8";
@@ -239,8 +239,8 @@ switch dataset_name
             2 3; 3 3; 4 3; %  35-3
             
             1 4; 2 4; 3 4; 4 4; % 35-e
-            1 5; 2 5; 3 5; 4 5;
-            1 6; 2 6; 3 6;
+            1 5; 2 5; 3 5; 4 5; 
+            1 6; 2 6; 3 6; 
             1 7; 2 7; 3 7; 4 7;
             1 8; 2 8; 3 8; 4 8;
             
@@ -251,7 +251,7 @@ switch dataset_name
             1 12;   2 12;   3 12;   4 12;   5 12; % 23-2
             1 13;   2 13;   3 13;
             ];
-        
+    
     case "neg desi primary tumours"
         
         data_folders = { 'X:\ICR Breast PDX\Data\neg DESI\' };
@@ -328,8 +328,8 @@ switch dataset_name
                 "pt-23-1-6";
                 "pt-23-1-7";
                 "pt-23-1-8";
-                "pt-23-1-9";
-                "pt-23-1-10";
+                "pt-23-1-9";                
+                "pt-23-1-10";                
                 "pt-23-1-11";
                 "pt-23-1-12";
                 "pt-23-1-13";
@@ -364,7 +364,7 @@ switch dataset_name
             
             1 10; 2 10; 3 10; 4 10; 5 10;
             ];
-        
+    
     case "pos desi original 3d pdx pilot"
         
         data_folders = { 'X:\ICR Breast PDX\Data\pos DESI\' };
