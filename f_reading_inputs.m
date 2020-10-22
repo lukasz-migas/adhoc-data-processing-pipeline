@@ -298,8 +298,9 @@ for i = 1:length(inputs_info_reshaped)
             if strcmpi(inputs_info_reshaped(i+2),"yes")
                 % aux_vector = [ NaN str2num(char(inputs_info_reshaped(i+4))) ];
                 string_split = split(inputs_info_reshaped(i+4),',');
+                aux_vector = [];
                 for option=string_split'
-                    if strcmpi("manual",option)
+                    if strcmpi("manual",option) || strcmpi(" manual",option) || strcmpi("manual ",option) || strcmpi(" manual ",option)
                         aux_vector = [ aux_vector, -1 ];
                     else
                         aux_vector = [ aux_vector, str2num(char(option)) ];

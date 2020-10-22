@@ -180,7 +180,7 @@ if sum(datacube_mzvalues_indexes) > 0
                     
                     fig00 = figure('units','normalized','outerposition',[0 0 .7 .7]);
                     image2plot00 = double(clusters_table(2:end-1,2:end));
-                    imagesc(image2plot00)
+                    imagesc([image2plot00 zeros(size(image2plot00,1),1)]);
                     colormap(clustmap)
                     axis image; axis off;colorbar; set(gca, 'fontsize', 12);
                     text(-1, size(image2plot00,1)/2, 'Cluster ID', 'rotation', 90, 'HorizontalAlignment', 'center')
@@ -213,7 +213,7 @@ if sum(datacube_mzvalues_indexes) > 0
                         ylabel('\delta');
                         hold on;
                         for k = 1:numComponents                   
-                            plot(rho(centInd==k), delta(centInd==k), 'o', 'MarkerSize', 9, 'MarkerFaceColor', clustmap(k,:), 'MarkerEdgeColor', 'w'); axis square; grid on;
+                            plot(rho(centInd==k), delta(centInd==k), 'o', 'MarkerSize', 9, 'MarkerFaceColor', clustmap(k+1,:), 'MarkerEdgeColor', 'w'); axis square; grid on;
                         end
                         title('Decision Graph', 'FontSize', 11);
                         savefig(fig000,'coloured_decision_graph.fig','compact')

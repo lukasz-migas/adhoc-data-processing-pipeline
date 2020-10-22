@@ -1,6 +1,52 @@
+
 function [ extensive_filesToProcess, main_mask_list, smaller_masks_list, outputs_xy_pairs ] = f_icr_samples_scheme_info( dataset_name, background, check_datacubes_size )
 
 switch dataset_name
+    
+    case "neg desi br pdx"
+        
+        data_folders = { 'X:\ICR Breast PDX\Data\neg DESI\' };
+        
+        dataset_name = { '*1282_2*', '*112*', '*1273*', '*1117*', '*1458_5*', '*674*', '*099*', '*104720*', '*098*', '*0091*'};
+        
+        filesToProcess = []; for i = 1:length(data_folders); for ii = 1:length(dataset_name); filesToProcess = [ filesToProcess; dir([data_folders{i} dataset_name{ii} '.imzML']) ]; end; end
+        
+        if background == 1
+            
+            % with background
+            
+            main_mask_list = "no mask";
+            
+        else
+            
+            % tissue only
+            
+            main_mask_list = "tissue only";
+            
+            %
+            
+            extensive_filesToProcess = filesToProcess(1:end,:);
+            smaller_masks_list = [
+                "t-1282-2";
+                "pdx-TMO112";
+                "pdx-TMO1273";
+                "pdx-TMO1117";
+                "t-1458-5";
+                "pdx-JOOO100674";
+                "pdx-TMO099";
+                "pdx-JOOO104720";
+                "pdx-TMO098";
+                "pdx-TMO0091";
+                ];
+            
+        end
+        
+        %
+        
+        outputs_xy_pairs = [
+           2 1; 2 2; 2 3; 2 4;
+           1 1; 1 2; 1 3; 1 4; 1 5; 1 6;
+            ];
     
     case "pos desi all pdx"
         
@@ -32,7 +78,7 @@ switch dataset_name
                 "pdx-TMO1273";
                 "pdx-TMO098";
                 "pdx-TMO1117";
-                "pdx-TMO00912";
+                "pdx-TMO0091";
                 "pdx-TMO112";
                 "pdx-JOOO100674";
                 "pdx-TMO099";
@@ -45,14 +91,14 @@ switch dataset_name
         outputs_xy_pairs = [
             1 3;
             1 1;
-            1 2;
             1 4;
-            2 2;
+            1 2;
             2 4;
-            3 2;
+            2 2;
             3 4;
-            4 2;
-            5 2;
+            3 2;
+            4 4;
+            5 4;
             ];
         
     case "neg desi all pdx"
