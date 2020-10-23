@@ -123,10 +123,10 @@ if sum(datacube_mzvalues_indexes) >= 3 % if there are more then 3 peaks in the c
             
             idx = zeros(length(mask4mva),1); idx(mask4mva,:) = idx0; idx(isnan(idx)) = 0;
             
-            save('rgbData','rgbData')
-            save('idx','idx')
-            save('cmap','cmap')
-            save('outputSpectralContriubtion','outputSpectralContriubtion')
+            save('rgbData','rgbData','-v7.3')
+            save('idx','idx','-v7.3')
+            save('cmap','cmap','-v7.3')
+            save('outputSpectralContriubtion','outputSpectralContriubtion','-v7.3')
             
         case 'tsne'
             
@@ -134,11 +134,11 @@ if sum(datacube_mzvalues_indexes) >= 3 % if there are more then 3 peaks in the c
             
             idx = zeros(length(mask4mva),1); idx(mask4mva,:) = idx0; idx(isnan(idx)) = 0;
             
-            save('rgbData','rgbData')
-            save('idx','idx')
-            save('cmap','cmap')
-            save('loss')
-            save('tsne_parameters')
+            save('rgbData','rgbData','-v7.3')
+            save('idx','idx','-v7.3')
+            save('cmap','cmap','-v7.3')
+            save('loss','-v7.3')
+            save('tsne_parameters','-v7.3')
             
         case 'fdc'
             
