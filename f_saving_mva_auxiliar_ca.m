@@ -170,13 +170,17 @@ if sum(datacube_mzvalues_indexes) > 0
                     close all
                     clear fig0
                     
-                    clusters_table = f_mva_output_table( idx, data_cell );
+                    [ clusters_table, distributionsM ] = f_mva_output_table( idx, data_cell );
                     
                     txt_row = strcat(repmat('%s\t',1,size(clusters_table,2)-1),'%s\n');
                     
                     fileID = fopen('clusters_table.txt','w');
                     fprintf(fileID,txt_row, clusters_table');
                     fclose(fileID);
+                    
+                    % Clusters versus ROIs
+                    
+                    % Image / table
                     
                     fig00 = figure('units','normalized','outerposition',[0 0 .7 .7]);
                     image2plot00 = double(clusters_table(2:end-1,2:end));
@@ -195,14 +199,52 @@ if sum(datacube_mzvalues_indexes) > 0
                     for col = 0.5 : columns+1
                         line([col, col], [0, rows+1], 'Color', 'k');
                     end
-                    xlabeli = -0.5;
+                    xlabeli = 0;
                     for mask_name = clusters_table(1,2:end)
                         xlabeli = xlabeli+1;
-                        text(xlabeli,0, char(mask_name),'rotation',45)
+                        text(xlabeli,0, char(mask_name),'rotation',90)
                     end
                     
                     figname_char = 'clusters vs samples.fig'; savefig(fig00,figname_char,'compact')
                     tifname_char = 'clusters vs samples.tif'; saveas(fig00,tifname_char)
+                    
+                    save('distributionsM','distributionsM')
+                    
+                    % Scatter plot
+                    
+                    % Percentage of occupancy
+                    
+                    kpercentage = zeros(length(unique(distributionsM(~isnan(distributionsM)))'),size(distributionsM,2));
+                    for k = unique(distributionsM(~isnan(distributionsM)))'
+                        kpercentage(k,:) = sum(distributionsM == k,1)./sum(~isnan(distributionsM),1);
+                    end
+                    
+                    % Plotting
+                    
+                    x = repmat(1:size(kpercentage,2),size(kpercentage,1),1); x = x(:);
+                    y = repmat((1:size(kpercentage,1))',1,size(kpercentage,2)); y = y(:);
+                    sz = kpercentage; sz = sz(:).*5000;
+                    c = repmat(clustmap(2:end,:),size(kpercentage,2),1);
+                    
+                    fig0000 = figure('units','normalized','outerposition',[0 0 .7 .7]);
+                    hold on;
+                    stem([0:size(kpercentage,2)+1]-0.5,size(kpercentage,2)*ones(1,size(kpercentage,2)+2),'w')
+                    plot(0:size(kpercentage,2)+1,repmat([1:size(kpercentage,1)+1]'-0.5,1,size(0:size(kpercentage,2)+1,2)),'w')
+                    scatter(x(sz>0),y(sz>0),sz(sz>0),c(sz>0,:),'Marker','.');
+                    set(gca,'Color','k')
+                    set(gca,'XColor','k','YColor','k','TickDir','out')
+                    axis image;
+                    ylim([0.5 size(kpercentage,1)+0.5]);
+                    xticks(1:size(kpercentage,1))
+                    xlim([0.5 size(kpercentage,2)+0.5]);
+                    xticks(1:size(kpercentage,2))
+                    for i = 1:(size(clusters_table,2)-1); aux_xticklabels{i} = char(clusters_table(1,i+1)); end
+                    xticklabels(aux_xticklabels)
+                    xtickangle(90)
+                    set(gca, 'fontsize', 12)
+                    
+                    figname_char = 'clusters vs samples bubbles.fig'; savefig(fig0000,figname_char,'compact')
+                    tifname_char = 'clusters vs samples bubbles.tif'; saveas(fig0000,tifname_char)
                     
                     if isequal(char(mva_type),'fdc')
                        
@@ -287,7 +329,7 @@ if sum(datacube_mzvalues_indexes) > 0
                     close all
                     clear fig0
                     
-                    clusters_table = f_mva_output_table( idx, data_cell );
+                    [ clusters_table, distributionsM ] = f_mva_output_table( idx, data_cell );
                     
                     txt_row = strcat(repmat('%s\t',1,size(clusters_table,2)-1),'%s\n');
                     
@@ -295,11 +337,15 @@ if sum(datacube_mzvalues_indexes) > 0
                     fprintf(fileID,txt_row, clusters_table');
                     fclose(fileID);
                     
+                    % Clusters versus ROIs
+                    
+                    % Image / table
+                    
                     fig00 = figure('units','normalized','outerposition',[0 0 .7 .7]);
                     image2plot00 = double(clusters_table(2:end-1,2:end));
-                    imagesc(image2plot00)
+                    imagesc([image2plot00 zeros(size(image2plot00,1),1)]);
                     colormap(cmap)
-                    axis image; axis off;colorbar; set(gca, 'fontsize', 12);
+                    axis image; axis off; colorbar; set(gca, 'fontsize', 12);
                     text(-1, size(image2plot00,1)/2, 'Cluster ID', 'rotation', 90, 'HorizontalAlignment', 'center')
                     text(size(image2plot00,2)/2-1,size(image2plot00,1)+2,'Sample ID', 'HorizontalAlignment', 'center')
                     
@@ -312,15 +358,52 @@ if sum(datacube_mzvalues_indexes) > 0
                     for col = 0.5 : columns+1
                         line([col, col], [0, rows+1], 'Color', 'k');
                     end
-                    xlabeli = -0.5;
+                    xlabeli = 0;
                     for mask_name = clusters_table(1,2:end)
                         xlabeli = xlabeli+1;
-                        text(xlabeli,0, char(mask_name),'rotation',45)
+                        text(xlabeli,0, char(mask_name),'rotation',90)
                     end
                     
                     figname_char = 'clusters vs samples.fig'; savefig(fig00,figname_char,'compact')
                     tifname_char = 'clusters vs samples.tif'; saveas(fig00,tifname_char)
                     
+                    save('distributionsM','distributionsM')
+                    
+                    % Scatter plot
+                    
+                    % Percentage of occupancy
+                    
+                    kpercentage = zeros(length(unique(distributionsM(~isnan(distributionsM)))'),size(distributionsM,2));
+                    for k = unique(distributionsM(~isnan(distributionsM)))'
+                        kpercentage(k,:) = sum(distributionsM == k,1)./sum(~isnan(distributionsM),1);
+                    end
+                    
+                    % Plotting
+                    
+                    x = repmat(1:size(kpercentage,2),size(kpercentage,1),1); x = x(:);
+                    y = repmat((1:size(kpercentage,1))',1,size(kpercentage,2)); y = y(:);
+                    sz = kpercentage; sz = sz(:).*5000;
+                    c = repmat(cmap(2:end,:),size(kpercentage,2),1);
+                    
+                    fig0000 = figure('units','normalized','outerposition',[0 0 .7 .7]);
+                    hold on;
+                    stem([0:size(kpercentage,2)+1]-0.5,size(kpercentage,2)*ones(1,size(kpercentage,2)+2),'w')
+                    plot(0:size(kpercentage,2)+1,repmat([1:size(kpercentage,1)+1]'-0.5,1,size(0:size(kpercentage,2)+1,2)),'w')
+                    scatter(x(sz>0),y(sz>0),sz(sz>0),c(sz>0,:),'Marker','.');
+                    set(gca,'Color','k')
+                    set(gca,'XColor','k','YColor','k','TickDir','out')
+                    axis image;
+                    ylim([0.5 size(kpercentage,1)+0.5]);
+                    xticks(1:size(kpercentage,1))
+                    xlim([0.5 size(kpercentage,2)+0.5]);
+                    xticks(1:size(kpercentage,2))
+                    for i = 1:(size(clusters_table,2)-1); aux_xticklabels{i} = char(clusters_table(1,i+1)); end
+                    xticklabels(aux_xticklabels)
+                    xtickangle(90)
+                    set(gca, 'fontsize', 12)
+                    
+                    figname_char = 'clusters vs samples bubbles.fig'; savefig(fig0000,figname_char,'compact')
+                    tifname_char = 'clusters vs samples bubbles.tif'; saveas(fig0000,tifname_char)       
                     
                 end
                 

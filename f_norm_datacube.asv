@@ -65,7 +65,7 @@ switch norm_type
         
         % norm_data0 = log(data+prctile(d0(:),5));
         norm_data0 = log(data);
-        norm_data0(norm_data0 == -Inf) = 0;
+        norm_data0 == If
         
 %     case 'log & pqn median'
 %         
